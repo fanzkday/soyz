@@ -36,7 +36,6 @@ client.on('connection', socket => {
     })
   })
   //新建battery
-  //
 })
 
 server.listen(3030, () => {
