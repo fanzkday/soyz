@@ -1,0 +1,88 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    background-color: powderblue;
+}
+
+#svg {
+    height: 100%;
+    border: 1px solid red;
+}
+
+line {
+    stroke: #666;
+    stroke-width: 2;
+}
+
+#model {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.battery {
+    width: 180px;
+    height: 70px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    font-size: 0;
+    background-image: linear-gradient(180deg, #eee, peru 30%);
+    box-shadow: 0 0 8px #666;
+    position: relative;
+    z-index: 2;
+}
+
+.battery div {
+    height: 30px;
+    line-height: 30px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.battery .name {
+    font-size: 15px;
+}
+
+.battery .input,
+.battery .output {
+    position: absolute;
+    z-index: -1;
+    width: 14px;
+    height: 14px;
+    border: 1px solid #333;
+    border-radius: 50%;
+    background-color: #eee;
+}
+
+.battery .input span,
+.battery .output span {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px;
+    padding-left: 18px;
+    margin-top: -2px;
+}
+#btn{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 100px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #666;
+    border-radius: 5px;
+    background-color: coral;
+    z-index: 100;
+}
