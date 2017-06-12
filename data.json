@@ -1,34 +1,28 @@
-
-[{
-    "id": 1,
-    "name": "noRepeat",
-    "desc": "...",
-    "pos": {
-        "top": 100,
-        "left": 100
-    },
-    "input": [
-        {
-            "name": "输入1",
-            "pos": {
-                "x": 93,
-                "y": 129
-            },
-            "path": "./"
-        }
-    ],
-    "output": [
-        {
-            "name": "b",
-            "pos": {
-                "x": 243,
-                "y": 129
-            },
-            "type": ""
-        }
-    ],
-    "relations": [],
-    "err": "",
-    "belong": "",
-    "isAdd": false
-}]
+[
+    {
+        "id": 1,
+        "name": "",
+        "desc": "",
+        "pos": {
+            "top": 100,
+            "left": 100
+        },
+        "input": [
+            {
+                "name": "",
+                "pos": {}
+            }
+        ],
+        "output": [
+            {
+                "name": "",
+                "pos": {}
+            }
+        ],
+        "path": "./",
+        "relations": [],
+        "err": "",
+        "belong": "",
+        "isAdd": false
+    }
+]
