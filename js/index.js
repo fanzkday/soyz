@@ -6,7 +6,7 @@ $(document).ready(function () {
     const socket = io.connect('ws://localhost:3030')
     const battery = {
         id: 0,
-        name: "Title",
+        name: "hello",
         desc: "...",
         pos: {
             top: 100,
@@ -16,7 +16,7 @@ $(document).ready(function () {
         output: [],
         relations: [],
         err: "",
-        belong: "",
+        belong: "model",
         isAdd: false
     }
     //初始化页面
@@ -30,12 +30,19 @@ $(document).ready(function () {
         newCreate(battery);
     })
 
+    //给所有的battery添加双击事件
+    $('#model').on('dblclick', 'div.battery', (e) => {
+        const path = $(e.target).attr('path');
+        socket.emit('openFile', path);
+    })
 })
 function newCreate(item) {
+    var path = `${item.belong}/${item.name}`;
     var div = $('<div class="battery"></div>').appendTo($('#model'));
-    div.attr('id', item.id).css({ top: item.pos.top, left: item.pos.left });
+    div.attr('id', item.id).attr('path', path)
+        .css({ top: item.pos.top, left: item.pos.left });
     $('<div class="name"></div>').appendTo(div).text(item.name);
-    $('<div class="desc"></div>').appendTo(div).text(item.desc);
+    // $('<div class="desc"></div>').appendTo(div).text(item.desc);
     //渲染input端口
     var inLenMin = HEIGHT / item.input.length / 2;
     item.input.forEach((input, i) => {

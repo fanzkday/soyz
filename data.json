@@ -1,6 +1,6 @@
 [
     {
-        "id": 1,
+        "id": 0,
         "name": "",
         "desc": "",
         "pos": {
@@ -20,9 +20,6 @@
             }
         ],
         "path": "./",
-        "relations": [],
-        "err": "",
-        "belong": "",
-        "isAdd": false
+        "relations": []
     }
 ]
