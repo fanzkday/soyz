@@ -28,25 +28,18 @@ const client = io.listen(server)
 
 client.on('connection', socket => {
   //初始化数据
-  socket.on('init', () => {
-    fs.readFile('./data.json', 'utf8', (err, data) => {
-      if (err) {
-        console.error(err)
-      }
-      socket.emit('init', data)
-    })
-  })
+  
   //新建battery
 
   //idea open file
   socket.on('openFile', path => {
-    shell.exec(`code ./${path}.js`);
+    shell.exec(`code ${__dirname}/app/${path}.js`);
   })
 })
 
 server.listen(3030, () => {
   console.log('http server running on 3030')
 })
-fs.watch('./model', (type, filename) => {
+fs.watch('./app', (type, filename) => {
   console.log(type, filename);
 })
