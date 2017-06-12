@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>My Plan!</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/bootstrap.css">
+    <link rel="stylesheet" href="style/style.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/d3.js"></script>
     <script type="text/javascript" src="js/socket.io.js"></script>
@@ -14,20 +15,29 @@
 </head>
 
 <body>
+    <div id="layer">
+        <ul class="form-group">
+            <li>
+                <div class="input-group">
+                    <div class="input-group-addon">名称:</div>
+                    <input type="text" class="form-control" placeholder="controllers">
+                </div>
+            </li>
+            <li>
+                <div class="input-group">
+                    <div class="input-group-addon">名称:</div>
+                    <input type="text" class="form-control" placeholder="models">
+                </div>
+            </li>
+            <li>
+                <button id="create-layer" class="btn btn-primary">创建层</button>
+            </li>
+        </ul>
+    </div>
     <div id="svg">
-        <svg width="100%" height="100%">
-
-        </svg>
+        <svg width="100%" height="100%"></svg>
     </div>
-    <div id="model">
-
-    </div>
-    <button id="btn">新建battery</button>
-    <div class="options">
-        <input type="text" placeholder="belong to" id="belong">
-        <input type="text" placeholder="file name" id="filename">
-        <button id="yes">确认</button>
-    </div>
+    <div id="content"></div>
 </body>
 
 </html>

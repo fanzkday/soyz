@@ -25,10 +25,15 @@ $(document).ready(function () {
         renderView(JSON.parse(data));
     })
 
-    //新建battery
-    $('#btn').on('click', () => {
-        newCreate(battery);
+    //创建layer层
+    $('#create-layer').on('click', () => {
+        $('#layer input').each((index, elem) => {
+            const id = $(elem).val();
+            const div = $('<div id="' + id + '" class="layer"></div>').appendTo($('#content'));
+            div.css({top: 100, left: 200 * (index + 1)});
+        })
     })
+    
 
     //给所有的battery添加双击事件
     $('#model').on('dblclick', 'div.battery', (e) => {
