@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        * {
+            user-select: none;
+        }
+
+        html,
+        body {
+            height: 100%;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        #svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid red;
+        }
+
+        .box {
+            width: 100px;
+            height: 45px;
+            border: 1px solid red;
+            position: absolute;
+            cursor: pointer;
+            top: 100px;
+            left: 100px;
+        }
+
+        .box span {
+            position: absolute;
+            top: 50%;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #666;
+            border-radius: 50%;
+            margin-top: -8px;
+        }
+
+        .box .input {
+            left: -8px;
+        }
+
+        .box .output {
+            right: -8px;
+        }
+
+        .box2 {
+            top: 200px;
+            left: 400px;
+        }
+
+        .box3 {
+            top: 300px;
+            left: 400px;
+        }
+
+        line {
+            stroke: #999;
+            stroke-width: 2;
+        }
+    </style>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/d3.js"></script>
+    <script type="text/javascript">
+        function hello(selector) {
+            var startX, startY, currLine, width = 8;
+            //
+            function batteryEvent(e) {
+                var that = e.target;
+                var x = $(that).offset().left;
+                var y = $(that).offset().top;
+                var x1 = e.clientX;
+                var y1 = e.clientY;
+                var name = $.trim($(that).text());
+                var outputLines = d3.selectAll('#svg .' + name + 0);
+                var inputLines = d3.selectAll('#svg .' + name + 1);
+                $(document).on('mousemove', e => {
+                    var x2 = e.clientX;
+                    var y2 = e.clientY;
+                    var outputX = $(that).children('.output').offset().left + width;
+                    var outputY = $(that).children('.output').offset().top + width;
+                    outputLines.attr('x1', outputX).attr('y1', outputY);
+                    var inputX = $(that).children('.input').offset().left + width;
+                    var inputY = $(that).children('.input').offset().top + width;
+                    inputLines.attr('x2', inputX).attr('y2', inputY);
+                    $(that).css({ top: y + y2 - y1, left: x + x2 - x1 });
+                })
+                $(document).on('mouseup', e => {
+                    $(document).off('mousemove');
+                })
+            }
+            // input mousedown 事件
+            function inputDown(e) {
+                var that = e.target;
+                var name = $.trim($(that).parent().text());
+                var x2 = $(that).offset().left + width;
+                var y2 = $(that).offset().top + width;
+                if (startX && startY) {
+                    currLine.attr('x2', x2).attr('y2', y2);
+                    var className = currLine.attr('class');
+                    console.log(className);
+                    currLine.attr('class', className + ' ' + name + 1);
+                    $(document).off('mousemove');
+                    startX = startY = currLine = '';
+                }
+            }
+            // input mousedown 事件
+            function outputDown(e) {
+                var that = e.target;
+                var name = $.trim($(that).parent().text());
+                startX = $(that).offset().left + width;
+                startY = $(that).offset().top + width;
+                currLine = d3.select('#svg svg').append('line');
+                currLine.attr('class', name + 0);
+                $(document).on('mousemove', e => {
+                    var x1 = e.clientX;
+                    var y1 = e.clientY;
+                    currLine.attr('x1', startX).attr('y1', startY)
+                        .attr('x2', x1).attr('y2', y1);
+
+                })
+            }
+
+            return (function (selector) {
+                $(selector).on('mousedown', e => {
+                    var className = e.target.className;
+                    if (/input/.test(className)) {
+                        inputDown(e);
+                    } else if (/output/.test(className)) {
+                        outputDown(e);
+                    } else {
+                        batteryEvent(e);
+                    }
+                })
+            })(selector)
+        }
+
+        $(document).ready(function () {
+            hello('.box');
+        })
+    </script>
+</head>
+
+<body>
+    <div id="svg">
+        <svg width="100%" height="100%"></svg>
+    </div>
+    <div class="box box1">
+        index
+        <span class="input"></span>
+        <span class="output"></span>
+    </div>
+    <div class="box box2">
+        hello
+        <span class="input"></span>
+        <span class="output"></span>
+    </div>
+    <div class="box box3">
+        world
+        <span class="input"></span>
+        <span class="output"></span>
+    </div>
+</body>
+
+</html>
