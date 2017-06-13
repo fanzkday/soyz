@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    user-select: none;
 }
 
 button,
@@ -27,7 +28,10 @@ body>div {
     top: 0;
     left: 0;
 }
+
+
 /*全局模块的样式*/
+
 .layer {
     position: absolute;
     width: 120px;
@@ -37,16 +41,9 @@ body>div {
     border-radius: 15px;
     background-color: rgba(0, 133, 0, 0.7);
 }
-/*svg元素的样式*/
-#svg {
-    border: 1px solid red;
-}
 
-line {
-    stroke: #666;
-    stroke-width: 2;
-}
 /*layer控制*/
+
 #layer {
     background-color: #fff;
     z-index: 1000;
@@ -62,4 +59,55 @@ line {
     display: inline-block;
     vertical-align: middle;
     width: 15%;
+}
+
+
+#svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid red;
+}
+
+.box {
+    width: 100px;
+    height: 45px;
+    border: 1px solid red;
+    position: absolute;
+    cursor: pointer;
+    top: 100px;
+    left: 100px;
+}
+
+.box span {
+    position: absolute;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #666;
+    border-radius: 50%;
+    margin-top: -8px;
+}
+
+.box .input {
+    left: -8px;
+}
+
+.box .output {
+    right: -8px;
+}
+
+.box2 {
+    top: 200px;
+    left: 400px;
+}
+
+.box3 {
+    top: 300px;
+    left: 400px;
+}
+
+line {
+    stroke: #999;
+    stroke-width: 2;
 }

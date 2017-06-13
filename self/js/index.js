@@ -2,7 +2,9 @@
 var HEIGHT = 70, X = -8;
 
 $(document).ready(function () {
-
+    drag('.box', function(data) {
+        console.log(data);
+    });
     const socket = io.connect('ws://localhost:3030')
     const battery = {
         id: 0,
@@ -19,11 +21,11 @@ $(document).ready(function () {
         belong: "model",
         isAdd: false
     }
-    //初始化页面
-    socket.emit('init', null)
-    socket.on('init', data => {
-        renderView(JSON.parse(data));
-    })
+    // //初始化页面
+    // socket.emit('init', null)
+    // socket.on('init', data => {
+    //     renderView(JSON.parse(data));
+    // })
 
     //创建layer层
     $('#create-layer').on('click', () => {

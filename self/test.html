@@ -97,6 +97,18 @@
                 })
                 $(document).on('mouseup', e => {
                     $(document).off('mousemove');
+                    return {
+                        x: x,
+                        y: y,
+                        input: {
+                            x: inputX,
+                            y: inputY
+                        },
+                        output: {
+                            x: outputX,
+                            y: outputY
+                        }
+                    }
                 })
             }
             // input mousedown 事件
