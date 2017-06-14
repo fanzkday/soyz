@@ -1,4 +1,3 @@
-const fn = require('./model/hello.js');
-for (var key in fn) {
-    console.log(key);
-}
+var str = 'model\index.js';
+str = str.replace(/(\/|\\)/, '');
+console.log(str);

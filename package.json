@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/fanzkday/VisualCode#readme",
   "dependencies": {
+    "chokidar": "^1.7.0",
     "shelljs": "^0.7.8",
     "socket.io": "^2.0.2"
   }

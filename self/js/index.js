@@ -1,12 +1,15 @@
 //常量设置
 var HEIGHT = 70, X = -8;
 
+const socket = io.connect('ws://localhost:3030');
+
 $(document).ready(function () {
     drag('.box', data => {
         console.log(data);
     });
-    const socket = io.connect('ws://localhost:3030');
-
+    socket.on('fileChange', data => {
+        console.log(data);
+    })
     //创建layer层
     $('#create-layer').on('click', () => {
         $('#layer input').each((index, elem) => {

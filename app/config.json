@@ -1,0 +1,4 @@
+{
+    "structrue": ["models", "controllers", "componenets"],
+    "name": "myApp"
+}
