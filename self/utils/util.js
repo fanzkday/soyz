@@ -42,7 +42,8 @@ exports.getStructure = function (path) {
         if (stat.isFile()) {
             o.type = 'file';
         }
-        folderNames.push(dir);
+        folderNames.push(o);
     })
+    fs.writeFileSync('./self/conf/structrue.json', JSON.stringify(folderNames, null, 4));
     return folderNames;
 }

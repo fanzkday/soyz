@@ -6,14 +6,14 @@ const shell = require('shelljs');
 const { watch, getStructure } = require('./utils/util.js');
 
 const path = './app';
-
+//get structure
+getStructure(path);
 const server = http.createServer();
 
 const client = io.listen(server);
 
 client.on('connection', socket => {
-  //get structure
-  getStructure(path);
+
   //vsCode open file
   socket.on('openFile', path => {
     shell.exec(`code ${__dirname}/app/${path}.js`);

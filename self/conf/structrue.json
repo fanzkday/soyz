@@ -1,0 +1,18 @@
+[
+    {
+        "name": "components",
+        "type": "directory"
+    },
+    {
+        "name": "config.json",
+        "type": "file"
+    },
+    {
+        "name": "controllers",
+        "type": "directory"
+    },
+    {
+        "name": "model",
+        "type": "directory"
+    }
+]
