@@ -1,44 +1,22 @@
-const http = require('http')
-const io = require('socket.io')
-const fs = require('fs')
-const shell = require('shelljs')
+const http = require('http');
+const io = require('socket.io');
+const fs = require('fs');
+const shell = require('shelljs');
 
-let count = 0;
+const server = http.createServer();
 
-const battery = {
-  id: 0,
-  name: "Title",
-  desc: "...",
-  pos: {
-    top: 100,
-    left: 100
-  },
-  input: [],
-  output: [],
-  relations: [],
-  err: "",
-  belong: "",
-  isAdd: false
-}
-
-
-const server = http.createServer()
-
-const client = io.listen(server)
+const client = io.listen(server);
 
 client.on('connection', socket => {
-  //初始化数据
-  
-  //新建battery
 
-  //idea open file
+  //vsCode open file
   socket.on('openFile', path => {
     shell.exec(`code ${__dirname}/app/${path}.js`);
   })
 })
 
 server.listen(3030, () => {
-  console.log('http server running on 3030')
+  console.log('http server running on 3030');
 })
 fs.watch('./app', (type, filename) => {
   console.log(type, filename);

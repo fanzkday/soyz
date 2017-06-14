@@ -1,5 +1,5 @@
 function drag(selector, callback) {
-    var currLine, batteryX, batteryY, inputX, inputY, outputX, outputY, width = 8;
+    var currLine, batteryName, batteryX, batteryY, inputX, inputY, outputX, outputY, width = 8;
     function getPos(that) {
         batteryX = $(that).offset().left;
         batteryY = $(that).offset().top;
@@ -8,7 +8,7 @@ function drag(selector, callback) {
         inputX = $(that).children('.input').offset().left + width;
         inputY = $(that).children('.input').offset().top + width;
     }
-    //
+    //移动battery时事件
     function batteryEvent(e) {
         var that = e.target;
         var x1 = e.clientX;
@@ -21,6 +21,7 @@ function drag(selector, callback) {
         $(document).on('mousemove', e => {
             var x2 = e.clientX;
             var y2 = e.clientY;
+            batteryName = $.trim($(e.target).text());
             outputLines.attr('x1', outputX).attr('y1', outputY);
             inputLines.attr('x2', inputX).attr('y2', inputY);
             $(that).css({ top: startY + y2 - y1, left: startX + x2 - x1 });
@@ -29,22 +30,19 @@ function drag(selector, callback) {
         $(document).on('mouseup', e => {
             $(document).off('mousemove');
             var data = {
-                x: batteryX,
-                y: batteryY,
-                input: {
-                    x: inputX,
-                    y: inputY
-                },
-                output: {
-                    x: outputX,
-                    y: outputY
-                }
+                batteryName,
+                batteryX,
+                batteryY,
+                inputX,
+                inputY,
+                outputX,
+                outputY
             }
             callback(data);
         })
     }
-    // input mousedown 事件
-    function inputDown(e) {
+    // input mouseup 事件
+    function inputUp(e) {
         var that = e.target;
         var name = $.trim($(that).parent().text());
         inputX = $(that).offset().left + width;
@@ -77,13 +75,11 @@ function drag(selector, callback) {
     return (function (selector) {
         $(selector).on('mousedown', e => {
             var className = e.target.className;
-            if (/input/.test(className)) {
-                inputDown(e);
-            } else if (/output/.test(className)) {
-                outputDown(e);
-            } else {
+            if (/box/.test(className)) {
                 batteryEvent(e);
             }
         })
+        $(selector + ' .input').on('mouseup', inputUp);
+        $(selector + ' .output').on('mousedown', outputDown);
     })(selector)
 }
