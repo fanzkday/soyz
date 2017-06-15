@@ -46,6 +46,10 @@ $(document).ready(() => {
         if (folderName && fileName) {
             $('#new-file').hide();
             socket.emit('make-file', { folderName, fileName });
+            const box = $('<div class="box">' + fileName + '</div>');
+            box.css({top: currY, left: currX});
+            box.append($('<span class="input"></span><span class="output"></span>'));
+            $('#content').append(box);
         }
     })
 })

@@ -6,10 +6,8 @@ const electron = require('electron');
 
 const { watch, getStructure, makeDir, makeFile } = require('./utils/util.js');
 
-//project directory
+//project root directory
 const path = './app';
-//get structure
-//getStructure(path);
 
 //start http server
 const server = http.createServer();
@@ -17,6 +15,10 @@ const server = http.createServer();
 const client = io.listen(server);
 
 client.on('connection', socket => {
+  //get folders
+  socket.on('get-folders', () => {
+    socket.emit('get-folders', getStructure(path));
+  })
   //new folders
   socket.on('make-dir', folders => {
     makeDir(folders);
