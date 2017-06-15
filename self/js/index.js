@@ -1,24 +1,15 @@
-//常量设置
-var HEIGHT = 70, X = -8;
+//全局变量设置
+const HEIGHT = 70, X = -8, layers = [], folders = [];
 
 const socket = io.connect('ws://localhost:3030');
 
 $(document).ready(function () {
+    //禁用浏览器鼠标邮件
+    document.oncontextmenu = () => false;
+    //初始化绘图
     drag('.box', data => {
         console.log(data);
     });
-    socket.on('fileChange', data => {
-        console.log(data);
-    })
-    //创建layer层
-    $('#create-layer').on('click', () => {
-        $('#layer input').each((index, elem) => {
-            const id = $(elem).val();
-            const div = $('<div id="' + id + '" class="layer"></div>').appendTo($('#content'));
-            div.css({top: 100, left: 200 * (index + 1)});
-        })
-    })
-    
 
     //给所有的battery添加双击事件
     $('#model').on('dblclick', 'div.battery', (e) => {
@@ -57,7 +48,6 @@ function buildRelations(item) {
 function renderView(data) {
     data.forEach(item => {
         newCreate(item);
-
         buildRelations(item);
     })
 }

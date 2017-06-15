@@ -5,40 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>My Plan!</title>
-    <link rel="stylesheet" href="style/bootstrap.css">
+    <title>Plan</title>
+    <link rel="stylesheet" href="style/layui.css">
     <link rel="stylesheet" href="style/style.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/d3.js"></script>
     <script type="text/javascript" src="js/socket.io.js"></script>
     <script type="text/javascript" src="js/drag.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/effect.js"></script>
 </head>
 
 <body>
     <div id="layer">
-        <ul class="form-group">
-            <li>
-                <div class="input-group">
-                    <div class="input-group-addon">名称:</div>
-                    <input type="text" class="form-control" placeholder="controllers">
-                </div>
-            </li>
-            <li>
-                <div class="input-group">
-                    <div class="input-group-addon">名称:</div>
-                    <input type="text" class="form-control" placeholder="models">
-                </div>
-            </li>
-            <li>
-                <button id="create-layer" class="btn btn-primary">创建层</button>
-            </li>
-        </ul>
+        <div class="title layui-btn">
+            <i class="layui-icon">&#xe614;</i>
+        </div>
+        <div class="setting">
+            <div class="item">
+                <input type="text" placeholder="Input Dir Name">
+                <i class="layui-icon add-directory">&#xe61f;</i>
+            </div>
+            <div id="create-layer" class="item layui-btn">创建结构</div>
+        </div>
     </div>
     <div id="svg">
         <svg width="100%" height="100%"></svg>
     </div>
     <div id="content"></div>
+    <div id="right-mousedown"></div>
+    <div id="new-file">
+        <select>
+            <option value="">所属分类</option>
+        </select>
+        <input type="text" placeholder="输入文件名">
+        <button class="layui-btn">确定</button>
+    </div>
 </body>
 
 </html>

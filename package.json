@@ -4,8 +4,7 @@
   "description": "visual code ",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node ./self/server.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +22,11 @@
   "homepage": "https://github.com/fanzkday/VisualCode#readme",
   "dependencies": {
     "chokidar": "^1.7.0",
+    "electron": "^1.6.11",
     "shelljs": "^0.7.8",
     "socket.io": "^2.0.2"
+  },
+  "devDependencies": {
+    "less": "^2.7.2"
   }
 }
