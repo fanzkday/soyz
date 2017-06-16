@@ -8,12 +8,16 @@
     <title>Plan</title>
     <link rel="stylesheet" href="style/layui.css">
     <link rel="stylesheet" href="style/style.css">
+    <!--解决electron打开时引入包的问题-->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/d3.js"></script>
     <script type="text/javascript" src="js/socket.io.js"></script>
     <script type="text/javascript" src="js/drag.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/effect.js"></script>
+    <!--解决electron打开时引入包的问题-->
+    <script>if (window.module) module = window.module;</script>
 </head>
 
 <body>

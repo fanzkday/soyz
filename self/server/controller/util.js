@@ -1,6 +1,8 @@
 const fs = require('fs');
 const chokidar = require('chokidar');
 
+const { projectPath, selfPath } = require('../conf/path.json');
+
 var millisecond = '', RegExp = /(\.js|\.json|\.css|\.html)$/;
 /**
  * 监听项目目录下文件的变化
@@ -28,14 +30,14 @@ function cutPath(path) {
 /**
  * 获取项目的目录结构
  */
-exports.getStructure = path => {
+exports.getStructure = () => {
   const folderNames = [];
-  const dirList = fs.readdirSync(path);
+  const dirList = fs.readdirSync(projectPath);
   dirList.forEach(dir => {
     const o = {
       name: dir
     };
-    const stat = fs.statSync(`${path}/${dir}`);
+    const stat = fs.statSync(`${projectPath}/${dir}`);
     if (stat.isDirectory()) {
       o.type = 'directory';
     }
@@ -44,7 +46,7 @@ exports.getStructure = path => {
     }
     folderNames.push(o);
   })
-  fs.writeFileSync('./self/conf/structrue.json', JSON.stringify(folderNames, null, 4));
+  fs.writeFileSync(`${selfPath}/server/conf/structrue.json`, JSON.stringify(folderNames, null, 4));
   return folderNames;
 }
 /**
@@ -53,10 +55,9 @@ exports.getStructure = path => {
 exports.makeDir = folderNames => {
   if (Array.isArray(folderNames) && folderNames.length > 0) {
     folderNames.forEach(name => {
-      fs.mkdir(`./app/${name}`, err => {
-        if (err) {
-          console.error(err);
-        }
+      console.log(name);
+      fs.mkdir(`${projectPath}/${name}`, err => {
+        if (err) throw err;
       })
     })
   }
@@ -66,10 +67,8 @@ exports.makeDir = folderNames => {
  */
 exports.makeFile = obj => {
   if (obj.folderName && obj.fileName && RegExp.test(obj.fileName)) {
-    fs.writeFile(`./app/${obj.folderName}/${obj.fileName}`, '', err => {
-      if (err) {
-        console.error(err);
-      }
+    fs.writeFile(`${projectPath}/${obj.folderName}/${obj.fileName}`, '', err => {
+      if (err) throw err;
     })
   }
 }
