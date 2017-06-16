@@ -11,8 +11,8 @@ $(document).ready(function () {
         console.log(data);
     });
     //获取项目结构
-    socket.emit('get-folders', null);
-    socket.on('get-folders', names => {
-        folders = names;
+    socket.emit('get-folders', '');
+    socket.on('get-folders', data => {
+        alert(data);
     })
 })

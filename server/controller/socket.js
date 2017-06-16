@@ -1,7 +1,6 @@
 const { getStructure, makeDir, makeFile } = require('./util.js');
 
 exports.socketHandle = socket => {
-    console.log('connection!');
     //get folders
     socket.on('get-folders', () => {
         socket.emit('get-folders', getStructure());
