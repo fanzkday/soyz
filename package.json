@@ -4,10 +4,11 @@
   "private": true,
   "dependencies": {
     "antd": "^2.11.0",
-    "mobx": "^3.1.15",
-    "mobx-react": "^4.2.1",
+    "electron": "^1.6.11",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "shelljs": "^0.7.8",
+    "socket.io": "^2.0.3"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"

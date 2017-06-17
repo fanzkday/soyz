@@ -1,7 +1,7 @@
 const fs = require('fs');
 const chokidar = require('chokidar');
 
-const { projectPath, selfPath } = require('../conf/path.json');
+const { projectPath } = require('../conf/path.json');
 
 var millisecond = '', RegExp = /(\.js|\.json|\.css|\.html)$/;
 /**
@@ -46,22 +46,30 @@ exports.getStructure = () => {
     }
     folderNames.push(o);
   })
-  fs.writeFileSync(`${selfPath}/server/conf/structrue.json`, JSON.stringify(folderNames, null, 4));
+  fs.writeFileSync(`./server/conf/structrue.json`, JSON.stringify(folderNames, null, 4));
   return folderNames;
 }
+
 /**
  * app目录下建立项目结构
  */
-exports.makeDir = folderNames => {
-  if (Array.isArray(folderNames) && folderNames.length > 0) {
-    folderNames.forEach(name => {
-      console.log(name);
+exports.makeDir = structure => {
+  //创建文件夹
+  if (Array.isArray(structure.directory)) {
+    structure.directory.forEach(name => {
       fs.mkdir(`${projectPath}/${name}`, err => {
         if (err) throw err;
       })
     })
   }
+  //创建文件
+  if (typeof structure.entry === 'string' && RegExp.test(structure.entry)) {
+    fs.writeFile(`${projectPath}/${structure.entry}`, '', err => {
+      if (err) throw err;
+    })
+  }
 }
+
 /**
  * 在目标文件夹下新建文件
  */

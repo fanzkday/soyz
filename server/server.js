@@ -15,7 +15,7 @@ client.on('connection', socketHandle);
 //watch(path, client);
 
 //open client view
-shell.exec(`${electron} ${selfPath}/web/index.html`, { async: true });
+//shell.exec(`${electron} ${selfPath}/web/index.html`, { async: true });
 
 //全局错误处理
 process.on('uncaughtException', err => {
