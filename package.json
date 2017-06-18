@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "antd": "^2.11.0",
+    "d3": "^4.9.1",
     "electron": "^1.6.11",
+    "jquery": "^3.2.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "shelljs": "^0.7.8",

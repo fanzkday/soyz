@@ -3,7 +3,6 @@ const { getStructure, makeDir, makeFile } = require('./util.js');
 exports.socketHandle = socket => {
     //建立项目目录结构
     socket.on('make-structure', structure => {
-        console.log(structure);
         if (structure && typeof structure === 'object') {
             structure.directory && structure.entry && makeDir(structure);
         }
@@ -14,7 +13,6 @@ exports.socketHandle = socket => {
     })
     //make folders
     socket.on('make-dir', folders => {
-        console.log(folders);
         makeDir(folders);
     })
     //new file
