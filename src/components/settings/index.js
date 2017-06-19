@@ -8,7 +8,7 @@ export class Setting extends React.Component {
         set(target, key, value) {
             var value = value.replace(/^\s*/, '').replace(/\s*&/, '');
             if (value.indexOf(';') !== -1) {
-                value = value.split(';');
+                value = value.split(' ');
             }
             return target[key] = value;
         }
@@ -24,8 +24,8 @@ export class Setting extends React.Component {
                     onCancel={this.click.bind(this)}
                 >
                     <Form>
-                        <Form.Item label="目录结构(必须)" hasFeedback>
-                            <Input placeholder="如: components;container;model;route" name="directory" onBlur={this.onChange.bind(this)} />
+                        <Form.Item label="目录结构(必须)：多个名称用空格分隔" hasFeedback>
+                            <Input placeholder="如: components container model route" name="directory" onBlur={this.onChange.bind(this)} />
                         </Form.Item>
                         <Form.Item label="主入口文件(必须)" hasFeedback>
                             <Input placeholder="index.js" name="entry" onBlur={this.onChange.bind(this)} />

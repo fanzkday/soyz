@@ -1,15 +1,15 @@
 import * as $ from 'jquery';
 import * as d3 from 'd3';
 
-var currLine,
-    batteryName,
-    batteryX,
-    batteryY,
-    inputX,
-    inputY,
-    outputX,
-    outputY,
-    width = 6;
+//常量
+const width = 6;
+
+//battery相关
+var batteryName, batteryX, batteryY, inputX, inputY, outputX, outputY;
+
+//临时数据
+var currPath, tempX, tempY;
+
 //获取battery元素的坐标信息
 function getPos(that) {
     batteryX = $(that).offset().left;
@@ -32,76 +32,131 @@ function savePos() {
     }
     sessionStorage.setItem('batteryInfo', JSON.stringify(data));
 }
+//计算bezier曲线点的位置
+function curveTo(x1, y1, x4, y4) {
+    var x1 = Number(x1);
+    var y1 = Number(y1);
+    var x4 = Number(x4);
+    var y4 = Number(y4);
+    if (x1 < x4) {
+        var x2 = (x1 + x4) / 2;
+        var x3 = (x1 + x4) / 2;
+    }
+    if (x1 >= x4) {
+        var x2 = x1 + (x1 + x4) / 4;
+        var x3 = x4 - (x1 + x4) / 4;
+    }
+    // const y = (y1 + y4) / 2;
+    return `M${x1} ${y1} C${x2} ${y1}, ${x3} ${y4}, ${x4} ${y4}`;
+}
+//获取battery的名字并格式化
+function formatName(that) {
+    var name = $(that).siblings('p').text() || $(that).children('p').text();
+    if (typeof name === 'string') {
+        name = name.replace(/^\s*/, '').replace(/\s*&/, '').replace(' > ', '_');
+    }
+    return name;
+}
 //移动battery时事件
-function batteryEvent(e) {
-    var that = e.target;
-    var x1 = e.clientX;
-    var y1 = e.clientY;
+function batteryDown(event) {
+    var that = this;
+    //点击点
+    var downX = event.clientX;
+    var downY = event.clientY;
+    //battery的top,left
     var startX = $(that).offset().left;
     var startY = $(that).offset().top;
-    var name = $.trim($(that).text());
-    var outputLines = d3.selectAll('#svg .' + name + 0);
-    var inputLines = d3.selectAll('#svg .' + name + 1);
-    $(document).on('mousemove', e => {
-        var x2 = e.clientX;
-        var y2 = e.clientY;
-        batteryName = $.trim($(e.target).text())
+
+    batteryName = formatName(that);
+    
+    //var outputPaths = d3.selectAll(`#svg .${batteryName}_output`);
+    //battery的input端
+    var inputPaths = $(`#svg .${batteryName}_input`);
+    var inputPathsSize = inputPaths.length;
+
+    var pathsInputM = [];
+    if (inputPathsSize > 0) {
+        inputPaths.each((index, elem) => {
+            pathsInputM.push(elem.getAttribute('start'));
+        })
+    }
+    //battery的output端
+    var outputPaths = $(`#svg .${batteryName}_output`);
+    var outputPathsSize = outputPaths.length;
+
+    var pathsOutputM = [];
+    if (outputPathsSize > 0) {
+        outputPaths.each((index, elem) => {
+            pathsOutputM.push(elem.getAttribute('end'));
+        })
+    }
+    
+    $(document).on('mousemove', event => {
         getPos(that);
-        outputLines.attr('x1', outputX).attr('y1', outputY);
-        inputLines.attr('x2', inputX).attr('y2', inputY);
-        $(that).css({ top: startY + y2 - y1, left: startX + x2 - x1 });
+        var moveX = event.clientX;
+        var moveY = event.clientY;
+        inputPaths.each((index, elem) => {
+            var inputM = pathsInputM[index].split(',');
+            elem.setAttribute('d', curveTo(inputM[0], inputM[1], inputX, inputY));
+            elem.setAttribute('end', `${inputX},${inputY}`);
+        })
+        outputPaths.each((index, elem) => {
+            var outputM = pathsOutputM[index].split(',');
+            elem.setAttribute('d', curveTo(outputX, outputY, outputM[0], outputM[1]));
+            elem.setAttribute('start', `${outputX},${outputY}`);
+        })
+        $(that).css({ top: startY + moveY - downY, left: startX + moveX - downX });
     })
-    $(that).on('mouseup', e => {
+    
+    $(document).on('mouseup', '.battery', () => {
         $(document).off('mousemove');
-        savePos();
-    })
-    $(document).on('mouseup', '.battery', e => {
-        $(document).off('mousemove');
+        $(document).off('mouseup');
         savePos();
     })
 }
 // input mouseup 事件
-function inputUp(e) {
-    var that = e.target;
-    var name = $.trim($(that).parent().text());
+function inputUp(event) {
+    event.stopPropagation();
+    var that = this;
+
+    var name = formatName(that);
+
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
-    if (outputX && outputY) {
-        currLine.attr('x2', inputX).attr('y2', inputY);
-        var className = currLine.attr('class');
-        currLine.attr('class', className + ' ' + name + 1);
+
+    if (tempX && tempY && currPath) {
+        currPath.attr('d', curveTo(tempX, tempY, inputX, inputY));
+        var className = currPath.attr('class');
+        currPath.attr('class', `${className} ${name}_input`).attr('end', `${inputX},${inputY}`);
+
         $(document).off('mousemove');
-        outputX = outputY = currLine = '';
+        tempX = tempY = currPath = '';
     }
 }
-// input mousedown 事件
-function outputDown(e) {
-    var that = e.target;
-    var name = $.trim($(that).parent().text()).replace(' > ', '_');
-    outputX = $(that).offset().left + width;
-    outputY = $(that).offset().top + width;
-    currLine = d3.select('#svg svg').append('line');
-    currLine.attr('class', name + 0);
-    $(document).on('mousemove', e => {
-        var x1 = e.clientX;
-        var y1 = e.clientY;
-        currLine.attr('x1', outputX).attr('y1', outputY)
-            .attr('x2', x1).attr('y2', y1);
+// output mousedown
+function outputDown(event) {
+    event.stopPropagation();
+    var that = this;
+
+    var name = formatName(that);
+    tempX = $(that).offset().left + width;
+    tempY = $(that).offset().top + width;
+
+    currPath = d3.select('#svg svg').append('path');
+    currPath.attr('class', `${name}_output`).attr('start', `${tempX},${tempY}`);
+
+    $(document).on('mousemove', event => {
+        currPath.attr('d', curveTo(tempX, tempY, event.clientX, event.clientY));
+    })
+
+    $(document).on('mouseup', () => {
+        currPath && currPath.remove();
+        $(document).off('mousemove');
+        $(document).off('mouseup');
     })
 }
 
-$('body').on('mousedown', e => {
-    if (e.target.className.indexOf('battery') !== -1) {
-        batteryEvent(e);
-    }
-});
-$('body').on('mouseup', '.input', e => {
-    if (e.target.className.indexOf('input') !== -1) {
-        inputUp(e);
-    }
-});
-$('body').on('mousedown', '.output', e => {
-    if (e.target.className.indexOf('output') !== -1) {
-        outputDown(e);
-    }
-});
+
+$('body').on('mousedown', 'div.battery', batteryDown);
+$('body').on('mousedown', 'span.output', outputDown);
+$('body').on('mouseup', 'span.input', inputUp);

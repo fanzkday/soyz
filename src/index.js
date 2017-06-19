@@ -9,4 +9,5 @@ import './style/style.css';
 
 ReactDOM.render(<Main />, document.getElementById('root'));
 registerServiceWorker();
+
 window.oncontextmenu = () => false;

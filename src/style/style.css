@@ -34,9 +34,10 @@ body {
   height: 100%;
   border: 1px solid red;
 }
-#svg line {
+#svg path {
   stroke: #999;
   stroke-width: 2;
+  fill: rgba(0, 0, 0, 0);
 }
 #content {
   position: absolute;

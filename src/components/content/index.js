@@ -3,6 +3,8 @@ import * as $ from 'jquery';
 import { Modal, Form, Input, Select } from 'antd';
 import socket from '../../util/socket.js';
 
+const RegExp = /(\.js|\.json|\.html)/;
+
 export class Content extends React.Component {
     state = { isVisible: false, dir: [] };
     structure = {};
@@ -27,7 +29,7 @@ export class Content extends React.Component {
                                 }
                             </Select>
                         </Form.Item>
-                        <Form.Item label="多个文件名以 ';' 号分割" hasFeedback>
+                        <Form.Item label="多个文件名用空格分割" hasFeedback>
                             <Input placeholder="index.js" title="filename" onBlur={this.onBlur.bind(this)} />
                         </Form.Item>
                     </Form>
@@ -51,15 +53,25 @@ export class Content extends React.Component {
         if (this.structure.dirname && this.structure.filename) {
             this.setState({ isVisible: !this.state.isVisible });
             socket.emit('make-file', this.structure);
-            var filenames = this.structure.filename.split(';');
+            var filenames = this.structure.filename.split(' ');
             filenames.forEach(name => {
                 const texts = $('.battery').text();
                 var text = this.structure.dirname + ' > ' + name;
-                text = text.replace(/\.js$/, '');
+                text = text.replace(RegExp, '');
                 if (texts.indexOf(text) === -1) {
-                    $('<div class="battery">' + text + '<span class="input"></span><span class="output"></span></div>').appendTo($('#content'));
+                    $(battery(text)).appendTo($('#content'));
                 }
             })
         }
     }
+}
+
+function battery(text) {
+    return (
+        `<div class="battery">
+            <p class="title">${text}</p>
+            <span class="input"></span>
+            <span class="output"></span>
+        </div>`
+    )
 }
