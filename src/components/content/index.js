@@ -9,8 +9,15 @@ export class Content extends React.Component {
     state = { isVisible: false, dir: [] };
     structure = {};
     render() {
+        socket.emit('get-module', null);
+        socket.on('get-module', modulesName => {
+            modulesName.forEach(name => {
+                $('#content .module').append(onlyOutpurBattery(name));
+            })
+        })
         return (
             <div id="content" onMouseDown={this.click.bind(this)}>
+                <div className="module"></div>
                 <Modal
                     title="新建文件"
                     visible={this.state.isVisible}
@@ -71,6 +78,15 @@ function battery(text) {
         `<div class="battery">
             <p class="title">${text}</p>
             <span class="input"></span>
+            <span class="output"></span>
+        </div>`
+    )
+}
+
+function onlyOutpurBattery(text) {
+    return (
+        `<div class="battery only_output">
+            <p class="title" title="${text}">${text}</p>
             <span class="output"></span>
         </div>`
     )

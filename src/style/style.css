@@ -35,7 +35,7 @@ body {
   border: 1px solid red;
 }
 #svg path {
-  stroke: #999;
+  stroke: #666;
   stroke-width: 2;
   fill: rgba(0, 0, 0, 0);
 }
@@ -50,16 +50,20 @@ body {
 .battery {
   width: 100px;
   height: 40px;
-  line-height: 36px;
-  text-align: center;
   border: 1px solid #666;
   border-radius: 8px;
   background: linear-gradient(#ffffff 5%, #ffa07a);
-  box-shadow: 0 0 8px #666;
+  box-shadow: 0 0 6px #999;
   position: absolute;
   cursor: pointer;
   top: 100px;
   left: 100px;
+}
+.battery p {
+  height: 40px;
+  margin: 0;
+  line-height: 36px;
+  text-align: center;
 }
 .battery span {
   position: absolute;
@@ -76,4 +80,33 @@ body {
 }
 .battery .output {
   right: -6px;
+}
+.module {
+  position: absolute;
+  top: 40px;
+  left: 5px;
+  bottom: 10px;
+  width: 59px;
+  border: 1px solid #999;
+  border-radius: 5px;
+}
+.module .battery.only_output {
+  width: 60px;
+  height: 30px;
+  position: relative;
+  top: 0;
+  left: -2px;
+  margin: 5px auto;
+  box-shadow: 0 0 4px #999;
+  background: #ccc;
+}
+.module .battery.only_output p {
+  width: auto;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

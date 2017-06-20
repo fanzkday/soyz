@@ -19,6 +19,15 @@ exports.socketHandle = socket => {
     socket.on('make-file', obj => {
         makeFile(obj);
     })
+    //get modules name
+    socket.on('get-module', () => {
+        const package = require(`../../package.json`);
+        const modulesName = [];
+        for(var key in package.dependencies) {
+            modulesName.push(key);
+        }
+        socket.emit('get-module', modulesName);
+    })
     //vsCode open file
     socket.on('edit-file', name => {
         shell.exec(`code ${__dirname}/app/${name}.js`);

@@ -6,7 +6,7 @@ export class Setting extends React.Component {
     state = { isVisible: false };
     structure = new Proxy({}, {
         set(target, key, value) {
-            var value = value.replace(/^\s*/, '').replace(/\s*&/, '');
+            value = value.replace(/^\s*/, '').replace(/\s*&/, '');
             if (value.indexOf(';') !== -1) {
                 value = value.split(' ');
             }
