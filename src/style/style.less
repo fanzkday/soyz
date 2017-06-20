@@ -63,6 +63,7 @@ body {
     right: 0;
     bottom: 0;
     z-index: 100;
+    pointer-events: none;
 }
 
 .battery {
@@ -76,6 +77,7 @@ body {
     cursor: pointer;
     top: 100px;
     left: 100px;
+    pointer-events: auto;
     p {
         height: 40px;
         margin: 0;
@@ -114,6 +116,9 @@ body {
         text-align: center;
         background-color: #fff;
         border-bottom: 1px solid #999;
+        div, i{
+            pointer-events: auto;
+        }
         i{
             cursor: pointer;
         }

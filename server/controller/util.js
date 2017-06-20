@@ -56,7 +56,6 @@ exports.getStructure = () => {
  */
 exports.makeDir = structure => {
     //创建文件夹
-    console.log(structure);
     const directory = formatPath(structure.directory).split(' ');
     directory.forEach(name => {
         let path = `${projectPath}/${name}`;
@@ -82,7 +81,6 @@ exports.makeDir = structure => {
  * 在目标文件夹下新建文件
  */
 exports.makeFile = obj => {
-    console.log(obj);
     if (obj.dirname && obj.filename && RegExp.test(obj.filename)) {
         const dirname = formatPath(obj.dirname);
         const filename = formatPath(obj.filename);
@@ -100,6 +98,7 @@ exports.makeFile = obj => {
  * 两个文件之间建立引用关系
  */
 exports.buildRelations = relation => {
+    console.log(relation);
     if (typeof relation === 'object' && relation.outputBatteryPath && relation.inputBatteryPath) {
         const fromPath =  `${projectPath}/${formatPath(relation.inputBatteryPath)}`;
         const toPath = formatPath(relation.outputBatteryPath);
@@ -132,5 +131,5 @@ function upperFirstLetter(str) {
 }
 function formatPath(str) {
     if (typeof str !== 'string') return;
-    return str.replace(/_/g, '/').replace(/^\s*/, '').replace(/\s*$/, '');
+    return str.replace(/-/g, '/').replace(/^\s*/, '').replace(/\s*$/, '').replace(/\sjs$/, '.js');
 }

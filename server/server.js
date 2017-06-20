@@ -4,8 +4,6 @@ const client = require('socket.io')(3030);
 const shell = require('shelljs');
 const electron = require('electron');
 
-const { selfPath } = require('./conf/path.json');
-
 const { socketHandle } = require('./controller/socket.js');
 
 client.on('connection', socketHandle);
@@ -15,7 +13,7 @@ client.on('connection', socketHandle);
 //watch(path, client);
 
 //open client view
-//shell.exec(`${electron} ${selfPath}/web/index.html`, { async: true });
+//shell.exec(`${electron} ../build/index.html`, { async: true });
 
 //全局错误处理
 process.on('uncaughtException', err => {

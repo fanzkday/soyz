@@ -14,9 +14,10 @@ export class Content extends React.Component {
             })
         })
         return (
-            <div id="content" onMouseDown={this.click.bind(this)}>
+            <div id="content">
                 <div className="module">
                     <div className="reload">
+                        <div onMouseDown={this.click.bind(this)}>hello</div>
                         <Icon type="reload" style={{ fontSize: 18, color: '#999' }} onClick={() => {socket.emit('get-module', null);}}/>
                     </div>
                 </div>
@@ -39,7 +40,7 @@ export class Content extends React.Component {
                             </Select>
                         </Form.Item>
                         <Form.Item label="多个文件名用空格分割" hasFeedback>
-                            <Input placeholder="index.js" title="filename" onBlur={this.onBlur.bind(this)} />
+                            <Input defaultValue="index.js pre.js" title="filename" onBlur={this.onBlur.bind(this)} />
                         </Form.Item>
                     </Form>
                 </Modal>
@@ -48,7 +49,6 @@ export class Content extends React.Component {
     }
     click(e) {
         const structure = JSON.parse(sessionStorage.getItem('structure'));
-        console.log(structure);
         if (structure && structure.directory && e.button === 2) {
             const dir = structure.directory.replace(/^\s*/, '').replace(/\s*&/, '').split(' ');
             this.setState({ isVisible: !this.state.isVisible, dir: dir });
@@ -70,7 +70,7 @@ export class Content extends React.Component {
             var filenames = this.structure.filename.split(' ');
             filenames.forEach(name => {
                 const texts = $('.battery').text();
-                var text = this.structure.dirname + ' > ' + name;
+                var text = this.structure.dirname + '/' + name;
                 if (texts.indexOf(text) === -1) {
                     $(battery(text)).appendTo($('#content'));
                 }
@@ -82,7 +82,7 @@ export class Content extends React.Component {
 function battery(text) {
     return (
         `<div class="battery">
-            <p class="title">${text}</p>
+            <p class="title" title="${text}">${text}</p>
             <span class="input"></span>
             <span class="output"></span>
         </div>`

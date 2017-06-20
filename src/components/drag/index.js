@@ -51,26 +51,42 @@ function curveTo(x1, y1, x4, y4) {
     }
     return `M${x1} ${y1} C${x2} ${y1}, ${x3} ${y4}, ${x4} ${y4}`;
 }
-//获取battery的名字并格式化
-function formatName(that) {
+//获取battery的名字并格式化 用于className
+function formatToClass(that) {
     var name = $(that).siblings('p').text() || $(that).children('p').text();
     if (typeof name === 'string') {
-        name = name.replace(/^\s*/, '').replace(/\s*&/, '').replace(' > ', '_').replace('.', '');
+        name = name.replace(/^\s*/, '').replace(/\s*&/, '').replace('/', '_').replace('.', '-');
+    }
+    return name;
+}
+//获取battery的名字并格式化 用于text显示
+function formatToText(that) {
+    var name = $(that).siblings('p').text() || $(that).children('p').text();
+    if (typeof name === 'string') {
+        name = name.replace(/^\s*/, '').replace(/\s*&/, '').replace('/', '_').replace('.', '-');
     }
     return name;
 }
 //生成路径文字
 function pathText(id, text) {
+    console.log(typeof text, text);
     sessionStorage.setItem('isPathText', 'is');
     const isPathText = sessionStorage.getItem('isPathText');
     if (isPathText === 'is') {
-        d3.select('#svg svg').append('text')
+        const text = d3.select('#svg svg').append('text')
             .attr('id', id)
-            .attr('dy', '-5px')
-            .attr('text-anchor', 'middle')
-            .append('textPath')
+            .attr('dy', '-5px');
+        text.append('textPath')
+            .attr('startOffset', '45%')
             .attr('xlink:href', id)
             .text(text);
+        text.append('textPath')
+            .style('font-size', '15px')
+            .style('fill', 'red')
+            .attr('startOffset', '35%')
+            .attr('class', 'clip')
+            .attr('xlink:href', id)
+            .text('Clip');
     }
 }
 //移动battery时事件
@@ -85,7 +101,7 @@ function batteryDown(event) {
     var startX = $(that).offset().left;
     var startY = $(that).offset().top;
 
-    batteryName = formatName(that);
+    batteryName = formatToClass(that);
 
     //var outputPaths = d3.selectAll(`#svg .${batteryName}_output`);
     //battery的input端
@@ -137,7 +153,7 @@ function inputUp(event) {
     event.stopPropagation();
     var that = this;
 
-    var name = inputBatteryPath = formatName(that);
+    var name = inputBatteryPath = formatToClass(that);
 
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
@@ -149,7 +165,8 @@ function inputUp(event) {
         currPath.attr('class', `${className} ${name}_input`).attr('end', `${inputX},${inputY}`).attr('id', id);
 
         //生成路径文字
-        pathText(id, `${className} ${name}_input`);
+        const text = `${name} from ${className}`.replace('_output', '');
+        pathText(`#${id}`, 'text');
 
         socket.emit('build-relation', { outputBatteryPath, inputBatteryPath });
 
@@ -162,7 +179,8 @@ function outputDown(event) {
     event.stopPropagation();
     var that = this;
 
-    var name = outputBatteryPath = formatName(that);
+    var name = outputBatteryPath = formatToClass(that);
+    console.log('outputDown:' + name);
     tempX = $(that).offset().left + width;
     tempY = $(that).offset().top + width;
 
@@ -185,3 +203,11 @@ function outputDown(event) {
 $('body').on('mousedown', 'div.battery', batteryDown);
 $('body').on('mousedown', 'span.output', outputDown);
 $('body').on('mouseup', 'span.input', inputUp);
+
+// 给所有的textPath添加click事件，用于切断联系
+$('body').on('click', 'textPath.clip', e => {
+    const parent = $(e.target).parent('text');
+    const id = parent.attr('id'); //获取的id本身就带有#号
+    parent.remove();
+    $(`path${id}`).remove();
+});

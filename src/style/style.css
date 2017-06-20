@@ -50,6 +50,7 @@ body {
   right: 0;
   bottom: 0;
   z-index: 100;
+  pointer-events: none;
 }
 .battery {
   width: 100px;
@@ -62,6 +63,7 @@ body {
   cursor: pointer;
   top: 100px;
   left: 100px;
+  pointer-events: auto;
 }
 .battery p {
   height: 40px;
@@ -100,6 +102,10 @@ body {
   text-align: center;
   background-color: #fff;
   border-bottom: 1px solid #999;
+}
+.module .reload div,
+.module .reload i {
+  pointer-events: auto;
 }
 .module .reload i {
   cursor: pointer;
