@@ -65,9 +65,10 @@ function pathText(id, text) {
     const isPathText = sessionStorage.getItem('isPathText');
     if (isPathText === 'is') {
         d3.select('#svg svg').append('text')
+            .attr('id', id)
             .attr('dy', '-5px')
+            .attr('text-anchor', 'middle')
             .append('textPath')
-            .attr('startOffset', '35%')
             .attr('xlink:href', id)
             .text(text);
     }
