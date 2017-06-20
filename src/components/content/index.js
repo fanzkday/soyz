@@ -1,28 +1,30 @@
 import React from 'react';
 import * as $ from 'jquery';
-import { Modal, Form, Input, Select } from 'antd';
+import { Modal, Form, Input, Select, Icon } from 'antd';
 import socket from '../../util/socket.js';
-
-const RegExp = /(\.js|\.json|\.html)/;
 
 export class Content extends React.Component {
     state = { isVisible: false, dir: [] };
     structure = {};
     render() {
-        socket.emit('get-module', null);
         socket.on('get-module', modulesName => {
+            $('#content .module .only_output').remove();
             modulesName.forEach(name => {
                 $('#content .module').append(onlyOutpurBattery(name));
             })
         })
         return (
             <div id="content" onMouseDown={this.click.bind(this)}>
-                <div className="module"></div>
+                <div className="module">
+                    <div className="reload">
+                        <Icon type="reload" style={{ fontSize: 18, color: '#999' }} onClick={() => {socket.emit('get-module', null);}}/>
+                    </div>
+                </div>
                 <Modal
                     title="新建文件"
                     visible={this.state.isVisible}
                     onOk={this.handleOk.bind(this)}
-                    onCancel={this.click.bind(this)}
+                    onCancel={this.onCancel.bind(this)}
                 >
                     <Form>
                         <Form.Item label="选择所属文件夹" hasFeedback>
@@ -45,8 +47,10 @@ export class Content extends React.Component {
         )
     }
     click(e) {
-        const dir = JSON.parse(sessionStorage.getItem('structure')).directory;
-        if (dir && e.button === 2) {
+        const structure = JSON.parse(sessionStorage.getItem('structure'));
+        console.log(structure);
+        if (structure && structure.directory && e.button === 2) {
+            const dir = structure.directory.replace(/^\s*/, '').replace(/\s*&/, '').split(' ');
             this.setState({ isVisible: !this.state.isVisible, dir: dir });
         }
     }
@@ -56,6 +60,9 @@ export class Content extends React.Component {
     onBlur(e) {
         this.structure.filename = e.target.value;
     }
+    onCancel() {
+        this.setState({ isVisible: !this.state.isVisible });
+    }
     handleOk() {
         if (this.structure.dirname && this.structure.filename) {
             this.setState({ isVisible: !this.state.isVisible });
@@ -64,7 +71,6 @@ export class Content extends React.Component {
             filenames.forEach(name => {
                 const texts = $('.battery').text();
                 var text = this.structure.dirname + ' > ' + name;
-                text = text.replace(RegExp, '');
                 if (texts.indexOf(text) === -1) {
                     $(battery(text)).appendTo($('#content'));
                 }

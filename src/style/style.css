@@ -39,6 +39,10 @@ body {
   stroke-width: 2;
   fill: rgba(0, 0, 0, 0);
 }
+#svg text {
+  font-size: 12px;
+  fill: #666;
+}
 #content {
   position: absolute;
   top: 0;
@@ -90,6 +94,16 @@ body {
   border: 1px solid #999;
   border-radius: 5px;
 }
+.module .reload {
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  background-color: #fff;
+  border-bottom: 1px solid #999;
+}
+.module .reload i {
+  cursor: pointer;
+}
 .module .battery.only_output {
   width: 60px;
   height: 30px;
@@ -98,7 +112,7 @@ body {
   left: -2px;
   margin: 5px auto;
   box-shadow: 0 0 4px #999;
-  background: #ccc;
+  background: #eee;
 }
 .module .battery.only_output p {
   width: auto;

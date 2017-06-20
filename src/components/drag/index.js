@@ -1,6 +1,6 @@
 import * as $ from 'jquery';
 import * as d3 from 'd3';
-
+import socket from '../../util/socket.js';
 //常量
 const width = 6;
 
@@ -9,6 +9,9 @@ var batteryName, batteryX, batteryY, inputX, inputY, outputX, outputY;
 
 //临时数据
 var currPath, tempX, tempY;
+
+//用于输出的battery 和 用于接收的battry的 path
+var outputBatteryPath, inputBatteryPath;
 
 //获取battery元素的坐标信息
 function getPos(that) {
@@ -52,13 +55,28 @@ function curveTo(x1, y1, x4, y4) {
 function formatName(that) {
     var name = $(that).siblings('p').text() || $(that).children('p').text();
     if (typeof name === 'string') {
-        name = name.replace(/^\s*/, '').replace(/\s*&/, '').replace(' > ', '_');
+        name = name.replace(/^\s*/, '').replace(/\s*&/, '').replace(' > ', '_').replace('.', '');
     }
     return name;
+}
+//生成路径文字
+function pathText(id, text) {
+    sessionStorage.setItem('isPathText', 'is');
+    const isPathText = sessionStorage.getItem('isPathText');
+    if (isPathText === 'is') {
+        d3.select('#svg svg').append('text')
+            .attr('dy', '-5px')
+            .append('textPath')
+            .attr('startOffset', '35%')
+            .attr('xlink:href', id)
+            .text(text);
+    }
 }
 //移动battery时事件
 function batteryDown(event) {
     var that = this;
+    //如果battery是 only_output， 不可移动；
+    if (that.className.indexOf('only_output') !== -1) return;
     //点击点
     var downX = event.clientX;
     var downY = event.clientY;
@@ -67,7 +85,7 @@ function batteryDown(event) {
     var startY = $(that).offset().top;
 
     batteryName = formatName(that);
-    
+
     //var outputPaths = d3.selectAll(`#svg .${batteryName}_output`);
     //battery的input端
     var inputPaths = $(`#svg .${batteryName}_input`);
@@ -89,7 +107,7 @@ function batteryDown(event) {
             pathsOutputM.push(elem.getAttribute('end'));
         })
     }
-    
+
     $(document).on('mousemove', event => {
         getPos(that);
         var moveX = event.clientX;
@@ -106,7 +124,7 @@ function batteryDown(event) {
         })
         $(that).css({ top: startY + moveY - downY, left: startX + moveX - downX });
     })
-    
+
     $(document).on('mouseup', '.battery', () => {
         $(document).off('mousemove');
         $(document).off('mouseup');
@@ -118,7 +136,7 @@ function inputUp(event) {
     event.stopPropagation();
     var that = this;
 
-    var name = formatName(that);
+    var name = inputBatteryPath = formatName(that);
 
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
@@ -126,7 +144,13 @@ function inputUp(event) {
     if (tempX && tempY && currPath) {
         currPath.attr('d', curveTo(tempX, tempY, inputX, inputY));
         var className = currPath.attr('class');
-        currPath.attr('class', `${className} ${name}_input`).attr('end', `${inputX},${inputY}`);
+        var id = 'mypath';
+        currPath.attr('class', `${className} ${name}_input`).attr('end', `${inputX},${inputY}`).attr('id', id);
+
+        //生成路径文字
+        pathText(id, `${className} ${name}_input`);
+
+        socket.emit('build-relation', { outputBatteryPath, inputBatteryPath });
 
         $(document).off('mousemove');
         tempX = tempY = currPath = '';
@@ -137,7 +161,7 @@ function outputDown(event) {
     event.stopPropagation();
     var that = this;
 
-    var name = formatName(that);
+    var name = outputBatteryPath = formatName(that);
     tempX = $(that).offset().left + width;
     tempY = $(that).offset().top + width;
 
@@ -150,6 +174,7 @@ function outputDown(event) {
 
     $(document).on('mouseup', () => {
         currPath && currPath.remove();
+        outputBatteryPath = '';
         $(document).off('mousemove');
         $(document).off('mouseup');
     })

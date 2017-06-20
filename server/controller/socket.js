@@ -1,4 +1,4 @@
-const { getStructure, makeDir, makeFile } = require('./util.js');
+const { getStructure, makeDir, makeFile, buildRelations } = require('./util.js');
 
 exports.socketHandle = socket => {
     //建立项目目录结构
@@ -27,6 +27,10 @@ exports.socketHandle = socket => {
             modulesName.push(key);
         }
         socket.emit('get-module', modulesName);
+    })
+    //battery之间建立引用关系
+    socket.on('build-relation', relation => {
+        buildRelations(relation);
     })
     //vsCode open file
     socket.on('edit-file', name => {

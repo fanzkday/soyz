@@ -50,7 +50,6 @@ export class Setting extends React.Component {
         if (this.structure.directory && this.structure.entry) {
             this.setState({ isVisible: !this.state.isVisible });
             socket.emit('make-structure', this.structure);
-            console.log(this.structure);
             sessionStorage.setItem('structure', JSON.stringify(this.structure));
         }
     }

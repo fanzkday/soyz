@@ -6,12 +6,12 @@ const electron = require('electron');
 
 const { selfPath } = require('./conf/path.json');
 
-//const { watch } = require('./controller/util.js');
 const { socketHandle } = require('./controller/socket.js');
 
 client.on('connection', socketHandle);
 
 //listener all files
+//const { watch } = require('./controller/util.js');
 //watch(path, client);
 
 //open client view
