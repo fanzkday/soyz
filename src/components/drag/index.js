@@ -1,6 +1,8 @@
 import * as $ from 'jquery';
 import * as d3 from 'd3';
 import socket from '../../util/socket.js';
+import { getFileList } from '../../util/storage.js';
+
 //常量
 const width = 6;
 
@@ -11,7 +13,7 @@ var batteryName, batteryX, batteryY, inputX, inputY, outputX, outputY;
 var currPath, tempX, tempY;
 
 //用于输出的battery 和 用于接收的battry的 path
-var outputBatteryPath, inputBatteryPath;
+var inputId, outputId;
 
 //获取battery元素的坐标信息
 function getPos(that) {
@@ -51,13 +53,10 @@ function curveTo(x1, y1, x4, y4) {
     }
     return `M${x1} ${y1} C${x2} ${y1}, ${x3} ${y4}, ${x4} ${y4}`;
 }
-//获取battery的名字并格式化 用于className
-function formatToClass(that) {
-    var name = $(that).siblings('p').text() || $(that).children('p').text();
-    if (typeof name === 'string') {
-        name = name.replace(/^\s*/, '').replace(/\s*&/, '').replace('/', '_').replace('.', '-');
-    }
-    return name;
+
+//获取battery的id
+function getId(that) {
+    return $(that).attr('id') || $(that).parents('.battery').attr('id');
 }
 //生成路径文字
 function pathText(id, texts) {
@@ -92,11 +91,10 @@ function batteryDown(event) {
     var startX = $(that).offset().left;
     var startY = $(that).offset().top;
 
-    batteryName = formatToClass(that);
+    var batteryId = getId(that);
 
-    //var outputPaths = d3.selectAll(`#svg .${batteryName}_output`);
-    //battery的input端
-    var inputPaths = $(`#svg .${batteryName}_input`);
+    //battery的input端path
+    var inputPaths = $(`path[input=${batteryId}]`);
     var inputPathsSize = inputPaths.length;
 
     var pathsInputM = [];
@@ -105,8 +103,8 @@ function batteryDown(event) {
             pathsInputM.push(elem.getAttribute('start'));
         })
     }
-    //battery的output端
-    var outputPaths = $(`#svg .${batteryName}_output`);
+    //battery的output端path
+    var outputPaths = $(`path[output=${batteryId}]`);
     var outputPathsSize = outputPaths.length;
 
     var pathsOutputM = [];
@@ -120,6 +118,7 @@ function batteryDown(event) {
         getPos(that);
         var moveX = event.clientX;
         var moveY = event.clientY;
+        //渲染battery及其输入端，输出端的path
         inputPaths.each((index, elem) => {
             var inputM = pathsInputM[index].split(',');
             elem.setAttribute('d', curveTo(inputM[0], inputM[1], inputX, inputY));
@@ -144,25 +143,36 @@ function inputUp(event) {
     event.stopPropagation();
     var that = this;
 
-    var className = inputBatteryPath = formatToClass(that);
+    inputId = getId(that);
 
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
 
     if (tempX && tempY && currPath) {
         currPath.attr('d', curveTo(tempX, tempY, inputX, inputY));
-        var name = currPath.attr('class');
-        var id = 'mypath';
-        currPath.attr('class', `${name} ${className}_input`).attr('end', `${inputX},${inputY}`).attr('id', id);
+        const id = outputId + inputId;
+        currPath.attr('input', inputId).attr('end', `${inputX},${inputY}`).attr('id', id);
 
+
+
+        let fromPath, toPath;
+        var List = getFileList();
+        List.forEach(item => {
+            if (item.id === outputId) {
+                fromPath = { dir: item.dir, name: item.name };
+            }
+            if (item.id === inputId) {
+                toPath = { dir: item.dir, name: item.name };
+            }
+        })
+        socket.emit('build-relation', { fromPath, toPath });
         //生成路径文字
-        const text = `${className} from ${name}`.replace('_output', '');
-        pathText(`#${id}`, text);
-
-        socket.emit('build-relation', { outputBatteryPath, inputBatteryPath });
+        const fromText = fromPath.dir ? `${fromPath.dir}/${fromPath.name}` : fromPath.name;
+        const toText = toPath.dir ? `${toPath.dir}/${toPath.name}` : toPath.name;
+        pathText(`#${id}`, `From ${fromText} To ${toText}`);
 
         $(document).off('mousemove');
-        tempX = tempY = currPath = '';
+        tempX = tempY = currPath = inputId = outputId = '';
     }
 }
 // output mousedown
@@ -170,13 +180,13 @@ function outputDown(event) {
     event.stopPropagation();
     var that = this;
 
-    var className = outputBatteryPath = formatToClass(that);
-    console.log('outputDown:' + className);
+    outputId = getId(that);
+
     tempX = $(that).offset().left + width;
     tempY = $(that).offset().top + width;
 
     currPath = d3.select('#svg svg').append('path');
-    currPath.attr('class', `${className}_output`).attr('start', `${tempX},${tempY}`);
+    currPath.attr('output', outputId).attr('start', `${tempX},${tempY}`);
 
     $(document).on('mousemove', event => {
         currPath.attr('d', curveTo(tempX, tempY, event.clientX, event.clientY));
@@ -184,7 +194,7 @@ function outputDown(event) {
 
     $(document).on('mouseup', () => {
         currPath && currPath.remove();
-        outputBatteryPath = '';
+        inputId = outputId = '';
         $(document).off('mousemove');
         $(document).off('mouseup');
     })

@@ -1,20 +1,28 @@
 import React from 'react';
 import * as $ from 'jquery';
 import { Modal, Form, Input, Select, Icon } from 'antd';
+
+import { battery, onlyOutputBattery } from '../bat';
 import socket from '../../util/socket.js';
 import { addToList } from '../../util/storage.js';
 
 export class Content extends React.Component {
+    constructor() {
+        super();
+        socket.on('get-module', modulesNames => {
+            modulesNames.forEach(name => {
+                // 先把新建的文件保存，在返回值值中含有，id,dir,name;
+                const info = addToList('', name);
+                if (info) {
+                    $('#content .module').append(onlyOutputBattery(info));
+                }
+            })
+        })
+    }
     state = { isVisible: false, dir: [] };
     dir = '';
     filenames = [];
     render() {
-        socket.on('get-module', modulesNames => {
-            $('#content .module .only_output').remove();
-            modulesNames.forEach(name => {
-                $('#content .module').append(onlyOutputBattery(name));
-            })
-        })
         return (
             <div id="content">
                 <div className="module">
@@ -81,24 +89,4 @@ export class Content extends React.Component {
             })
         }
     }
-}
-
-function battery(info) {
-    const path = `${info.dir}/${info.name}`;
-    return (
-        `<div class="battery" id="${info.id}">
-            <p class="title" title="${path}">${path}</p>
-            <span class="input"></span>
-            <span class="output"></span>
-        </div>`
-    )
-}
-
-function onlyOutputBattery(text) {
-    return (
-        `<div class="battery only_output">
-            <p class="title" title="${text}">${text}</p>
-            <span class="output"></span>
-        </div>`
-    )
 }

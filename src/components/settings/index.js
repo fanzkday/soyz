@@ -1,5 +1,8 @@
 import React from 'react';
+import * as $ from 'jquery';
 import { Button, Modal, Form, Input, Select } from 'antd';
+
+import { battery } from '../bat';
 import socket from '../../util/socket.js';
 import { saveIn, addToList } from '../../util/storage.js';
 
@@ -44,9 +47,12 @@ export class Setting extends React.Component {
         if (this.dir && this.entry) {
             this.setState({ isVisible: false });
 
-            socket.emit('make-structure', { dir: this.dir, entry: this.entry });
+            socket.emit('make-dir', { dir: this.dir, entry: this.entry });
             saveIn('dir', this.dir);
-            addToList('entry', this.entry);
+            const info = addToList('entry', this.entry);
+            if (info) {
+                $(battery(info)).appendTo($('#content'));
+            }
         }
     }
     onChange(e) {

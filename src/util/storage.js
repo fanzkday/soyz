@@ -1,7 +1,7 @@
 
 // 获取
 export function getFileList(name) {
-    var Name = 'fileInfo' || name;
+    var Name = name || 'fileInfo';
     var List = sessionStorage.getItem(Name) || "[]";
     try {
         List = JSON.parse(List);
@@ -23,7 +23,7 @@ export function addToList(dir, name) {
         return (item.dir === dir && item.name === name);
     })
     if (!isExist) {
-        const curr = { id, dir, name };
+        const curr = { id: id, dir: dir, name: name };
         List.push(curr);
         saveIn('fileInfo', List);
         return curr;

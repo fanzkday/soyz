@@ -55,9 +55,9 @@ exports.getStructure = () => {
  * app目录下建立项目结构
  */
 exports.makeDir = structure => {
+    console.log(structure);
     //创建文件夹
-    const directory = formatPath(structure.directory).split(' ');
-    directory.forEach(name => {
+    structure.dir.forEach(name => {
         let path = `${projectPath}/${name}`;
         let isExist = fs.existsSync(path);
         if (!isExist) {
@@ -67,7 +67,7 @@ exports.makeDir = structure => {
         }
     })
     //创建文件
-    const entry = formatPath(structure.entry);
+    const entry = trim(structure.entry);
     let path = `${projectPath}/${entry}`;
     let isExist = fs.existsSync(path);
     if (!isExist) {
@@ -82,12 +82,11 @@ exports.makeDir = structure => {
  */
 exports.makeFile = obj => {
     console.log(obj);
-    if (obj.dirname && obj.filename && RegExp.test(obj.filename)) {
-        const dirname = formatPath(obj.dirname);
-        const filenames = formatPath(obj.filename).split(' ');
+    if (obj.dir && Array.isArray(obj.filename)) {
+        const dir = trim(obj.dir);
 
-        filenames.forEach(name => {
-            const path = `${projectPath}/${dirname}/${name}`;
+        obj.filename.forEach(name => {
+            const path = `${projectPath}/${dir}/${name}`;
             newFile(path);
         })
     }
@@ -98,37 +97,38 @@ exports.makeFile = obj => {
  */
 exports.buildRelations = relation => {
     console.log(relation);
-    if (typeof relation === 'object' && relation.outputBatteryPath && relation.inputBatteryPath) {
+    if (typeof relation === 'object' && relation.fromPath && relation.toPath) {
 
-        const fromPath = `${projectPath}/${formatPath(relation.inputBatteryPath)}`;
-        const toPath = formatPath(relation.outputBatteryPath);
+        var fromPath, toPath;
+        if (!relation.fromPath.dir) {
+            toPath = `${projectPath}/${relation.toPath.dir}/${relation.toPath.name}`;
 
-        if (toPath.indexOf('/') === -1) {
-            const name = upperFirstLetter(toPath);
-            const line = `import * as ${name} from '${toPath}';\r\n`;
-            const isExist = fs.existsSync(fromPath);
+            const name = upperFirstLetter(relation.fromPath.name);
+            const line = `import * as ${name} from '${name}';\r\n`;
+            const isExist = fs.existsSync(toPath);
             if (!isExist) return;
             try {
-                const data = fs.readFileSync(fromPath, 'utf8');
-                fs.writeFileSync(fromPath, `${line}${data}`, 'utf8');
+                const data = fs.readFileSync(toPath, 'utf8');
+                fs.writeFileSync(toPath, `${line}${data}`, 'utf8');
             } catch (e) {
                 console.log(e);
             }
-            return;
         }
-        var result = path.relative(fromPath, toPath);
-        console.log(result);
+        // var result = path.relative(fromPath, toPath);
+        // console.log(result);
     }
 }
 //字符串首字母大写
 function upperFirstLetter(str) {
-    if (typeof str !== 'string') return;
+    if (typeof str !== 'string')
+        return str;
     return str.replace(/^\w/, m => m.toUpperCase());
 }
-//去除空格，按约定把'_'转'/'，'-'转'.';
-function formatPath(str) {
-    if (typeof str !== 'string') return;
-    return str.replace(/^\s*/, '').replace(/\s*$/, '').replace(/_/g, '/').replace(/-/g, '.');
+//去除空格
+function trim(str) {
+    if (typeof str !== 'string')
+        return str;
+    return str.replace(/^\s*/, '').replace(/\s*$/, '');
 }
 //new file
 function newFile(path) {
