@@ -13,7 +13,7 @@ export class Content extends React.Component {
             modulesNames.forEach(name => {
                 // 先把新建的文件保存，在返回值值中含有，id,dir,name;
                 const info = addToList('', name);
-                if (info) {
+                if ($(`#${info.id}`).length === 0) {
                     $('#content .module').append(onlyOutputBattery(info));
                 }
             })
@@ -83,7 +83,7 @@ export class Content extends React.Component {
             this.filenames.forEach(name => {
                 // 先把新建的文件保存，在返回值值中含有，id,dir,name;
                 const info = addToList(this.dir, name);
-                if (info) {
+                if ($(`#${info.id}`).length === 0) {
                     $(battery(info)).appendTo($('#content'));
                 }
             })

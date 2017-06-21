@@ -55,6 +55,9 @@ body {
 .battery.entry {
   background: linear-gradient(#ffffff 5%, #00cc00);
 }
+.battery.entry:hover {
+  background: linear-gradient(#ffffff 10%, #00cc00);
+}
 .battery {
   width: 120px;
   height: 40px;
@@ -67,6 +70,9 @@ body {
   top: 100px;
   left: 100px;
   pointer-events: auto;
+}
+.battery:hover {
+  background: linear-gradient(#ffffff 15%, #ffa07a);
 }
 .battery p {
   height: 40px;
@@ -129,6 +135,7 @@ body {
   line-height: 30px;
   padding: 0 5px;
   margin: 0;
+  cursor: default;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

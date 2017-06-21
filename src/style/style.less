@@ -67,6 +67,9 @@ body {
 }
 .battery.entry{
     background: linear-gradient(#fff 5%, #00cc00);
+    &:hover{
+        background: linear-gradient(#fff 10%, #00cc00);
+    }
 }
 .battery {
     width: 120px;
@@ -80,6 +83,9 @@ body {
     top: 100px;
     left: 100px;
     pointer-events: auto;
+    &:hover{
+        background: linear-gradient(#fff 15%, lightsalmon);
+    }
     p {
         height: 40px;
         margin: 0;
@@ -112,6 +118,7 @@ body {
     width: 59px;
     border: 1px solid #999;
     border-radius: 5px;
+    
     .reload{
         height: 30px;
         line-height: 30px;
@@ -140,6 +147,7 @@ body {
             line-height: 30px;
             padding: 0 5px;
             margin: 0;
+            cursor: default;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;

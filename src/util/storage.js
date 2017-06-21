@@ -1,4 +1,4 @@
-
+import * as uuid from 'uuid/v1';
 // 获取
 export function getFileList(name) {
     var Name = name || 'fileInfo';
@@ -18,16 +18,17 @@ export function saveIn(name, data) {
 // 增加, 每次增加一个文件，并返回文件的info
 export function addToList(dir, name) {
     var List = getFileList();
-    var id = uniqueId();
-    const isExist = List.some(item => {
+    var id = `_${uuid()}`;
+    const isExistBat = List.filter(item => {
         return (item.dir === dir && item.name === name);
     })
-    if (!isExist) {
+    if (isExistBat.length === 0) {
         const curr = { id: id, dir: dir, name: name };
         List.push(curr);
         saveIn('fileInfo', List);
         return curr;
     }
+    return isExistBat[0];
 }
 // 删除
 export function removeToList(id) {
@@ -40,7 +41,6 @@ export function removeToList(id) {
     saveIn('fileInfo', List);
 }
 // 生成唯一标识符
-function uniqueId() {
-    const random = Math.ceil(Math.random() * 100);
-    return `_${new Date().getTime()}${random}${random}`;
-}
+// function uniqueId() {
+//     return `_${uuid()}`;
+// }
