@@ -104,7 +104,7 @@ exports.buildRelations = relation => {
             toPath = `${projectPath}/${relation.toPath.dir}/${relation.toPath.name}`;
 
             const name = upperFirstLetter(relation.fromPath.name);
-            const line = `import * as ${name} from '${name}';\r\n`;
+            const line = `import * as ${name} from '${relation.fromPath.name}';\r\n`;
             const isExist = fs.existsSync(toPath);
             if (!isExist) return;
             try {

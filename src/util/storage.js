@@ -41,5 +41,6 @@ export function removeToList(id) {
 }
 // 生成唯一标识符
 function uniqueId() {
-    return `_${new Date().getTime()}`;
+    const random = Math.ceil(Math.random() * 100);
+    return `_${new Date().getTime()}${random}${random}`;
 }
