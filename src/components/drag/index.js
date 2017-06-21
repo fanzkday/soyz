@@ -46,8 +46,8 @@ function curveTo(x1, y1, x4, y4) {
         x2 = x3 = (x1 + x4) / 2;
     }
     if (x1 >= x4) {
-        x2 = x1 + (x1 + x4) / 4;
-        x3 = x4 - (x1 + x4) / 4;
+        x2 = x1 + (x1 + x4) / 5;
+        x3 = x4 - (x1 + x4) / 5;
     }
     return `M${x1} ${y1} C${x2} ${y1}, ${x3} ${y4}, ${x4} ${y4}`;
 }
@@ -59,17 +59,8 @@ function formatToClass(that) {
     }
     return name;
 }
-//获取battery的名字并格式化 用于text显示
-function formatToText(that) {
-    var name = $(that).siblings('p').text() || $(that).children('p').text();
-    if (typeof name === 'string') {
-        name = name.replace(/^\s*/, '').replace(/\s*&/, '').replace('/', '_').replace('.', '-');
-    }
-    return name;
-}
 //生成路径文字
-function pathText(id, text) {
-    console.log(typeof text, text);
+function pathText(id, texts) {
     sessionStorage.setItem('isPathText', 'is');
     const isPathText = sessionStorage.getItem('isPathText');
     if (isPathText === 'is') {
@@ -79,14 +70,14 @@ function pathText(id, text) {
         text.append('textPath')
             .attr('startOffset', '45%')
             .attr('xlink:href', id)
-            .text(text);
+            .text(texts);
         text.append('textPath')
             .style('font-size', '15px')
             .style('fill', 'red')
             .attr('startOffset', '35%')
-            .attr('class', 'clip')
+            .attr('class', 'Cut')
             .attr('xlink:href', id)
-            .text('Clip');
+            .text('Cut');
     }
 }
 //移动battery时事件
@@ -153,20 +144,20 @@ function inputUp(event) {
     event.stopPropagation();
     var that = this;
 
-    var name = inputBatteryPath = formatToClass(that);
+    var className = inputBatteryPath = formatToClass(that);
 
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
 
     if (tempX && tempY && currPath) {
         currPath.attr('d', curveTo(tempX, tempY, inputX, inputY));
-        var className = currPath.attr('class');
+        var name = currPath.attr('class');
         var id = 'mypath';
-        currPath.attr('class', `${className} ${name}_input`).attr('end', `${inputX},${inputY}`).attr('id', id);
+        currPath.attr('class', `${name} ${className}_input`).attr('end', `${inputX},${inputY}`).attr('id', id);
 
         //生成路径文字
-        const text = `${name} from ${className}`.replace('_output', '');
-        pathText(`#${id}`, 'text');
+        const text = `${className} from ${name}`.replace('_output', '');
+        pathText(`#${id}`, text);
 
         socket.emit('build-relation', { outputBatteryPath, inputBatteryPath });
 
@@ -179,13 +170,13 @@ function outputDown(event) {
     event.stopPropagation();
     var that = this;
 
-    var name = outputBatteryPath = formatToClass(that);
-    console.log('outputDown:' + name);
+    var className = outputBatteryPath = formatToClass(that);
+    console.log('outputDown:' + className);
     tempX = $(that).offset().left + width;
     tempY = $(that).offset().top + width;
 
     currPath = d3.select('#svg svg').append('path');
-    currPath.attr('class', `${name}_output`).attr('start', `${tempX},${tempY}`);
+    currPath.attr('class', `${className}_output`).attr('start', `${tempX},${tempY}`);
 
     $(document).on('mousemove', event => {
         currPath.attr('d', curveTo(tempX, tempY, event.clientX, event.clientY));
@@ -205,7 +196,7 @@ $('body').on('mousedown', 'span.output', outputDown);
 $('body').on('mouseup', 'span.input', inputUp);
 
 // 给所有的textPath添加click事件，用于切断联系
-$('body').on('click', 'textPath.clip', e => {
+$('body').on('click', 'textPath.Cut', e => {
     const parent = $(e.target).parent('text');
     const id = parent.attr('id'); //获取的id本身就带有#号
     parent.remove();

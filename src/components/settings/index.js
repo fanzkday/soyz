@@ -1,18 +1,12 @@
 import React from 'react';
 import { Button, Modal, Form, Input, Select } from 'antd';
 import socket from '../../util/socket.js';
+import { saveIn, addToList } from '../../util/storage.js';
 
 export class Setting extends React.Component {
     state = { isVisible: false };
-    structure = new Proxy({}, {
-        set(target, key, value) {
-            value = value.replace(/^\s*/, '').replace(/\s*&/, '');
-            if (value.indexOf(';') !== -1) {
-                value = value.split(' ');
-            }
-            return target[key] = value;
-        }
-    })
+    dir = [];
+    entry = '';
     render() {
         return (
             <div id="setting">
@@ -25,7 +19,7 @@ export class Setting extends React.Component {
                 >
                     <Form>
                         <Form.Item label="目录结构(必须)：多个名称用空格分隔" hasFeedback>
-                            <Input placeholder="如: components container model route" name="directory" onBlur={this.onChange.bind(this)} />
+                            <Input defaultValue="controller model" name="dir" onBlur={this.onChange.bind(this)} />
                         </Form.Item>
                         <Form.Item label="主入口文件(必须)" hasFeedback>
                             <Input placeholder="index.js" name="entry" onBlur={this.onChange.bind(this)} />
@@ -47,13 +41,21 @@ export class Setting extends React.Component {
         this.setState({ isVisible: !this.state.isVisible });
     }
     handleOk() {
-        if (this.structure.directory && this.structure.entry) {
-            this.setState({ isVisible: !this.state.isVisible });
-            socket.emit('make-structure', this.structure);
-            sessionStorage.setItem('structure', JSON.stringify(this.structure));
+        if (this.dir && this.entry) {
+            this.setState({ isVisible: false });
+
+            socket.emit('make-structure', { dir: this.dir, entry: this.entry });
+            saveIn('dir', this.dir);
+            addToList('entry', this.entry);
         }
     }
     onChange(e) {
-        this.structure[e.target.name] = e.target.value;
+        const value = e.target.value.replace(/^\s*/, '').replace(/\s*$/, '');
+        if (!value) return;
+        if (e.target.name === 'dir') {
+            this.dir = value.split(' ');
+        } else if (e.target.name === 'entry') {
+            this.entry = value;
+        }
     }
 }

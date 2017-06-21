@@ -2,23 +2,28 @@ import React from 'react';
 import * as $ from 'jquery';
 import { Modal, Form, Input, Select, Icon } from 'antd';
 import socket from '../../util/socket.js';
+import { addToList } from '../../util/storage.js';
 
 export class Content extends React.Component {
     state = { isVisible: false, dir: [] };
-    structure = {};
+    dir = '';
+    filenames = [];
     render() {
-        socket.on('get-module', modulesName => {
+        socket.on('get-module', modulesNames => {
             $('#content .module .only_output').remove();
-            modulesName.forEach(name => {
-                $('#content .module').append(onlyOutpurBattery(name));
+            modulesNames.forEach(name => {
+                $('#content .module').append(onlyOutputBattery(name));
             })
         })
         return (
             <div id="content">
                 <div className="module">
                     <div className="reload">
-                        <div onMouseDown={this.click.bind(this)}>hello</div>
-                        <Icon type="reload" style={{ fontSize: 18, color: '#999' }} onClick={() => {socket.emit('get-module', null);}}/>
+                        <div onClick={this.click.bind(this)}>hello</div>
+                        <Icon type="reload"
+                            style={{ fontSize: 18, color: '#999' }}
+                            onClick={() => socket.emit('get-module', null)}
+                        />
                     </div>
                 </div>
                 <Modal
@@ -48,48 +53,48 @@ export class Content extends React.Component {
         )
     }
     click(e) {
-        const structure = JSON.parse(sessionStorage.getItem('structure'));
-        if (structure && structure.directory && e.button === 2) {
-            const dir = structure.directory.replace(/^\s*/, '').replace(/\s*&/, '').split(' ');
+        const dir = JSON.parse(sessionStorage.getItem('dir'));
+        if (dir) {
             this.setState({ isVisible: !this.state.isVisible, dir: dir });
         }
     }
     onChange(value) {
-        this.structure.dirname = value;
+        this.dir = value;
     }
     onBlur(e) {
-        this.structure.filename = e.target.value;
+        this.filenames = e.target.value.replace(/^\s*/, '').replace(/\s*$/, '').split(' ');
     }
     onCancel() {
-        this.setState({ isVisible: !this.state.isVisible });
+        this.setState({ isVisible: false });
     }
     handleOk() {
-        if (this.structure.dirname && this.structure.filename) {
-            this.setState({ isVisible: !this.state.isVisible });
-            socket.emit('make-file', this.structure);
-            var filenames = this.structure.filename.split(' ');
-            filenames.forEach(name => {
-                const texts = $('.battery').text();
-                var text = this.structure.dirname + '/' + name;
-                if (texts.indexOf(text) === -1) {
-                    $(battery(text)).appendTo($('#content'));
+        if (this.dir && this.filenames) {
+            this.setState({ isVisible: false });
+
+            socket.emit('make-file', { dir: this.dir, filename: this.filenames });
+            this.filenames.forEach(name => {
+                // 先把新建的文件保存，在返回值值中含有，id,dir,name;
+                const info = addToList(this.dir, name);
+                if (info) {
+                    $(battery(info)).appendTo($('#content'));
                 }
             })
         }
     }
 }
 
-function battery(text) {
+function battery(info) {
+    const path = `${info.dir}/${info.name}`;
     return (
-        `<div class="battery">
-            <p class="title" title="${text}">${text}</p>
+        `<div class="battery" id="${info.id}">
+            <p class="title" title="${path}">${path}</p>
             <span class="input"></span>
             <span class="output"></span>
         </div>`
     )
 }
 
-function onlyOutpurBattery(text) {
+function onlyOutputBattery(text) {
     return (
         `<div class="battery only_output">
             <p class="title" title="${text}">${text}</p>

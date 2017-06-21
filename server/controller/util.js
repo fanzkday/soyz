@@ -81,16 +81,15 @@ exports.makeDir = structure => {
  * 在目标文件夹下新建文件
  */
 exports.makeFile = obj => {
+    console.log(obj);
     if (obj.dirname && obj.filename && RegExp.test(obj.filename)) {
         const dirname = formatPath(obj.dirname);
-        const filename = formatPath(obj.filename);
-        const path = `${projectPath}/${dirname}/${filename}`;
-        const isExist = fs.existsSync(path);
-        if (!isExist) {
-            fs.writeFile(path, '', err => {
-                if (err) throw err;
-            })
-        }
+        const filenames = formatPath(obj.filename).split(' ');
+
+        filenames.forEach(name => {
+            const path = `${projectPath}/${dirname}/${name}`;
+            newFile(path);
+        })
     }
 }
 
@@ -100,36 +99,43 @@ exports.makeFile = obj => {
 exports.buildRelations = relation => {
     console.log(relation);
     if (typeof relation === 'object' && relation.outputBatteryPath && relation.inputBatteryPath) {
-        const fromPath =  `${projectPath}/${formatPath(relation.inputBatteryPath)}`;
+
+        const fromPath = `${projectPath}/${formatPath(relation.inputBatteryPath)}`;
         const toPath = formatPath(relation.outputBatteryPath);
+
         if (toPath.indexOf('/') === -1) {
             const name = upperFirstLetter(toPath);
             const line = `import * as ${name} from '${toPath}';\r\n`;
             const isExist = fs.existsSync(fromPath);
             if (!isExist) return;
-            fs.readFile(fromPath, 'utf8', (err, data) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                fs.writeFile(fromPath, `${line}${data}`, err => {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-                })
-            })
+            try {
+                const data = fs.readFileSync(fromPath, 'utf8');
+                fs.writeFileSync(fromPath, `${line}${data}`, 'utf8');
+            } catch (e) {
+                console.log(e);
+            }
             return;
         }
         var result = path.relative(fromPath, toPath);
         console.log(result);
     }
 }
+//字符串首字母大写
 function upperFirstLetter(str) {
     if (typeof str !== 'string') return;
     return str.replace(/^\w/, m => m.toUpperCase());
 }
+//去除空格，按约定把'_'转'/'，'-'转'.';
 function formatPath(str) {
     if (typeof str !== 'string') return;
-    return str.replace(/-/g, '/').replace(/^\s*/, '').replace(/\s*$/, '').replace(/\sjs$/, '.js');
+    return str.replace(/^\s*/, '').replace(/\s*$/, '').replace(/_/g, '/').replace(/-/g, '.');
+}
+//new file
+function newFile(path) {
+    const isExist = fs.existsSync(path);
+    if (!isExist) {
+        fs.writeFile(path, '', err => {
+            if (err) throw err;
+        })
+    }
 }
