@@ -1,6 +1,6 @@
 
 export function battery(info) {
-    const path = info.dir === 'entry' ? `entry&&${info.name}` : `${info.dir}/${info.name}`;
+    const path = info.dir === 'entry' ? `entry&${info.name}` : `${info.dir}/${info.name}`;
     const className = info.dir === 'entry' ? 'entry' : '';
     return (
         `<div class="battery ${className}" id="${info.id}">

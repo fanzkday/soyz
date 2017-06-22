@@ -13,7 +13,7 @@ body {
   font-family: 'Consolas, "Courier New", monospace, 黑体';
   height: 100%;
   overflow: auto;
-  background-color: #e5f2fb;
+  background-color: #eefcec;
   position: relative;
 }
 /*隐藏chrome的滚动条*/
@@ -32,16 +32,18 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 1px solid red;
 }
 #svg path {
-  stroke: #666;
-  stroke-width: 2;
+  stroke: #999;
+  stroke-width: 1.5;
   fill: rgba(0, 0, 0, 0);
 }
+#svg path:hover {
+  stroke-width: 1;
+}
 #svg text {
-  font-size: 12px;
-  fill: #666;
+  font-size: 10px;
+  fill: #999;
 }
 #content {
   position: absolute;
@@ -53,40 +55,39 @@ body {
   pointer-events: none;
 }
 .battery.entry {
-  background: linear-gradient(#ffffff 5%, #00cc00);
-}
-.battery.entry:hover {
-  background: linear-gradient(#ffffff 10%, #00cc00);
+  background: linear-gradient(#ffffff 5%, #9ace42 50%, #9ace42 100%);
 }
 .battery {
-  width: 120px;
-  height: 40px;
-  border: 1px solid #666;
+  width: 90px;
+  height: 35px;
+  border: 1px solid #999;
+  background: linear-gradient(#ffffff 5%, #cee87d 50%, #cee87d 100%);
   border-radius: 8px;
-  background: linear-gradient(#ffffff 5%, #ffa07a);
-  box-shadow: 0 0 6px #999;
+  box-shadow: 0 0 5px #9ace42;
   position: absolute;
   cursor: pointer;
   top: 100px;
   left: 100px;
   pointer-events: auto;
 }
-.battery:hover {
-  background: linear-gradient(#ffffff 15%, #ffa07a);
-}
 .battery p {
-  height: 40px;
+  height: 35px;
   margin: 0;
+  padding: 0 5px;
+  direction: rtl;
   line-height: 36px;
-  text-align: center;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .battery span {
   position: absolute;
   top: 50%;
   width: 12px;
   height: 12px;
-  border: 1px solid #666;
-  background-color: #eee;
+  border: 1px solid #999;
+  background-color: #eefcec;
   border-radius: 50%;
   margin-top: -6px;
 }

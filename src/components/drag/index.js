@@ -67,13 +67,13 @@ function pathText(id, texts) {
             .attr('id', id)
             .attr('dy', '-5px');
         text.append('textPath')
-            .attr('startOffset', '45%')
+            .attr('startOffset', '30%')
             .attr('xlink:href', id)
             .text(texts);
         text.append('textPath')
-            .style('font-size', '15px')
+            .style('font-size', '12px')
             .style('fill', 'red')
-            .attr('startOffset', '35%')
+            .attr('startOffset', '15%')
             .attr('class', 'Cut')
             .attr('xlink:href', id)
             .text('Cut');
@@ -169,7 +169,7 @@ function inputUp(event) {
         //生成路径文字
         const fromText = fromPath.dir ? `${fromPath.dir}/${fromPath.name}` : fromPath.name;
         const toText = toPath.dir ? `${toPath.dir}/${toPath.name}` : toPath.name;
-        pathText(`#${id}`, `From ${fromText} To ${toText}`);
+        pathText(`#${id}`, `${fromText} TO ${toText}`);
 
         $(document).off('mousemove');
         tempX = tempY = currPath = inputId = outputId = '';

@@ -4,13 +4,13 @@ const client = require('socket.io')(3030);
 const shell = require('shelljs');
 const electron = require('electron');
 
+// 整理目录结构及关系, 同步阻塞进行;
+const { generateSt } = require('./controller/relations.js');
+generateSt('app');
+
+// socket
 const { socketHandle } = require('./controller/socket.js');
-
 client.on('connection', socketHandle);
-
-//listener all files
-//const { watch } = require('./controller/util.js');
-//watch(path, client);
 
 //open client view
 //shell.exec(`${electron} ../build/index.html`, { async: true });

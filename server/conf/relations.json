@@ -1,0 +1,63 @@
+{
+    "app": {
+        "controller": {
+            "hello": {
+                "index.js": {
+                    "id": "_9bb4c630-572d-11e7-ad8f-7fc6feb14679",
+                    "input": [],
+                    "pos": {
+                        "x": 1363,
+                        "y": 175
+                    }
+                }
+            },
+            "index.js": {
+                "id": "_9bf52a90-572d-11e7-ad8f-7fc6feb14679",
+                "input": [],
+                "pos": {
+                    "x": 1296,
+                    "y": 244
+                }
+            },
+            "pre.js": {
+                "id": "_9c25fe90-572d-11e7-ad8f-7fc6feb14679",
+                "input": [],
+                "pos": {
+                    "x": 856,
+                    "y": 205
+                }
+            }
+        },
+        "index.js": {
+            "id": "_9c5217a0-572d-11e7-ad8f-7fc6feb14679",
+            "input": [],
+            "pos": {
+                "x": 265,
+                "y": 320
+            }
+        },
+        "model": {
+            "index.js": {
+                "id": "_9c9a1d20-572d-11e7-ad8f-7fc6feb14679",
+                "input": [
+                    "'antd'"
+                ],
+                "pos": {
+                    "x": 606,
+                    "y": 699
+                }
+            }
+        }
+    },
+    "devDependencies": [
+        "antd",
+        "d3",
+        "electron",
+        "jquery",
+        "react",
+        "react-dom",
+        "shelljs",
+        "socket.io",
+        "uuid"
+    ]
+}
