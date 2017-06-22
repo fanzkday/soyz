@@ -144,7 +144,8 @@ function inputUp(event) {
     var that = this;
 
     inputId = getId(that);
-
+    console.log(inputId);
+    console.log('============');
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
 
@@ -153,10 +154,9 @@ function inputUp(event) {
         const id = outputId + inputId;
         currPath.attr('input', inputId).attr('end', `${inputX},${inputY}`).attr('id', id);
 
-
-
         let fromPath, toPath;
         var List = getFileList();
+        console.log(List);
         List.forEach(item => {
             if (item.id === outputId) {
                 fromPath = { dir: item.dir, name: item.name };

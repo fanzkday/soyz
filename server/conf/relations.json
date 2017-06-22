@@ -3,61 +3,93 @@
         "controller": {
             "hello": {
                 "index.js": {
-                    "id": "_9bb4c630-572d-11e7-ad8f-7fc6feb14679",
+                    "id": "_f5888fd0-574f-11e7-a00d-d98b8def3867",
+                    "dir": "controller/hello",
                     "input": [],
                     "pos": {
-                        "x": 1363,
-                        "y": 175
+                        "x": 160,
+                        "y": 398
                     }
                 }
             },
             "index.js": {
-                "id": "_9bf52a90-572d-11e7-ad8f-7fc6feb14679",
+                "id": "_f588ddf0-574f-11e7-a00d-d98b8def3867",
+                "dir": "controller",
                 "input": [],
                 "pos": {
-                    "x": 1296,
-                    "y": 244
+                    "x": 133,
+                    "y": 536
                 }
             },
             "pre.js": {
-                "id": "_9c25fe90-572d-11e7-ad8f-7fc6feb14679",
+                "id": "_f5890500-574f-11e7-a00d-d98b8def3867",
+                "dir": "controller",
                 "input": [],
                 "pos": {
-                    "x": 856,
-                    "y": 205
+                    "x": 142,
+                    "y": 310
                 }
             }
         },
         "index.js": {
-            "id": "_9c5217a0-572d-11e7-ad8f-7fc6feb14679",
+            "id": "_f5897a30-574f-11e7-a00d-d98b8def3867",
+            "dir": "index.js",
             "input": [],
             "pos": {
-                "x": 265,
-                "y": 320
+                "x": 296,
+                "y": 358
             }
         },
         "model": {
             "index.js": {
-                "id": "_9c9a1d20-572d-11e7-ad8f-7fc6feb14679",
+                "id": "_f58a1670-574f-11e7-a00d-d98b8def3867",
+                "dir": "model",
                 "input": [
                     "'antd'"
                 ],
                 "pos": {
-                    "x": 606,
-                    "y": 699
+                    "x": 386,
+                    "y": 438
                 }
             }
         }
     },
     "devDependencies": [
-        "antd",
-        "d3",
-        "electron",
-        "jquery",
-        "react",
-        "react-dom",
-        "shelljs",
-        "socket.io",
-        "uuid"
+        {
+            "name": "antd",
+            "id": "_f5866cf0-574f-11e7-a00d-d98b8def3867"
+        },
+        {
+            "name": "d3",
+            "id": "_f5866cf1-574f-11e7-a00d-d98b8def3867"
+        },
+        {
+            "name": "electron",
+            "id": "_f5866cf2-574f-11e7-a00d-d98b8def3867"
+        },
+        {
+            "name": "jquery",
+            "id": "_f5866cf3-574f-11e7-a00d-d98b8def3867"
+        },
+        {
+            "name": "react",
+            "id": "_f5866cf4-574f-11e7-a00d-d98b8def3867"
+        },
+        {
+            "name": "react-dom",
+            "id": "_f5866cf5-574f-11e7-a00d-d98b8def3867"
+        },
+        {
+            "name": "shelljs",
+            "id": "_f5866cf6-574f-11e7-a00d-d98b8def3867"
+        },
+        {
+            "name": "socket.io",
+            "id": "_f5866cf7-574f-11e7-a00d-d98b8def3867"
+        },
+        {
+            "name": "uuid",
+            "id": "_f5866cf8-574f-11e7-a00d-d98b8def3867"
+        }
     ]
 }

@@ -7,21 +7,61 @@ import socket from '../../util/socket.js';
 import { addToList } from '../../util/storage.js';
 
 export class Content extends React.Component {
-    constructor() {
-        super();
-        socket.on('get-module', modulesNames => {
-            modulesNames.forEach(name => {
-                // 先把新建的文件保存，在返回值值中含有，id,dir,name;
-                const info = addToList('', name);
-                if ($(`#${info.id}`).length === 0) {
-                    $('#content .module').append(onlyOutputBattery(info));
-                }
-            })
-        })
-    }
+    // constructor() {
+    //     super();
+    //     socket.on('get-module', modulesNames => {
+    //         modulesNames.forEach(name => {
+    //             // 先把新建的文件保存，在返回值值中含有，id,dir,name;
+    //             const info = addToList('', name);
+    //             if ($(`#${info.id}`).length === 0) {
+    //                 $('#content .module').append(onlyOutputBattery(info));
+    //             }
+    //         })
+    //     })
+    // }
     state = { isVisible: false, dir: [] };
     dir = '';
     filenames = [];
+    componentDidMount() {
+        var data = JSON.parse(sessionStorage.getItem('relations'));
+        if (data) {
+            const dev = data.devDependencies;
+            //渲染module
+            for (var key in dev) {
+                const info = {
+                    id: dev[key].id,
+                    dir: '',
+                    name: dev[key].name
+                }
+                addToList(dev[key].id, dev[key].dir, key);
+                if ($(`#${info.id}`).length === 0) {
+                    $('#content .module').append(onlyOutputBattery(info));
+                }
+            }
+            const relations = data.app;
+            reObject(data.app);
+            function reObject(obj) {
+                for (var key in obj) {
+                    if (typeof obj[key] === 'object' && !obj[key].id) {
+                        reObject(obj[key]);
+                    }
+                    if (typeof obj[key] === 'object' && obj[key].id) {
+                        const info = {
+                            id: obj[key].id,
+                            dir: obj[key].dir,
+                            name: key
+                        }
+                        console.log(info);
+                        var result = addToList(obj[key].id, obj[key].dir, key);
+                        console.log(result);
+                        if ($(`#${info.id}`).length === 0) {
+                            $(battery(info)).css({top: obj[key].pos.y, left: obj[key].pos.x}).appendTo($('#content'));
+                        }
+                    }
+                }
+            }
+        }
+    }
     render() {
         return (
             <div id="content">

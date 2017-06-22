@@ -16,11 +16,11 @@ export function saveIn(name, data) {
     sessionStorage.setItem(name, JSON.stringify(data));
 }
 // 增加, 每次增加一个文件，并返回文件的info
-export function addToList(dir, name) {
+export function addToList(id, dir, name) {
     var List = getFileList();
-    var id = `_${uuid()}`;
+    id = id || `_${uuid()}`;
     const isExistBat = List.filter(item => {
-        return (item.dir === dir && item.name === name);
+        return (item.dir === dir && item.name === name && item.id !== id);
     })
     if (isExistBat.length === 0) {
         const curr = { id: id, dir: dir, name: name };
@@ -40,7 +40,3 @@ export function removeToList(id) {
     })
     saveIn('fileInfo', List);
 }
-// 生成唯一标识符
-// function uniqueId() {
-//     return `_${uuid()}`;
-// }

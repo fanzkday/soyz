@@ -29,12 +29,12 @@ function readdir(path) {
             var stat = fs.statSync(currPath);
 
             if (stat.isDirectory()) {
-                setJson(structure, formatPath(currPath));
+                setJson(structure, currPath);
                 readdir(currPath);
             }
             if (stat.isFile()) {
                 var modules = searchModulePath(currPath);
-                setJson(structure, formatPath(currPath), 'isFile', modules);
+                setJson(structure, currPath, 'isFile', modules);
             }
         })
     }
@@ -42,7 +42,8 @@ function readdir(path) {
 /**
  * 生成structure结构
  */
-function setJson(obj, arr, flag, modules) {
+function setJson(obj, path, flag, modules) {
+    var arr = formatPath(path);
     if (typeof obj === 'object' && Array.isArray(arr)) {
         var currAttr = obj[arr[0]];
         for (var i = 1; i < arr.length; i++) {
@@ -51,6 +52,7 @@ function setJson(obj, arr, flag, modules) {
                 currAttr[elem] = {};
                 if (flag === 'isFile') {
                     currAttr[elem].id = `_${uuid()}`;
+                    currAttr[elem].dir = path.replace('./app/', '').replace(/\/\w*\.\w*$/, '');
                     currAttr[elem].input = modules;
                     currAttr[elem].pos = {
                         x: randomPos().x,
@@ -93,7 +95,7 @@ function searchModulePath(path) {
  */
 function randomPos() {
     return {
-        x: Math.ceil(Math.random() * 1300) + 100,
-        y: Math.ceil(Math.random() * 800)
+        x: Math.ceil(Math.random() * 600) + 100,
+        y: Math.ceil(Math.random() * 600)
     }
 }

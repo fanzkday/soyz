@@ -58,7 +58,7 @@ body {
   background: linear-gradient(#ffffff 5%, #9ace42 50%, #9ace42 100%);
 }
 .battery {
-  width: 90px;
+  width: 100px;
   height: 35px;
   border: 1px solid #999;
   background: linear-gradient(#ffffff 5%, #cee87d 50%, #cee87d 100%);
