@@ -2,12 +2,13 @@ import * as $ from 'jquery';
 import * as d3 from 'd3';
 import socket from '../../util/socket.js';
 import { getFileList } from '../../util/storage.js';
+import { curveTo, pathText } from '../../util/tools.js';
 
 //常量
 const width = 6;
 
 //battery相关
-var batteryName, batteryX, batteryY, inputX, inputY, outputX, outputY;
+var batteryX, batteryY, inputX, inputY, outputX, outputY;
 
 //临时数据
 var currPath, tempX, tempY;
@@ -24,61 +25,12 @@ function getPos(that) {
     inputX = $(that).children('.input').offset().left + width;
     inputY = $(that).children('.input').offset().top + width;
 }
-//保存battery元素的坐标信息
-function savePos() {
-    const data = {
-        batteryName,
-        batteryX,
-        batteryY,
-        inputX,
-        inputY,
-        outputX,
-        outputY
-    }
-    sessionStorage.setItem('batteryInfo', JSON.stringify(data));
-}
-//计算bezier曲线点的位置
-function curveTo(x1, y1, x4, y4) {
-    x1 = Number(x1);
-    y1 = Number(y1);
-    x4 = Number(x4);
-    y4 = Number(y4);
-    var x2, x3;
-    if (x1 < x4) {
-        x2 = x3 = (x1 + x4) / 2;
-    }
-    if (x1 >= x4) {
-        x2 = x1 + (x1 + x4) / 5;
-        x3 = x4 - (x1 + x4) / 5;
-    }
-    return `M${x1} ${y1} C${x2} ${y1}, ${x3} ${y4}, ${x4} ${y4}`;
-}
 
 //获取battery的id
 function getId(that) {
     return $(that).attr('id') || $(that).parents('.battery').attr('id');
 }
-//生成路径文字
-function pathText(id, texts) {
-    sessionStorage.setItem('isPathText', 'is');
-    const isPathText = sessionStorage.getItem('isPathText');
-    if (isPathText === 'is') {
-        const text = d3.select('#svg svg').append('text')
-            .attr('id', id)
-            .attr('dy', '-5px');
-        text.append('textPath')
-            .attr('startOffset', '30%')
-            .attr('xlink:href', id)
-            .text(texts);
-        text.append('textPath')
-            .style('font-size', '12px')
-            .style('fill', 'red')
-            .attr('startOffset', '15%')
-            .attr('class', 'Cut')
-            .attr('xlink:href', id)
-            .text('Cut');
-    }
-}
+
 //移动battery时事件
 function batteryDown(event) {
     var that = this;
@@ -135,7 +87,6 @@ function batteryDown(event) {
     $(document).on('mouseup', '.battery', () => {
         $(document).off('mousemove');
         $(document).off('mouseup');
-        savePos();
     })
 }
 // input mouseup 事件
@@ -144,8 +95,6 @@ function inputUp(event) {
     var that = this;
 
     inputId = getId(that);
-    console.log(inputId);
-    console.log('============');
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
 
@@ -156,7 +105,6 @@ function inputUp(event) {
 
         let fromPath, toPath;
         var List = getFileList();
-        console.log(List);
         List.forEach(item => {
             if (item.id === outputId) {
                 fromPath = { dir: item.dir, name: item.name };
