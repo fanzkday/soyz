@@ -2,99 +2,102 @@
     "devDependencies": [
         {
             "name": "antd",
-            "id": "_87fde760-57c4-11e7-9c2e-1d90ccb965ae"
+            "id": "_18b15d90-57df-11e7-9c37-db49b637a2b1"
         },
         {
             "name": "d3",
-            "id": "_87fde761-57c4-11e7-9c2e-1d90ccb965ae"
+            "id": "_18b15d91-57df-11e7-9c37-db49b637a2b1"
         },
         {
             "name": "electron",
-            "id": "_87fde762-57c4-11e7-9c2e-1d90ccb965ae"
+            "id": "_18b15d92-57df-11e7-9c37-db49b637a2b1"
         },
         {
             "name": "jquery",
-            "id": "_87fde763-57c4-11e7-9c2e-1d90ccb965ae"
+            "id": "_18b15d93-57df-11e7-9c37-db49b637a2b1"
         },
         {
             "name": "react",
-            "id": "_87fde764-57c4-11e7-9c2e-1d90ccb965ae"
+            "id": "_18b15d94-57df-11e7-9c37-db49b637a2b1"
         },
         {
             "name": "react-dom",
-            "id": "_87fde765-57c4-11e7-9c2e-1d90ccb965ae"
+            "id": "_18b15d95-57df-11e7-9c37-db49b637a2b1"
         },
         {
             "name": "shelljs",
-            "id": "_87fde766-57c4-11e7-9c2e-1d90ccb965ae"
+            "id": "_18b15d96-57df-11e7-9c37-db49b637a2b1"
         },
         {
             "name": "socket.io",
-            "id": "_87fde767-57c4-11e7-9c2e-1d90ccb965ae"
+            "id": "_18b15d97-57df-11e7-9c37-db49b637a2b1"
         },
         {
             "name": "uuid",
-            "id": "_87fde768-57c4-11e7-9c2e-1d90ccb965ae"
+            "id": "_18b15d98-57df-11e7-9c37-db49b637a2b1"
         }
     ],
     "relations": {
         "controller": {
             "hello": {
                 "index.js": {
-                    "id": "_87fed1c0-57c4-11e7-9c2e-1d90ccb965ae",
+                    "id": "_18b29610-57df-11e7-9c37-db49b637a2b1",
                     "dir": "/app/controller/hello",
                     "input": [
                         "react"
                     ],
                     "pos": {
-                        "x": 163,
-                        "y": 14
+                        "x": 161,
+                        "y": 518
                     }
                 }
             },
             "index.js": {
-                "id": "_87ff1fe0-57c4-11e7-9c2e-1d90ccb965ae",
+                "id": "_18b2bd20-57df-11e7-9c37-db49b637a2b1",
                 "dir": "/app/controller",
                 "input": [],
                 "pos": {
-                    "x": 161,
-                    "y": 293
+                    "x": 660,
+                    "y": 278
                 }
             },
             "pre.js": {
-                "id": "_87ff46f0-57c4-11e7-9c2e-1d90ccb965ae",
+                "id": "_18b2e430-57df-11e7-9c37-db49b637a2b1",
                 "dir": "/app/controller",
                 "input": [
-                    "antd"
+                    [
+                        "model",
+                        "index.js"
+                    ]
                 ],
                 "pos": {
-                    "x": 415,
-                    "y": 28
+                    "x": 217,
+                    "y": 494
                 }
             }
         },
         "index.js": {
-            "id": "_87ff9510-57c4-11e7-9c2e-1d90ccb965ae",
+            "id": "_18b2e431-57df-11e7-9c37-db49b637a2b1",
             "dir": "/app",
             "input": [
-                "'jquery'",
-                "'antd'"
+                "jquery",
+                "antd"
             ],
             "pos": {
-                "x": 558,
-                "y": 2
+                "x": 275,
+                "y": 82
             }
         },
         "model": {
             "index.js": {
-                "id": "_87ffe330-57c4-11e7-9c2e-1d90ccb965ae",
+                "id": "_18b30b40-57df-11e7-9c37-db49b637a2b1",
                 "dir": "/app/model",
                 "input": [
-                    "'antd'"
+                    "antd"
                 ],
                 "pos": {
-                    "x": 645,
-                    "y": 341
+                    "x": 517,
+                    "y": 79
                 }
             }
         }

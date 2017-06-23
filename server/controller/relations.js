@@ -6,8 +6,11 @@ const uuid = require('uuid/v1');
 const { getDevDependencies } = require('./tools.js');
 
 const rootdir = process.cwd();
-const tempDir = 'app';  
-const DIR = `${rootdir}/${tempDir}`;
+const tempDir = 'app'; //后期可以cut
+const DIR = `${rootdir}/${tempDir}`; //后期可以cut
+
+//后缀名，目前按.js
+const extname = '.js';
 
 var structure = {
     [tempDir]: {},
@@ -88,10 +91,29 @@ function searchModulePath(path) {
         const data = fs.readFileSync(path, 'utf8');
         var allResult = data.match(/\bimport.*from.*((\'.*\')|(\".*\"))/g) || [];
         var matchResult = allResult.map(item => {
-            return item.match(/(\'.*\')|(\".*\")/)[0];
+            return item.match(/(\".*\")|(\'.*\')/)[0].replace(/"|'/g, '');
         })
-        return matchResult;
+        
+        return parseModulePath(matchResult);
     }
+}
+/**
+ * 把'../model/index[.js]'解析成 ['model', 'index.js'];
+ */
+function parseModulePath(moduleArr) {
+    if (Array.isArray(moduleArr)) {
+        const result = moduleArr.map(module => {
+            module = module.replace(/index$/, `index${extname}`);
+            const Reg = /^(\.\.\/|\.\/)/;
+            if (Reg.test(module)) {
+                return module.replace(Reg, '').split('/');
+            }
+            return module;
+        })
+        console.log(result);
+        return result;
+    }
+    return moduleArr;
 }
 
 /**
@@ -99,7 +121,7 @@ function searchModulePath(path) {
  */
 function randomPos() {
     return {
-        x: Math.ceil(Math.random() * 600) + 100,
+        x: Math.ceil(Math.random() * 600) + 50,
         y: Math.ceil(Math.random() * 600)
     }
 }

@@ -1,1 +1,1 @@
-import * as antd from "antd";
+import * as antd from "../model/index";
