@@ -1,1 +1,1 @@
-import * as 5 from '5';
+import * as react from "react";

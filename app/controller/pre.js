@@ -1,1 +1,1 @@
-import * as 8 from '8';
+import * as antd from "antd";

@@ -5,16 +5,21 @@ const fs = require('fs');
 const uuid = require('uuid/v1');
 const { getDevDependencies } = require('./tools.js');
 
+const rootdir = process.cwd();
+const tempDir = 'app';  
+const DIR = `${rootdir}/${tempDir}`;
+
 var structure = {
-    app: {},
+    [tempDir]: {},
     devDependencies: getDevDependencies()
 };
-
 /**
  * 生成文档结构和关系
  */
 exports.generateSt = path => {
-    readdir('./app');
+    readdir(DIR);
+    structure.relations = structure[tempDir];
+    delete structure[tempDir];
     fs.writeFileSync('./server/conf/relations.json', JSON.stringify(structure, null, 4));
 }
 /**
@@ -52,8 +57,8 @@ function setJson(obj, path, flag, modules) {
                 currAttr[elem] = {};
                 if (flag === 'isFile') {
                     currAttr[elem].id = `_${uuid()}`;
-                    currAttr[elem].dir = path.replace('./app/', '').replace(/\/\w*\.\w*$/, '');
-                    currAttr[elem].input = modules;
+                    currAttr[elem].dir = path.replace(rootdir, '').replace(/\/\w*\.\w*$/, '');
+                    currAttr[elem].input = modules || [];
                     currAttr[elem].pos = {
                         x: randomPos().x,
                         y: randomPos().y
@@ -70,8 +75,7 @@ function setJson(obj, path, flag, modules) {
  */
 function formatPath(path) {
     if (typeof path === 'string') {
-        console.log(path.split('/').slice(1));
-        return path.split('/').slice(1);
+        return path.replace(rootdir, '').split('/').slice(1);
     }
     return path;
 }

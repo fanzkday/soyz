@@ -6,7 +6,7 @@ const electron = require('electron');
 
 // 整理目录结构及关系, 同步阻塞进行;
 const { generateSt } = require('./controller/relations.js');
-generateSt('app');
+generateSt();
 
 // socket
 const { socketHandle } = require('./controller/socket.js');
