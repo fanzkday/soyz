@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import * as $ from 'jquery';
 import { addToList } from './storage.js';
 import { battery, onlyOutputBattery } from '../components/bat';
+
 //计算bezier曲线点的位置
 export function curveTo(x1, y1, x4, y4) {
     x1 = Number(x1);
@@ -32,7 +33,7 @@ export function pathText(id, texts) {
     text.append('textPath')
         .style('font-size', '12px')
         .style('fill', 'red')
-        .attr('startOffset', '10%')
+        .attr('startOffset', '20%')
         .attr('class', 'Cut')
         .attr('xlink:href', id)
         .text('Cut');
@@ -41,13 +42,12 @@ export function pathText(id, texts) {
  * 生成module bat
  */
 export function createModuleBat(data) {
-    const dev = data.devDependencies;
-    for (var key in dev) {
-        const info = addToList(dev[key].id, dev[key].dir, key);
+    data.devDependencies.forEach(item => {
+        const info = addToList(item.id, '', item.name);
         if ($(`#${info.id}`).length === 0) {
             $('#content .module').append(onlyOutputBattery(info));
         }
-    }
+    })
 }
 /**
  * 根据数据生成bat

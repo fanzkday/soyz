@@ -8,7 +8,7 @@ import { curveTo, pathText } from '../../util/tools.js';
 const width = 6;
 
 //battery相关
-var batteryX, batteryY, inputX, inputY, outputX, outputY;
+var inputX, inputY, outputX, outputY;
 
 //临时数据
 var currPath, tempX, tempY;
@@ -18,8 +18,6 @@ var inputId, outputId;
 
 //获取battery元素的坐标信息
 function getPos(that) {
-    batteryX = $(that).offset().left;
-    batteryY = $(that).offset().top;
     outputX = $(that).children('.output').offset().left + width;
     outputY = $(that).children('.output').offset().top + width;
     inputX = $(that).children('.input').offset().left + width;

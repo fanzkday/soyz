@@ -3,7 +3,10 @@ const { getDevDependencies } = require('./tools.js');
 
 exports.socketHandle = socket => {
     //服务器主动推送数据
-    socket.emit('init', require('../conf/relations.json'));
+    socket.on('init', () => {
+        socket.emit('init', require('../conf/relations.json'));
+    })
+    
     //建立项目目录结构
     socket.on('make-structure', structure => {
         if (structure && typeof structure === 'object') {

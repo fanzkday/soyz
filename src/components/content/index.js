@@ -2,7 +2,7 @@ import React from 'react';
 import * as $ from 'jquery';
 import { Modal, Form, Input, Select, Icon } from 'antd';
 
-import { battery, onlyOutputBattery } from '../bat';
+import { battery } from '../bat';
 import socket from '../../util/socket.js';
 import { addToList } from '../../util/storage.js';
 import { createModuleBat, reObject, reRelations } from '../../util/tools.js';
@@ -13,14 +13,17 @@ export class Content extends React.Component {
     dir = '';
     filenames = [];
     componentDidMount() {
-        var data = JSON.parse(sessionStorage.getItem('relations'));
-        if (data) {
-            //渲染module
-            createModuleBat(data);
-            //渲染Bat和relations
-            reObject(data.relations);
-            reRelations(data.relations, data.devDependencies);
-        }
+        socket.emit('init', null);
+        socket.on('init', data => {
+            if (data) {
+                sessionStorage.setItem('relations', JSON.stringify(data));
+                //渲染module
+                createModuleBat(data);
+                //渲染Bat和relations
+                reObject(data.relations);
+                reRelations(data.relations, data.devDependencies);
+            }
+        })
     }
     render() {
         return (
