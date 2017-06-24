@@ -2,102 +2,255 @@
     "devDependencies": [
         {
             "name": "antd",
-            "id": "_6170dcc0-57f5-11e7-aaff-ddffdc47678d"
+            "id": "_d50490d0-58c4-11e7-8b3c-93f08afd7562"
         },
         {
             "name": "d3",
-            "id": "_6170dcc1-57f5-11e7-aaff-ddffdc47678d"
+            "id": "_d504b7e0-58c4-11e7-8b3c-93f08afd7562"
         },
         {
             "name": "electron",
-            "id": "_6170dcc2-57f5-11e7-aaff-ddffdc47678d"
+            "id": "_d504b7e1-58c4-11e7-8b3c-93f08afd7562"
         },
         {
             "name": "jquery",
-            "id": "_6170dcc3-57f5-11e7-aaff-ddffdc47678d"
+            "id": "_d504b7e2-58c4-11e7-8b3c-93f08afd7562"
         },
         {
             "name": "react",
-            "id": "_6170dcc4-57f5-11e7-aaff-ddffdc47678d"
+            "id": "_d504b7e3-58c4-11e7-8b3c-93f08afd7562"
         },
         {
             "name": "react-dom",
-            "id": "_6170dcc5-57f5-11e7-aaff-ddffdc47678d"
+            "id": "_d504b7e4-58c4-11e7-8b3c-93f08afd7562"
         },
         {
             "name": "shelljs",
-            "id": "_6170dcc6-57f5-11e7-aaff-ddffdc47678d"
+            "id": "_d504b7e5-58c4-11e7-8b3c-93f08afd7562"
         },
         {
             "name": "socket.io",
-            "id": "_6170dcc7-57f5-11e7-aaff-ddffdc47678d"
+            "id": "_d504b7e6-58c4-11e7-8b3c-93f08afd7562"
         },
         {
             "name": "uuid",
-            "id": "_6170dcc8-57f5-11e7-aaff-ddffdc47678d"
+            "id": "_d504b7e7-58c4-11e7-8b3c-93f08afd7562"
         }
     ],
     "relations": {
-        "controller": {
-            "hello": {
+        "components": {
+            "bat": {
                 "index.js": {
-                    "id": "_6171c720-57f5-11e7-aaff-ddffdc47678d",
-                    "dir": "/app/controller/hello",
+                    "id": "_d5050600-58c4-11e7-8b3c-93f08afd7562",
+                    "dir": "/src/components/bat",
+                    "input": [],
+                    "pos": {
+                        "x": 637,
+                        "y": 544
+                    }
+                }
+            },
+            "content": {
+                "index.js": {
+                    "id": "_d5050601-58c4-11e7-8b3c-93f08afd7562",
+                    "dir": "/src/components/content",
                     "input": [
-                        "react"
+                        "react",
+                        "jquery",
+                        "antd",
+                        [
+                            "components",
+                            "bat"
+                        ],
+                        [
+                            "util",
+                            "socket.js"
+                        ],
+                        [
+                            "util",
+                            "storage.js"
+                        ],
+                        [
+                            "util",
+                            "tools.js"
+                        ]
                     ],
                     "pos": {
-                        "x": 317,
-                        "y": 408
+                        "x": 517,
+                        "y": 441
+                    }
+                }
+            },
+            "drag": {
+                "index.js": {
+                    "id": "_d5052d10-58c4-11e7-8b3c-93f08afd7562",
+                    "dir": "/src/components/drag",
+                    "input": [
+                        "jquery",
+                        "d3",
+                        [
+                            "util",
+                            "socket.js"
+                        ],
+                        [
+                            "util",
+                            "storage.js"
+                        ],
+                        [
+                            "util",
+                            "tools.js"
+                        ]
+                    ],
+                    "pos": {
+                        "x": 640,
+                        "y": 331
                     }
                 }
             },
             "index.js": {
-                "id": "_61721540-57f5-11e7-aaff-ddffdc47678d",
-                "dir": "/app/controller",
-                "input": [],
-                "pos": {
-                    "x": 394,
-                    "y": 273
-                }
-            },
-            "pre.js": {
-                "id": "_61723c50-57f5-11e7-aaff-ddffdc47678d",
-                "dir": "/app/controller",
+                "id": "_d5052d11-58c4-11e7-8b3c-93f08afd7562",
+                "dir": "/src/components",
                 "input": [
+                    "react",
                     [
-                        "model",
-                        "index.js"
+                        "components",
+                        "settings"
+                    ],
+                    [
+                        "components",
+                        "content"
+                    ],
+                    [
+                        "components",
+                        "svg"
                     ]
                 ],
                 "pos": {
-                    "x": 485,
-                    "y": 567
+                    "x": 118,
+                    "y": 32
+                }
+            },
+            "settings": {
+                "index.js": {
+                    "id": "_d5055420-58c4-11e7-8b3c-93f08afd7562",
+                    "dir": "/src/components/settings",
+                    "input": [
+                        "react",
+                        "jquery",
+                        "antd",
+                        [
+                            "components",
+                            "bat"
+                        ],
+                        [
+                            "util",
+                            "socket.js"
+                        ],
+                        [
+                            "util",
+                            "storage.js"
+                        ]
+                    ],
+                    "pos": {
+                        "x": 343,
+                        "y": 341
+                    }
+                }
+            },
+            "svg": {
+                "index.js": {
+                    "id": "_d5055421-58c4-11e7-8b3c-93f08afd7562",
+                    "dir": "/src/components/svg",
+                    "input": [
+                        "react"
+                    ],
+                    "pos": {
+                        "x": 495,
+                        "y": 354
+                    }
                 }
             }
         },
         "index.js": {
-            "id": "_61728a70-57f5-11e7-aaff-ddffdc47678d",
-            "dir": "/app",
+            "id": "_d5055422-58c4-11e7-8b3c-93f08afd7562",
+            "dir": "/src",
             "input": [
-                "jquery",
-                "antd"
+                "react",
+                "react-dom",
+                [
+                    "components"
+                ]
             ],
             "pos": {
-                "x": 564,
-                "y": 65
+                "x": 254,
+                "y": 17
             }
         },
-        "model": {
-            "index.js": {
-                "id": "_6172b180-57f5-11e7-aaff-ddffdc47678d",
-                "dir": "/app/model",
+        "style": {
+            "style.css": {
+                "id": "_d5057b30-58c4-11e7-8b3c-93f08afd7562",
+                "dir": "/src/style",
+                "input": [],
+                "pos": {
+                    "x": 320,
+                    "y": 224
+                }
+            },
+            "style.less": {
+                "id": "_d5057b31-58c4-11e7-8b3c-93f08afd7562",
+                "dir": "/src/style",
+                "input": [],
+                "pos": {
+                    "x": 289,
+                    "y": 52
+                }
+            }
+        },
+        "util": {
+            "socket.js": {
+                "id": "_d5057b32-58c4-11e7-8b3c-93f08afd7562",
+                "dir": "/src/util",
                 "input": [
-                    "antd"
+                    "socket.io-client"
                 ],
                 "pos": {
-                    "x": 565,
-                    "y": 97
+                    "x": 586,
+                    "y": 452
+                }
+            },
+            "storage.js": {
+                "id": "_d5057b33-58c4-11e7-8b3c-93f08afd7562",
+                "dir": "/src/util",
+                "input": [
+                    "uuid/v1"
+                ],
+                "pos": {
+                    "x": 296,
+                    "y": 359
+                }
+            },
+            "tools.js": {
+                "id": "_d5057b34-58c4-11e7-8b3c-93f08afd7562",
+                "dir": "/src/util",
+                "input": [
+                    "d3",
+                    "jquery",
+                    [
+                        "util",
+                        "storage.js"
+                    ],
+                    [
+                        "components",
+                        "bat"
+                    ],
+                    [
+                        "components",
+                        "content"
+                    ]
+                ],
+                "pos": {
+                    "x": 147,
+                    "y": 488
                 }
             }
         }

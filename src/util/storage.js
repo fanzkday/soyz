@@ -1,7 +1,8 @@
 import * as uuid from 'uuid/v1';
+
 // 获取
 export function getFileList(name) {
-    var Name = name || 'fileInfo';
+    var Name = name || 'batList';
     var List = sessionStorage.getItem(Name) || "[]";
     try {
         List = JSON.parse(List);

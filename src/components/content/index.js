@@ -1,13 +1,16 @@
 import React from 'react';
 import * as $ from 'jquery';
-import { Modal, Form, Input, Select, Icon } from 'antd';
+import { Modal, Form, Input, Select } from 'antd';
 
 import { battery } from '../bat';
 import socket from '../../util/socket.js';
 import { addToList } from '../../util/storage.js';
 import { createModuleBat, reObject, reRelations } from '../../util/tools.js';
 
-
+var relations = {};
+export function relationData() {
+    return relations;
+}
 export class Content extends React.Component {
     state = { isVisible: false, dir: [] };
     dir = '';
@@ -15,13 +18,21 @@ export class Content extends React.Component {
     componentDidMount() {
         socket.emit('init', null);
         socket.on('init', data => {
-            if (data) {
-                sessionStorage.setItem('relations', JSON.stringify(data));
-                //渲染module
-                createModuleBat(data);
-                //渲染Bat和relations
-                reObject(data.relations);
-                reRelations(data.relations, data.devDependencies);
+            if (data && typeof data === 'object') {
+                try {
+                    //把数据保存在内存中
+                    relations = data;
+                    const posArr = [];
+                    //渲染module
+                    createModuleBat(data);
+                    //渲染Bat和relations
+                    reObject(data.relations, posArr);
+                    reRelations(data.relations, data.devDependencies);
+                    //将所有的bat的坐标信息上报服务器
+                    socket.emit('position', posArr);
+                } catch (e) {
+                    console.warn(e);
+                }
             }
         })
     }
@@ -29,13 +40,6 @@ export class Content extends React.Component {
         return (
             <div id="content">
                 <div className="module">
-                    <div className="reload">
-                        <div onClick={this.click.bind(this)}>hello</div>
-                        <Icon type="reload"
-                            style={{ fontSize: 18, color: '#999' }}
-                            onClick={() => socket.emit('get-module', null)}
-                        />
-                    </div>
                 </div>
                 <Modal
                     title="新建文件"

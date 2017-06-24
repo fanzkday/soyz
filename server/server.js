@@ -13,8 +13,8 @@ const { socketHandle } = require('./controller/socket.js');
 client.on('connection', socketHandle);
 
 //open client view
-shell.cd('./build');
-shell.exec(`electron .`, { async: true });
+//shell.cd('./build');
+//shell.exec(`${electron} .`, { async: true });
 
 //全局错误处理
 process.on('uncaughtException', err => {

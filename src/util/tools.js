@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import * as $ from 'jquery';
 import { addToList } from './storage.js';
 import { battery, onlyOutputBattery } from '../components/bat';
+import { relationData } from '../components/content';
 
 //计算bezier曲线点的位置
 export function curveTo(x1, y1, x4, y4) {
@@ -27,16 +28,15 @@ export function pathText(id, texts) {
         .attr('id', id)
         .attr('dy', '-5px');
     text.append('textPath')
-        .attr('startOffset', '25%')
+        .attr('startOffset', '45%')
         .attr('xlink:href', id)
         .text(texts);
     text.append('textPath')
-        .style('font-size', '12px')
         .style('fill', 'red')
-        .attr('startOffset', '20%')
+        .attr('startOffset', '40%')
         .attr('class', 'Cut')
         .attr('xlink:href', id)
-        .text('Cut');
+        .text('X');
 }
 /**
  * 生成module bat
@@ -52,17 +52,30 @@ export function createModuleBat(data) {
 /**
  * 根据数据生成bat
  */
-export function reObject(obj) {
+export function reObject(obj, posArr) {
     for (var key in obj) {
-        if (typeof obj[key] === 'object' && !obj[key].id) {
-            reObject(obj[key]);
+        const o = obj[key];
+        if (typeof o === 'object' && !o.id) {
+            reObject(o, posArr);
         }
-        if (typeof obj[key] === 'object' && obj[key].id) {
-            var info = addToList(obj[key].id, obj[key].dir, key);
+        if (typeof o === 'object' && o.id) {
+            var info = addToList(o.id, o.dir, key);
             if ($(`#${info.id}`).length === 0) {
-                $(battery(info)).css({ top: obj[key].pos.y, left: obj[key].pos.x }).appendTo($('#content'));
+                const x = o.pos.x ? o.pos.x : randomPos().x;
+                const y = o.pos.y ? o.pos.y : randomPos().y;
+                $(battery(info)).css({ top: y, left: x }).appendTo($('#content'));
+                posArr.push({ batteryId: o.id, currX: x, currY: y });
             }
         }
+    }
+}
+/**
+ * 生成随机的坐标
+ */
+function randomPos() {
+    return {
+        x: Math.ceil(Math.random() * 600) + 50,
+        y: Math.ceil(Math.random() * 600)
     }
 }
 /**
@@ -70,28 +83,51 @@ export function reObject(obj) {
  */
 export function reRelations(obj, dev) {
     for (var key in obj) {
-        if (typeof obj[key] === 'object' && !obj[key].id) {
-            reRelations(obj[key], dev);
+        const o = obj[key];
+        if (typeof o === 'object' && !o.id) {
+            reRelations(o, dev);
         }
-        if (typeof obj[key] === 'object' && obj[key].id) {
-            buildRelations(obj[key].input, obj[key].id, dev);
+        if (typeof o === 'object' && o.id) {
+            buildRelations(o, dev);
         }
     }
 }
-function buildRelations(inputs, inputId, dev) {
+function buildRelations(relation, dev) {
+    const inputs = relation.input;
+    const inputId = relation.id;
+    
     inputs.forEach(input => {
         if (Array.isArray(input)) {
-
+            fileToFileRelation(input, inputId);
         } else if (typeof input === 'string') {
-            //引用的为node_modules中的模块
-            for (var key in dev) {
-                if (dev[key].name === input) {
-                    const outputId = dev[key].id;
-                    createRelationPath(outputId, inputId);
-                }
-            }
+            moduleToFileRelation(dev, input, inputId);
         }
     })
+}
+function moduleToFileRelation(dev, input,inputId) {
+    //引用的为node_modules中的模块
+    for (var key in dev) {
+        if (dev[key].name === input) {
+            const outputId = dev[key].id;
+            createRelationPath(outputId, inputId);
+        }
+    }
+}
+function fileToFileRelation(input, inputId) {
+    const relations = relationData().relations;
+    var curr = relations[input[0]];
+    for (var i = 1; i < input.length; i++) {
+        const elem = input[i];
+        curr = curr[elem];
+        if (i === input.length - 1) {
+            if (curr.id) {
+                createRelationPath(curr.id, inputId);
+            } else if (curr['index.js']) {
+                createRelationPath(curr['index.js'].id, inputId);
+            }
+            
+        }
+    }
 }
 
 /**
@@ -112,6 +148,5 @@ export function createRelationPath(outputId, inputId) {
     const id = outputId + inputId;
     path.attr('input', inputId).attr('end', `${x2},${y2}`).attr('id', id);
     path.attr('d', curveTo(x1, y1, x2, y2));
-    console.log(`${fromText} TO ${toText}`);
-    pathText(`#${id}`, `${fromText} TO ${toText}`);
+    pathText(`#${id}`, `${fromText} to ${toText}`);
 }

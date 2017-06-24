@@ -63,7 +63,8 @@ function batteryDown(event) {
             pathsOutputM.push(elem.getAttribute('end'));
         })
     }
-
+    // 移动bat时，当前的坐标
+    var currX, currY;
     $(document).on('mousemove', event => {
         getPos(that);
         var moveX = event.clientX;
@@ -79,12 +80,16 @@ function batteryDown(event) {
             elem.setAttribute('d', curveTo(outputX, outputY, outputM[0], outputM[1]));
             elem.setAttribute('start', `${outputX},${outputY}`);
         })
+        currX = startX + moveX - downX;
+        currY = startY + moveY - downY;
         $(that).css({ top: startY + moveY - downY, left: startX + moveX - downX });
+
     })
 
     $(document).on('mouseup', '.battery', () => {
         $(document).off('mousemove');
         $(document).off('mouseup');
+        socket.emit('position', { batteryId, currX, currY });
     })
 }
 // input mouseup 事件
@@ -145,9 +150,14 @@ function outputDown(event) {
         $(document).off('mouseup');
     })
 }
-
+function editBat(event) {
+    var text = $(event.target).text().replace(/^\s*/, '').replace(/\s*$/, '');
+    console.log(text);
+    socket.emit('edit-file', text);
+}
 
 $('body').on('mousedown', 'div.battery', batteryDown);
+$('body').on('dblclick', 'div.battery', editBat);
 $('body').on('mousedown', 'span.output', outputDown);
 $('body').on('mouseup', 'span.input', inputUp);
 
