@@ -3,14 +3,11 @@ import * as $ from 'jquery';
 import { Modal, Form, Input, Select } from 'antd';
 
 import { battery } from '../bat';
+import { saveRelationData } from '../../model/relations.js';
 import socket from '../../util/socket.js';
-import { addToList } from '../../util/storage.js';
-import { createModuleBat, reObject, reRelations } from '../../util/tools.js';
+import { addToList } from '../../model/batList.js';
+import { createModuleBat, reObject, reRelations } from '../../dom/dom.js';
 
-var relations = {};
-export function relationData() {
-    return relations;
-}
 export class Content extends React.Component {
     state = { isVisible: false, dir: [] };
     dir = '';
@@ -21,7 +18,7 @@ export class Content extends React.Component {
             if (data && typeof data === 'object') {
                 try {
                     //把数据保存在内存中
-                    relations = data;
+                    saveRelationData(data);
                     const posArr = [];
                     //渲染module
                     createModuleBat(data);

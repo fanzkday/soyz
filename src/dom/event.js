@@ -1,8 +1,9 @@
 import * as $ from 'jquery';
 import * as d3 from 'd3';
-import socket from '../../util/socket.js';
-import { getFileList } from '../../util/storage.js';
-import { curveTo, pathText } from '../../util/tools.js';
+import socket from '../util/socket.js';
+import { curveTo } from '../util/tools.js';
+import { pathText } from './dom.js';
+import { getBatList } from '../model/batList.js';
 
 //常量
 const width = 6;
@@ -107,7 +108,7 @@ function inputUp(event) {
         currPath.attr('input', inputId).attr('end', `${inputX},${inputY}`).attr('id', id);
 
         let fromPath, toPath;
-        var List = getFileList();
+        var List = getBatList();
         List.forEach(item => {
             if (item.id === outputId) {
                 fromPath = { dir: item.dir, name: item.name };
@@ -158,6 +159,7 @@ function editBat(event) {
 
 $('body').on('mousedown', 'div.battery', batteryDown);
 $('body').on('dblclick', 'div.battery', editBat);
+
 $('body').on('mousedown', 'span.output', outputDown);
 $('body').on('mouseup', 'span.input', inputUp);
 

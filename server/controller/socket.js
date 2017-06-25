@@ -1,9 +1,18 @@
+const fs = require('fs');
 const shell = require('shelljs');
 const { getStructure, makeDir, makeFile, buildRelations } = require('./util.js');
 const { getDevDependencies } = require('./tools.js');
 
-const relations = require('../conf/relations.json');
+
 exports.socketHandle = socket => {
+    const relations = require('../conf/relations.json');
+    //自动保存
+    const timer = setInterval(() => {
+        fs.writeFileSync('./server/conf/relations.json', JSON.stringify(relations, null, 4));
+    }, 150000);
+    socket.on('close', () => {
+        clearInterval(timer);
+    })
     //服务器推送数据
     socket.on('init', () => {
         socket.emit('init', relations);

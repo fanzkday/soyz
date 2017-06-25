@@ -1,67 +1,66 @@
 import React from 'react';
 import * as $ from 'jquery';
-import { Button, Modal, Form, Input, Select } from 'antd';
-
-import { battery } from '../bat';
-import socket from '../../util/socket.js';
-import { saveIn, addToList } from '../../util/storage.js';
+import { Button, Modal, Form, Input, Select, Radio } from 'antd';
 
 export class Setting extends React.Component {
     state = { isVisible: false };
-    dir = [];
-    entry = '';
     render() {
         return (
             <div id="setting">
                 <Button onClick={this.click.bind(this)}>设置</Button>
                 <Modal
-                    title="项目设置"
+                    title="设置"
                     visible={this.state.isVisible}
                     onOk={this.handleOk.bind(this)}
                     onCancel={this.click.bind(this)}
                 >
                     <Form>
-                        <Form.Item label="目录结构(必须)：多个名称用空格分隔" hasFeedback>
-                            <Input defaultValue="controller model" name="dir" onBlur={this.onChange.bind(this)} />
+                        <Form.Item label="语言规范" hasFeedback>
+                            <Radio.Group onChange={this.isPathText}>
+                                <Radio value={0}>CommonJS</Radio>
+                                <Radio value={1}>ES6</Radio>
+                            </Radio.Group>
                         </Form.Item>
-                        <Form.Item label="主入口文件(必须)" hasFeedback>
-                            <Input placeholder="index.js" name="entry" onBlur={this.onChange.bind(this)} />
+                        <Form.Item label="自动保存时间(min)" hasFeedback>
+                            <Radio.Group onChange={this.isPathText}>
+                                <Radio value={5}>5</Radio>
+                                <Radio value={10}>10</Radio>
+                                <Radio value={15}>15</Radio>
+                                <Radio value={20}>20</Radio>
+                            </Radio.Group>
                         </Form.Item>
-                        <Form.Item label="其他设置" hasFeedback>
-                            <Select defaultValue="lucy">
-                                <Select.Option value="jack">Jack</Select.Option>
-                                <Select.Option value="lucy">Lucy</Select.Option>
-                                <Select.Option value="disabled">Disabled</Select.Option>
-                                <Select.Option value="Yiminghe">yiminghe</Select.Option>
-                            </Select>
+                        <Form.Item label="需要忽略的文件夹(空格分开)" hasFeedback>
+                            <Input placeholder="node_modules build" />
+                        </Form.Item>
+                        <Form.Item label="需要忽略的文件类型(空格分开)" hasFeedback>
+                            <Input placeholder="less scss md" />
+                        </Form.Item>
+                        <Form.Item label="连接线文字显示" hasFeedback>
+                            <Radio.Group onChange={this.isPathText}>
+                                <Radio value={0}>开</Radio>
+                                <Radio value={1}>关</Radio>
+                            </Radio.Group>
                         </Form.Item>
                     </Form>
                 </Modal>
             </div>
         )
     }
+    isPathText(e) {
+        const num = e.target.value;
+        if (num === 0) {
+            $('text').show();
+        } else {
+            $('text').hide();
+        }
+    }
     click() {
         this.setState({ isVisible: !this.state.isVisible });
     }
     handleOk() {
-        if (this.dir && this.entry) {
-            this.setState({ isVisible: false });
-
-            socket.emit('make-dir', { dir: this.dir, entry: this.entry });
-            saveIn('dir', this.dir);
-            const info = addToList('entry', this.entry);
-            if (info) {
-                $(battery(info)).appendTo($('#content'));
-            }
-        }
+        
     }
     onChange(e) {
-        const value = e.target.value.replace(/^\s*/, '').replace(/\s*$/, '');
-        if (!value) return;
-        if (e.target.name === 'dir') {
-            this.dir = value.split(' ');
-        } else if (e.target.name === 'entry') {
-            this.entry = value;
-        }
+        
     }
 }

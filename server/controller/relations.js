@@ -12,11 +12,14 @@ const DIR = `${rootdir}/${tempDir}`; //后期可以cut
 
 //后缀名，目前按.js
 const extname = '.js';
-
-var structure = {
-    [tempDir]: {},
-    devDependencies: getDevDependencies()
-};
+const structure = {};
+try {
+    structure = require('../conf/relations.json');
+    structure[tempDir] = structure.relations;
+} catch (e) {
+    structure[tempDir] = {};
+}
+structure.devDependencies = getDevDependencies();
 /**
  * 生成文档结构和关系
  */
@@ -36,7 +39,6 @@ function readdir(path) {
         dirList.forEach(name => {
             var currPath = `${path}/${name}`;
             var stat = fs.statSync(currPath);
-
             if (stat.isDirectory()) {
                 setJson(structure, currPath);
                 readdir(currPath);
@@ -55,22 +57,24 @@ function setJson(obj, path, flag, modules) {
     var arr = formatPath(path);
     if (typeof obj === 'object' && Array.isArray(arr)) {
         var currAttr = obj[arr[0]];
+
         for (var i = 1; i < arr.length; i++) {
             var elem = arr[i];
-            if (i === arr.length - 1) {
-                currAttr[elem] = {};
-                if (flag === 'isFile') {
+            if (i < arr.length - 1) {
+                if (!currAttr[elem]) {
+                    currAttr[elem] = {};
+                }
+            }
+            if (i === arr.length - 1 && flag === 'isFile') {
+                if (!currAttr[elem]) {
+                    currAttr[elem] = {};
                     currAttr[elem].id = `_${uuid()}`;
                     currAttr[elem].dir = path.replace(rootdir, '').replace(/\/\w*\.\w*$/, '');
                     currAttr[elem].input = modules || [];
-                    currAttr[elem].pos = {
-                        x: randomPos().x,
-                        y: randomPos().y
-                    };
+                    currAttr[elem].pos = {};
                 }
-            } else {
-                currAttr = currAttr[elem];
             }
+            currAttr = currAttr[elem];
         }
     }
 }
