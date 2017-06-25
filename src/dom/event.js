@@ -30,7 +30,7 @@ function getId(that) {
 }
 
 //移动battery时事件
-function batteryDown(event) {
+export function batteryDown(event) {
     event.stopPropagation();
     var that = this;
     //如果battery是 only_output， 不可移动；

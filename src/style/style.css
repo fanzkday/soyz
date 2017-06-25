@@ -143,3 +143,6 @@ body {
   margin: 0;
   cursor: default;
 }
+div.selected {
+  box-shadow: 0 0 15px #888;
+}

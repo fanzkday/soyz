@@ -45,7 +45,8 @@ body {
     z-index: 1000;
 }
 
-#svg, #group {
+#svg,
+#group {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -69,10 +70,12 @@ body {
         stroke-opacity: 1;
     }
 }
-#group{
+
+#group {
     z-index: 900;
     pointer-events: none;
 }
+
 // 主体content区域
 #content {
     position: absolute;
@@ -158,4 +161,8 @@ body {
             cursor: default;
         }
     }
+}
+
+div.selected {
+    box-shadow: 0 0 15px #888;
 }
