@@ -1,4 +1,3 @@
-import * as d3 from 'd3';
 
 //计算bezier曲线点的位置
 export function curveTo(x1, y1, x4, y4) {

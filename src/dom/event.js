@@ -1,5 +1,4 @@
 import * as $ from 'jquery';
-import * as d3 from 'd3';
 import socket from '../util/socket.js';
 import { curveTo } from '../util/tools.js';
 import { pathText } from './dom.js';
@@ -47,7 +46,6 @@ function batteryDown(event) {
     //battery的input端path
     var inputPaths = $(`path[input=${batteryId}]`);
     var inputPathsSize = inputPaths.length;
-
     var pathsInputM = [];
     if (inputPathsSize > 0) {
         inputPaths.each((index, elem) => {
@@ -57,7 +55,6 @@ function batteryDown(event) {
     //battery的output端path
     var outputPaths = $(`path[output=${batteryId}]`);
     var outputPathsSize = outputPaths.length;
-
     var pathsOutputM = [];
     if (outputPathsSize > 0) {
         outputPaths.each((index, elem) => {
@@ -84,9 +81,7 @@ function batteryDown(event) {
         currX = startX + moveX - downX;
         currY = startY + moveY - downY;
         $(that).css({ top: startY + moveY - downY, left: startX + moveX - downX });
-
     })
-
     $(document).on('mouseup', '.battery', () => {
         $(document).off('mousemove');
         $(document).off('mouseup');
@@ -137,7 +132,7 @@ function outputDown(event) {
     tempX = $(that).offset().left + width;
     tempY = $(that).offset().top + width;
 
-    currPath = d3.select('#svg svg').append('path');
+    currPath = $('#svg svg').append('path');
     currPath.attr('output', outputId).attr('start', `${tempX},${tempY}`);
 
     $(document).on('mousemove', event => {

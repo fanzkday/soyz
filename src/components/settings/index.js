@@ -1,6 +1,6 @@
 import React from 'react';
 import * as $ from 'jquery';
-import { Button, Modal, Form, Input, Select, Radio } from 'antd';
+import { Button, Modal, Form, Input, Radio } from 'antd';
 
 export class Setting extends React.Component {
     state = { isVisible: false };
