@@ -30,9 +30,8 @@ function getId(that) {
 }
 
 //移动battery时事件
-export function batteryDown(event) {
+export function batteryDown(that, event) {
     event.stopPropagation();
-    var that = this;
     //如果battery是 only_output， 不可移动；
     if (that.className.indexOf('only_output') !== -1) return;
     //点击点
@@ -86,7 +85,7 @@ export function batteryDown(event) {
     $(document).on('mouseup', '.battery', () => {
         $(document).off('mousemove');
         $(document).off('mouseup');
-        socket.emit('position', { batteryId, currX, currY });
+        $('.selected').removeClass('selected');
     })
 }
 // input mouseup 事件
@@ -149,11 +148,15 @@ function outputDown(event) {
 }
 function editBat(event) {
     var text = $(event.target).text().replace(/^\s*/, '').replace(/\s*$/, '');
-    console.log(text);
     socket.emit('edit-file', text);
 }
 
-$('body').on('mousedown', 'div.battery', batteryDown);
+$('body').on('mousedown', 'div.battery', event => {
+    $('.selected').each((index, elem) => {
+        batteryDown(elem, event);
+    })
+    batteryDown(event.currentTarget, event);
+});
 $('body').on('dblclick', 'div.battery', editBat);
 
 $('body').on('mousedown', 'span.output', outputDown);
