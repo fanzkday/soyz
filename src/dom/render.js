@@ -20,19 +20,23 @@ export function createModuleBat(data) {
 /**
  * 根据数据生成bat
  */
-export function reObject(obj, posArr) {
+export function createBats(obj, posArr) {
     for (var key in obj) {
         const o = obj[key];
-        if (typeof o === 'object' && !o.id) {
-            reObject(o, posArr);
-        }
-        if (typeof o === 'object' && o.id) {
-            var info = addToList(o.id, o.dir, key);
-            if ($(`#${info.id}`).length === 0) {
-                const x = o.pos.x ? o.pos.x : randomPos().x;
-                const y = o.pos.y ? o.pos.y : randomPos().y;
-                $(battery(info)).css({ top: y, left: x }).appendTo($('#content'));
-                posArr.push({ batteryId: o.id, currX: x, currY: y });
+        for (var name in o) {
+            var element = o[name];
+            if (element.hasOwnProperty('id')) {
+                const info = {
+                    id: element.id,
+                    dir: key,
+                    name: name
+                }
+                if ($(`#${info.id}`).length === 0) {
+                    const x = element.pos.x ? element.pos.x : randomPos().x;
+                    const y = element.pos.y ? element.pos.y : randomPos().y;
+                    $(battery(info)).css({ top: y, left: x }).appendTo($('#content'));
+                    //posArr.push({ batteryId: element.id, currX: x, currY: y });
+                }
             }
         }
     }
@@ -41,21 +45,23 @@ export function reObject(obj, posArr) {
 /**
  * 根据数据生成bat的关系
  */
-export function reRelations(obj, dev) {
-    for (var key in obj) {
-        const o = obj[key];
-        if (typeof o === 'object' && !o.id) {
-            reRelations(o, dev);
-        }
-        if (typeof o === 'object' && o.id) {
-            _buildRelations(o, dev);
+export function createRelations(data) {
+    const relations = data.relations;
+    const dev = data.devDependencies;
+    for (var key in relations) {
+        const o = relations[key];
+        for (var name in o) {
+            var element = o[name];
+            if (element.hasOwnProperty('id')) {
+                _buildRelations(element, dev);
+            }
         }
     }
 }
-function _buildRelations(relation, dev) {
-    const inputs = relation.input;
-    const inputId = relation.id;
-    
+function _buildRelations(element, dev) {
+    const inputs = element.input;
+    const inputId = element.id;
+
     inputs.forEach(input => {
         if (Array.isArray(input)) {
             _fileToFileRelation(input, inputId);
@@ -64,29 +70,23 @@ function _buildRelations(relation, dev) {
         }
     })
 }
-function _moduleToFileRelation(dev, input,inputId) {
+function _moduleToFileRelation(dev, input, inputId) {
     //引用的为node_modules中的模块
-    for (var key in dev) {
-        if (dev[key].name === input) {
-            const outputId = dev[key].id;
+    dev.forEach(item => {
+        if (item.name === input) {
+            const outputId = item.id;
             createRelationPath(outputId, inputId);
         }
-    }
+    })
 }
 function _fileToFileRelation(input, inputId) {
     const relations = getRelationData().relations;
-    var curr = relations[input[0]];
-    for (var i = 1; i < input.length; i++) {
-        const elem = input[i];
-        curr = curr[elem];
-        if (i === input.length - 1) {
-            if (curr.id) {
-                createRelationPath(curr.id, inputId);
-            } else if (curr['index.js']) {
-                createRelationPath(curr['index.js'].id, inputId);
-            }
-        }
-    }
+
+    const name = input[input.length - 1];
+    input.pop();
+    const dir = input.join('/');
+    const o = relations[dir][name];
+    createRelationPath(o.id, inputId);
 }
 
 /**
@@ -115,7 +115,8 @@ export function pathText(id, texts) {
     // id = outputId + inputId
     const text = d3.select('#svg svg').append('text')
         .attr('id', id)
-        .attr('dy', '-5px');
+        .attr('dy', '-5px')
+        .style('display', 'none');
     text.append('textPath')
         .attr('startOffset', '45%')
         .attr('xlink:href', id)

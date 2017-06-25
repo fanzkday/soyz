@@ -1,7 +1,7 @@
 import * as $ from 'jquery';
 import socket from '../util/socket.js';
 import { curveTo } from '../util/tools.js';
-import { pathText } from './dom.js';
+import { pathText } from './render.js';
 import { getBatList } from '../model/batList.js';
 
 //常量
@@ -31,6 +31,7 @@ function getId(that) {
 
 //移动battery时事件
 function batteryDown(event) {
+    event.stopPropagation();
     var that = this;
     //如果battery是 only_output， 不可移动；
     if (that.className.indexOf('only_output') !== -1) return;

@@ -16,13 +16,13 @@ export class Setting extends React.Component {
                 >
                     <Form>
                         <Form.Item label="语言规范" hasFeedback>
-                            <Radio.Group onChange={this.isPathText}>
-                                <Radio value={0}>CommonJS</Radio>
-                                <Radio value={1}>ES6</Radio>
+                            <Radio.Group onChange={this.isPathText} defaultValue={0}>
+                                <Radio value={0}>ES6</Radio>
+                                <Radio value={1}>CommonJS</Radio>
                             </Radio.Group>
                         </Form.Item>
                         <Form.Item label="自动保存时间(min)" hasFeedback>
-                            <Radio.Group onChange={this.isPathText}>
+                            <Radio.Group onChange={this.isPathText} defaultValue={5}>
                                 <Radio value={5}>5</Radio>
                                 <Radio value={10}>10</Radio>
                                 <Radio value={15}>15</Radio>
@@ -36,9 +36,9 @@ export class Setting extends React.Component {
                             <Input placeholder="less scss md" />
                         </Form.Item>
                         <Form.Item label="连接线文字显示" hasFeedback>
-                            <Radio.Group onChange={this.isPathText}>
-                                <Radio value={0}>开</Radio>
-                                <Radio value={1}>关</Radio>
+                            <Radio.Group onChange={this.isPathText} defaultValue={0}>
+                                <Radio value={0}>关</Radio>
+                                <Radio value={1}>开</Radio>
                             </Radio.Group>
                         </Form.Item>
                     </Form>
@@ -49,9 +49,9 @@ export class Setting extends React.Component {
     isPathText(e) {
         const num = e.target.value;
         if (num === 0) {
-            $('text').show();
+            $('text').fadeOut();
         } else {
-            $('text').hide();
+            $('text').fadeIn();
         }
     }
     click() {

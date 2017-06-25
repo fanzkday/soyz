@@ -6,7 +6,7 @@ import { battery } from '../bat';
 import { saveRelationData } from '../../model/relations.js';
 import socket from '../../util/socket.js';
 import { addToList } from '../../model/batList.js';
-import { createModuleBat, reObject, reRelations } from '../../dom/dom.js';
+import { createModuleBat, createBats, createRelations } from '../../dom/render.js';
 
 export class Content extends React.Component {
     state = { isVisible: false, dir: [] };
@@ -17,16 +17,16 @@ export class Content extends React.Component {
         socket.on('init', data => {
             if (data && typeof data === 'object') {
                 try {
-                    //把数据保存在内存中
+                    //把数据保存在model中
                     saveRelationData(data);
                     const posArr = [];
                     //渲染module
                     createModuleBat(data);
                     //渲染Bat和relations
-                    reObject(data.relations, posArr);
-                    reRelations(data.relations, data.devDependencies);
+                    createBats(data.relations, posArr);
+                    createRelations(data);
                     //将所有的bat的坐标信息上报服务器
-                    socket.emit('position', posArr);
+                    //socket.emit('position', posArr);
                 } catch (e) {
                     console.warn(e);
                 }

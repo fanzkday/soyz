@@ -40,12 +40,11 @@ function readdir(path) {
             var currPath = `${path}/${name}`;
             var stat = fs.statSync(currPath);
             if (stat.isDirectory()) {
-                setJson(structure, currPath);
                 readdir(currPath);
             }
             if (stat.isFile()) {
                 var modules = searchModulePath(currPath);
-                setJson(structure, currPath, 'isFile', modules);
+                setJson(path, name, modules);
             }
         })
     }
@@ -53,30 +52,20 @@ function readdir(path) {
 /**
  * 生成structure结构
  */
-function setJson(obj, path, flag, modules) {
-    var arr = formatPath(path);
-    if (typeof obj === 'object' && Array.isArray(arr)) {
-        var currAttr = obj[arr[0]];
-
-        for (var i = 1; i < arr.length; i++) {
-            var elem = arr[i];
-            if (i < arr.length - 1) {
-                if (!currAttr[elem]) {
-                    currAttr[elem] = {};
-                }
-            }
-            if (i === arr.length - 1 && flag === 'isFile') {
-                if (!currAttr[elem]) {
-                    currAttr[elem] = {};
-                    currAttr[elem].id = `_${uuid()}`;
-                    currAttr[elem].dir = path.replace(rootdir, '').replace(/\/\w*\.\w*$/, '');
-                    currAttr[elem].input = modules || [];
-                    currAttr[elem].pos = {};
-                }
-            }
-            currAttr = currAttr[elem];
-        }
+function setJson(path, name, modules) {
+    path = path.replace(rootdir, '').replace(`/${tempDir}`, '');
+    if (!path) {
+        path = '/entry';
     }
+    path = path.substr(1);
+    if (!structure[tempDir][path]) {
+        structure[tempDir][path] = {};
+    }
+    structure[tempDir][path][name] = {};
+    structure[tempDir][path][name].id = '_' + uuid();
+    structure[tempDir][path][name].dir = path.split('/')[1] || path.split('/')[0];
+    structure[tempDir][path][name].input = modules || [];
+    structure[tempDir][path][name].pos = {};
 }
 /**
  * 根据的提供的path，生成[]
@@ -108,12 +97,15 @@ function searchModulePath(path) {
 function parseModulePath(currPath, moduleArr) {
     if (Array.isArray(moduleArr)) {
         const result = moduleArr.map(module => {
-            module = module.replace(/index$/, `index${extname}`);
             const Reg = /^(\.\.\/|\.\/)/;
             if (Reg.test(module)) {
                 currPath = currPath.replace(/(\\|\/){1}\w*\.\w*$/, '');
-                module = module.replace(/index$/, `index${extname}`);
-                return module = path.resolve(currPath, module).replace(rootdir, '').split(/\\|\//).slice(2);
+                module = path.resolve(currPath, module);
+                const stat = fs.statSync(module);
+                if (stat.isDirectory()) {
+                    module = `${module}/index${extname}`;
+                }
+                return module.replace(rootdir, '').split(/\\|\//).slice(2);
             }
             return module;
         })
