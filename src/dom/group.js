@@ -1,6 +1,5 @@
 import * as $ from 'jquery';
 import * as d3 from 'd3';
-import { batteryDown } from './event.js';
 import { getRelationData } from '../model/relations.js';
 
 
@@ -24,6 +23,7 @@ $(document).on('mousedown', e => {
     })
 })
 
+//绘制框选范围的矩形
 function renderRect(rect, startX, startY, endX, endY) {
     const width = endX - startX;
     const height = endY - startY;
@@ -39,6 +39,7 @@ function renderRect(rect, startX, startY, endX, endY) {
     }
 }
 
+//根据框选范围，给符合条件的元素添加class
 function selectedBat(startX, startY, endX, endY) {
     const relations = getRelationData().relations;
     for (var key in relations) {

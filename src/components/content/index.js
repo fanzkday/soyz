@@ -26,7 +26,7 @@ export class Content extends React.Component {
                     createBats(data.relations, posArr);
                     createRelations(data);
                     //将所有的bat的坐标信息上报服务器
-                    //socket.emit('position', posArr);
+                    socket.emit('position', posArr);
                 } catch (e) {
                     console.warn(e);
                 }

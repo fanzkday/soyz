@@ -2,56 +2,56 @@
     "devDependencies": [
         {
             "name": "antd",
-            "id": "_eab65920-5989-11e7-839f-e3b8f450b820"
+            "id": "_b3cb10d0-59b2-11e7-bb7d-d31f6b6d7dd2"
         },
         {
             "name": "d3",
-            "id": "_eab65921-5989-11e7-839f-e3b8f450b820"
+            "id": "_b3cb10d1-59b2-11e7-bb7d-d31f6b6d7dd2"
         },
         {
             "name": "electron",
-            "id": "_eab65922-5989-11e7-839f-e3b8f450b820"
+            "id": "_b3cb10d2-59b2-11e7-bb7d-d31f6b6d7dd2"
         },
         {
             "name": "jquery",
-            "id": "_eab65923-5989-11e7-839f-e3b8f450b820"
+            "id": "_b3cb10d3-59b2-11e7-bb7d-d31f6b6d7dd2"
         },
         {
             "name": "react",
-            "id": "_eab65924-5989-11e7-839f-e3b8f450b820"
+            "id": "_b3cb10d4-59b2-11e7-bb7d-d31f6b6d7dd2"
         },
         {
             "name": "react-dom",
-            "id": "_eab65925-5989-11e7-839f-e3b8f450b820"
+            "id": "_b3cb10d5-59b2-11e7-bb7d-d31f6b6d7dd2"
         },
         {
             "name": "shelljs",
-            "id": "_eab65926-5989-11e7-839f-e3b8f450b820"
+            "id": "_b3cb10d6-59b2-11e7-bb7d-d31f6b6d7dd2"
         },
         {
             "name": "socket.io",
-            "id": "_eab65927-5989-11e7-839f-e3b8f450b820"
+            "id": "_b3cb10d7-59b2-11e7-bb7d-d31f6b6d7dd2"
         },
         {
             "name": "uuid",
-            "id": "_eab65928-5989-11e7-839f-e3b8f450b820"
+            "id": "_b3cb10d8-59b2-11e7-bb7d-d31f6b6d7dd2"
         }
     ],
     "relations": {
         "components/bat": {
             "index.js": {
-                "id": "_eab68030-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cb5ef0-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "bat",
                 "input": [],
                 "pos": {
-                    "x": 102,
-                    "y": 437
+                    "x": 239,
+                    "y": 118
                 }
             }
         },
         "components/content": {
             "index.js": {
-                "id": "_eab6f560-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cbad10-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "content",
                 "input": [
                     "react",
@@ -80,14 +80,14 @@
                     ]
                 ],
                 "pos": {
-                    "x": 1195,
-                    "y": 350
+                    "x": 299,
+                    "y": 227
                 }
             }
         },
         "components": {
             "index.js": {
-                "id": "_eab74380-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cbad11-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "components",
                 "input": [
                     "react",
@@ -103,26 +103,29 @@
                     ]
                 ],
                 "pos": {
-                    "x": 1219,
+                    "x": 415,
                     "y": 296
                 }
             }
         },
         "components/settings": {
             "index.js": {
-                "id": "_eab76a90-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cbad12-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "settings",
                 "input": [
                     "react",
                     "jquery",
                     "antd"
                 ],
-                "pos": {}
+                "pos": {
+                    "x": 131,
+                    "y": 12
+                }
             }
         },
         "dom": {
             "event.js": {
-                "id": "_eab76a91-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cbd420-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "dom",
                 "input": [
                     "jquery",
@@ -144,24 +147,28 @@
                     ]
                 ],
                 "pos": {
-                    "x": 1007,
-                    "y": 453
+                    "x": 317,
+                    "y": 486
                 }
             },
             "group.js": {
-                "id": "_eab791a0-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cbd421-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "dom",
                 "input": [
                     "jquery",
-                    "d3"
+                    "d3",
+                    [
+                        "model",
+                        "relations.js"
+                    ]
                 ],
                 "pos": {
-                    "x": 440,
-                    "y": 46
+                    "x": 99,
+                    "y": 137
                 }
             },
             "render.js": {
-                "id": "_eab7b8b0-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cbd422-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "dom",
                 "input": [
                     "d3",
@@ -185,14 +192,14 @@
                     ]
                 ],
                 "pos": {
-                    "x": 755,
-                    "y": 166
+                    "x": 97,
+                    "y": 254
                 }
             }
         },
         "entry": {
             "index.js": {
-                "id": "_eab806d0-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cbfb30-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "entry",
                 "input": [
                     "react",
@@ -203,72 +210,72 @@
                     ]
                 ],
                 "pos": {
-                    "x": 1378,
-                    "y": 568
+                    "x": 262,
+                    "y": 244
                 }
             }
         },
         "model": {
             "batList.js": {
-                "id": "_eab82de0-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cbfb31-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "model",
                 "input": [
                     "uuid/v1"
                 ],
                 "pos": {
-                    "x": 114,
-                    "y": 301
+                    "x": 623,
+                    "y": 279
                 }
             },
             "relations.js": {
-                "id": "_eab82de1-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cbfb32-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "model",
                 "input": [],
                 "pos": {
-                    "x": 163,
-                    "y": 532
+                    "x": 364,
+                    "y": 78
                 }
             }
         },
         "style": {
             "style.css": {
-                "id": "_eab82de2-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cbfb33-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "style",
                 "input": [],
                 "pos": {
-                    "x": 940,
-                    "y": 136
+                    "x": 177,
+                    "y": 39
                 }
             },
             "style.less": {
-                "id": "_eab82de3-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cbfb34-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "style",
                 "input": [],
                 "pos": {
-                    "x": 1168,
-                    "y": 102
+                    "x": 152,
+                    "y": 191
                 }
             }
         },
         "util": {
             "socket.js": {
-                "id": "_eab854f0-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cc2240-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "util",
                 "input": [
                     "socket.io-client"
                 ],
                 "pos": {
-                    "x": 556,
-                    "y": 594
+                    "x": 310,
+                    "y": 272
                 }
             },
             "tools.js": {
-                "id": "_eab854f1-5989-11e7-839f-e3b8f450b820",
+                "id": "_b3cc2241-59b2-11e7-bb7d-d31f6b6d7dd2",
                 "dir": "util",
                 "input": [],
                 "pos": {
-                    "x": 161,
-                    "y": 600
+                    "x": 278,
+                    "y": 587
                 }
             }
         }

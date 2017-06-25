@@ -19,12 +19,13 @@ exports.socketHandle = socket => {
     })
     //修改bat的pos坐标
     socket.on('position', data => {
+        console.log(data);
         if (Array.isArray(data)) {
             data.forEach(item => {
-                reObject(relations.relations, item);
+                updatePosition(relations.relations, item);
             })
         } else {
-            reObject(relations.relations, data);
+            updatePosition(relations.relations, data);
         }
     })
 
@@ -61,15 +62,15 @@ exports.socketHandle = socket => {
 }
 
 //遍历object， 修改数据
-function reObject(targetObj, option) {
-    for (var key in targetObj) {
-        const o = targetObj[key];
-        if (typeof o === 'object' && !o.hasOwnProperty('id')) {
-            reObject(o, option);
-        }
-        if (typeof o === 'object' && o.hasOwnProperty('id') && o.id == option.batteryId) {
-            o.pos.x = option.currX;
-            o.pos.y = option.currY;
+function updatePosition(relation, item) {
+    for (var key in relation) {
+        const o = relation[key];
+        for (var v in o) {
+            const element = o[v];
+            if (element.hasOwnProperty('id') && element.id === item.batteryId) {
+                element.pos.x = item.currX;
+                element.pos.y = item.currY;
+            }
         }
     }
 }

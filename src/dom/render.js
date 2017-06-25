@@ -35,7 +35,7 @@ export function createBats(obj, posArr) {
                     const x = element.pos.x ? element.pos.x : randomPos().x;
                     const y = element.pos.y ? element.pos.y : randomPos().y;
                     $(battery(info)).css({ top: y, left: x }).appendTo($('#content'));
-                    //posArr.push({ batteryId: element.id, currX: x, currY: y });
+                    posArr.push({ batteryId: element.id, currX: x, currY: y });
                 }
             }
         }
