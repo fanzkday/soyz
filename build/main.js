@@ -23,7 +23,7 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools()
 
   //open one child window
   // let child = new BrowserWindow({parent: mainWindow})

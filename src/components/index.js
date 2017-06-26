@@ -14,6 +14,11 @@ export class Main extends React.Component {
                 <div id="select">
                     <svg width="100%" height="100%"></svg>
                 </div>
+                <div id="github">
+                    <a href="https://github.com/fanzkday/VisualCode">
+                        <img src="./gihub.png" alt="github.com"/>
+                    </a>
+                </div>
             </div>
         )
     }
