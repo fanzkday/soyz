@@ -10,14 +10,14 @@ export class Main extends React.Component {
                     <svg width="100%" height="100%"></svg>
                 </div>
                 <Content></Content>
-                <Setting></Setting>
-                <div id="select">
-                    <svg width="100%" height="100%"></svg>
-                </div>
                 <div id="github">
                     <a href="https://github.com/fanzkday/VisualCode">
                         <img src="./gihub.png" alt="github.com"/>
                     </a>
+                </div>
+                <Setting></Setting>
+                <div id="select">
+                    <svg width="100%" height="100%"></svg>
                 </div>
             </div>
         )
