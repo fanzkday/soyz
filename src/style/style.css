@@ -57,6 +57,14 @@ body {
   fill-opacity: 0.2;
   stroke-opacity: 1;
 }
+#svg polygon,
+#group polygon {
+  fill: #ccc;
+  stroke: #ccc;
+  stroke-width: 30;
+  stroke-linejoin: round;
+  opacity: 0.5;
+}
 #group {
   z-index: 900;
   pointer-events: none;
@@ -78,7 +86,7 @@ body {
   height: 35px;
   border: 1px solid #999;
   background: linear-gradient(#ffffff 5%, #cee87d 50%, #cee87d 100%);
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 0 5px #9ace42;
   position: absolute;
   cursor: pointer;

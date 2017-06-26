@@ -11,7 +11,7 @@ export class Main extends React.Component {
                 </div>
                 <Content></Content>
                 <Setting></Setting>
-                <div id="group">
+                <div id="select">
                     <svg width="100%" height="100%"></svg>
                 </div>
             </div>

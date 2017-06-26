@@ -15,7 +15,7 @@ exports.socketHandle = socket => {
     })
     //服务器推送数据
     socket.on('init', () => {
-        socket.emit('init', relations);
+        //socket.emit('init', relations);
     })
     //修改bat的pos坐标
     socket.on('position', data => {

@@ -83,7 +83,7 @@ function formatPath(path) {
 function searchModulePath(path) {
     if (typeof path === 'string') {
         const data = fs.readFileSync(path, 'utf8');
-        var allResult = data.match(/\bimport.*from.*((\'.*\')|(\".*\"))/g) || [];
+        var allResult = data.match(/\bimport.*(.*|from).*((\'.*\')|(\".*\"))/g) || [];
         var matchResult = allResult.map(item => {
             return item.match(/(\".*\")|(\'.*\')/)[0].replace(/"|'/g, '');
         })
@@ -112,14 +112,4 @@ function parseModulePath(currPath, moduleArr) {
         return result;
     }
     return moduleArr;
-}
-
-/**
- * 生成随机的坐标
- */
-function randomPos() {
-    return {
-        x: Math.ceil(Math.random() * 600) + 50,
-        y: Math.ceil(Math.random() * 600)
-    }
 }

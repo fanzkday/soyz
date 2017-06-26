@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
 
-const { projectPath } = require('../conf/path.json');
+//const { projectPath } = require('../conf/path.json');
 
 var millisecond = '', RegExp = /(\.js|\.json|\.css|\.html)$/;
 /**
