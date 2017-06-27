@@ -11,7 +11,6 @@ export class Content extends React.Component {
             if (data && typeof data === 'object') {
                 //把数据保存在model中
                 saveRelationData(data);
-                console.log(data);
                 const posArr = [];
                 //渲染module
                 createModuleBat(data);

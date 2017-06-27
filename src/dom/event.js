@@ -73,12 +73,15 @@ function batteryDown(that, event) {
             var inputM = pathsInputM[index].split(',');
             elem.setAttribute('d', curveTo(inputM[0], inputM[1], inputX, inputY));
             elem.setAttribute('end', `${inputX},${inputY}`);
+            elem.setAttribute('move', 'true');
         })
         outputPaths.each((index, elem) => {
             var outputM = pathsOutputM[index].split(',');
             elem.setAttribute('d', curveTo(outputX, outputY, outputM[0], outputM[1]));
             elem.setAttribute('start', `${outputX},${outputY}`);
+            elem.setAttribute('move', 'true');
         })
+        $('path[move=true]').css({ stroke: '#888' });
         currX = startX + moveX - downX;
         currY = startY + moveY - downY;
         $(that).css({ top: startY + moveY - downY, left: startX + moveX - downX });
@@ -87,6 +90,7 @@ function batteryDown(that, event) {
         $(document).off('mousemove');
         $(document).off('mouseup');
         $('.selected').removeClass('selected');
+        $('path[move]').css({ stroke: '#ccc' }).attr('move', '');
         updatePosition(batteryId, currX, currY);
     })
 }

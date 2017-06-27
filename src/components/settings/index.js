@@ -44,6 +44,12 @@ export class Setting extends React.Component {
                                 <Radio value={1}>开</Radio>
                             </Radio.Group>
                         </Form.Item>
+                        <Form.Item label="文件路径显示" hasFeedback>
+                            <Radio.Group onChange={this.isDirPath} defaultValue={1}>
+                                <Radio value={0}>关</Radio>
+                                <Radio value={1}>开</Radio>
+                            </Radio.Group>
+                        </Form.Item>
                     </Form>
                 </Modal>
             </div>
@@ -57,11 +63,19 @@ export class Setting extends React.Component {
             $('text').fadeIn();
         }
     }
+    isDirPath(e) {
+        const num = e.target.value;
+        if (num === 0) {
+            $('.battery').children('div').fadeOut();
+        } else {
+            $('.battery').children('div').fadeIn();
+        }
+    }
     click() {
         this.setState({ isVisible: !this.state.isVisible });
     }
     handleOk() {
-        
+        this.setState({ isVisible: !this.state.isVisible });
     }
     onChange(e) {
         

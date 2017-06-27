@@ -54,8 +54,8 @@ body {
   fill: blue;
   stroke: blue;
   stroke-width: 1;
-  fill-opacity: 0.2;
-  stroke-opacity: 1;
+  fill-opacity: 0.1;
+  stroke-opacity: 0.7;
 }
 #svg polygon,
 #select polygon {
@@ -168,7 +168,7 @@ body {
   left: -2px;
   margin: 10px auto;
   box-shadow: 0 0 5px #999;
-  background: linear-gradient(#ffffff 15%, #cccccc);
+  background: linear-gradient(#eeeeee 15%, #cccccc);
 }
 .module .battery.only_output p {
   width: auto;
