@@ -2,42 +2,56 @@
  * 本文件中所有io操作都必须是同步
  */
 const fs = require('fs');
-const path = require('path');
+const Path = require('path');
 const uuid = require('uuid/v1');
+const config = require('../conf/config.json');
 const { getDependencies } = require('./tools.js');
 
+// 忽略的文件夹名字
+const ignoreDirs = config.ignoreDirs;
+// 需要匹配的文件后缀名
+const matchExtFile = config.matchExtFile;
+
+
 const rootdir = process.cwd();
-const tempDir = 'app'; //后期可以cut
-const DIR = `${rootdir}/${tempDir}`; //后期可以cut
 
-//后缀名，目前按.js
-const extname = '.js';
-const structure = {};
+var structure = {};
 try {
-    structure = require('../conf/relations.json');
-    structure[tempDir] = structure.relations;
+    var relations = fs.readFileSync('./server/conf/relations.json', 'utf8');
+    if (relations) {
+        structure = JSON.parse(relations);
+    } else {
+        structure.relations = {};
+    }
 } catch (e) {
-    structure[tempDir] = {};
+    console.log(e);
 }
-
+structure.dirList = [];
 /**
  * 生成文档结构和关系
  */
-exports.generateSt = path => {
-    getRootDir(DIR);
-    readdir(DIR);
+exports.generateSt = () => {
+    getRootDir(rootdir);
+    readdir(rootdir);
     structure.dependencies = getDependencies();
-    structure.relations = structure[tempDir];
-    delete structure[tempDir];
+
     fs.writeFileSync('./server/conf/relations.json', JSON.stringify(structure, null, 4));
 }
 /**
  * 读取根目录结构
  */
-function getRootDir(path){
+function getRootDir(path) {
     const isExist = fs.existsSync(path);
     if (isExist) {
-        structure.dirList = fs.readdirSync(path);
+        const list = fs.readdirSync(path);
+        list.forEach(name => {
+            var currPath = `${path}/${name}`;
+            var stat = fs.statSync(currPath);
+            if (stat.isDirectory() && ignoreDirs.indexOf(name) === -1 && !/^\./.test(name)) {
+                console.log(stat);
+                structure.dirList.push(name);
+            }
+        })
     }
 }
 /**
@@ -50,10 +64,10 @@ function readdir(path) {
         dirList.forEach(name => {
             var currPath = `${path}/${name}`;
             var stat = fs.statSync(currPath);
-            if (stat.isDirectory()) {
+            if (stat.isDirectory() && ignoreDirs.indexOf(name) === -1) {
                 readdir(currPath);
             }
-            if (stat.isFile()) {
+            if (stat.isFile() && matchExtFile.indexOf(Path.extname(name)) !== -1) {
                 var modules = searchModulePath(currPath);
                 setJson(path, name, modules);
             }
@@ -64,19 +78,21 @@ function readdir(path) {
  * 生成structure结构
  */
 function setJson(path, name, modules) {
-    path = path.replace(rootdir, '').replace(`/${tempDir}`, '');
+    path = path.replace(rootdir, '');
+    console.log(structure);
+    console.log(path);
     if (!path) {
         path = '/entry';
     }
     path = path.substr(1);
-    if (!structure[tempDir][path]) {
-        structure[tempDir][path] = {};
+    if (!structure.relations[path]) {
+        structure.relations[path] = {};
     }
-    structure[tempDir][path][name] = {};
-    structure[tempDir][path][name].id = '_' + uuid();
-    structure[tempDir][path][name].dir = path.split('/')[0] || path.split('/')[1];
-    structure[tempDir][path][name].input = modules || [];
-    structure[tempDir][path][name].pos = {};
+    structure.relations[path][name] = {};
+    structure.relations[path][name].id = '_' + uuid();
+    structure.relations[path][name].dir = Path.dirname(path);
+    structure.relations[path][name].input = modules || [];
+    structure.relations[path][name].pos = {};
 }
 /**
  * 根据的提供的path，生成[]
@@ -111,7 +127,7 @@ function parseModulePath(currPath, moduleArr) {
             const Reg = /^(\.\.\/|\.\/)/;
             if (Reg.test(module)) {
                 currPath = currPath.replace(/(\\|\/){1}\w*\.\w*$/, '');
-                module = path.resolve(currPath, module);
+                module = Path.resolve(currPath, module);
                 const stat = fs.statSync(module);
                 if (stat.isDirectory()) {
                     module = `${module}/index${extname}`;

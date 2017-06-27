@@ -1,7 +1,6 @@
 const fs = require('fs');
 const shell = require('shelljs');
 const { getStructure, makeDir, makeFile, buildRelations } = require('./util.js');
-const { getDevDependencies } = require('./tools.js');
 
 exports.socketHandle = socket => {
     const relations = require('../conf/relations.json');

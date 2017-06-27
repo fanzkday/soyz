@@ -4,14 +4,16 @@
     "ES6": "import.*(.*|from).*((\\'.*\\')|(\\\".*\\\"))"
   },
   "autoSaveInterval": 50000,
-  "ignoreFolders": [
+  "ignoreDirs": [
     "node_modules",
-    "build"
+    "build",
+    "public",
+    "server",
+    "src"
   ],
-  "ignoreExtnameFile": [
-    "css",
-    "less",
-    "md"
+  "matchExtFile": [
+    ".js",
+    ".css"
   ],
   "isDisplayPathText": 0
 }

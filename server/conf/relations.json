@@ -1,112 +1,103 @@
 {
-    "dirList": [
-        "controller",
-        "index.js",
-        "model"
-    ],
-    "dependencies": [
-        {
-            "name": "antd",
-            "id": "_e3365030-5afe-11e7-a1ae-1b0781f2df59"
-        },
-        {
-            "name": "d3",
-            "id": "_e3365031-5afe-11e7-a1ae-1b0781f2df59"
-        },
-        {
-            "name": "electron",
-            "id": "_e3365032-5afe-11e7-a1ae-1b0781f2df59"
-        },
-        {
-            "name": "jquery",
-            "id": "_e3365033-5afe-11e7-a1ae-1b0781f2df59"
-        },
-        {
-            "name": "react",
-            "id": "_e3365034-5afe-11e7-a1ae-1b0781f2df59"
-        },
-        {
-            "name": "react-dom",
-            "id": "_e3365035-5afe-11e7-a1ae-1b0781f2df59"
-        },
-        {
-            "name": "shelljs",
-            "id": "_e3365036-5afe-11e7-a1ae-1b0781f2df59"
-        },
-        {
-            "name": "socket.io",
-            "id": "_e3365037-5afe-11e7-a1ae-1b0781f2df59"
-        },
-        {
-            "name": "uuid",
-            "id": "_e3365038-5afe-11e7-a1ae-1b0781f2df59"
-        }
-    ],
     "relations": {
-        "controller/hello": {
+        "app/controller/hello": {
             "index.js": {
-                "id": "_e3358ce0-5afe-11e7-a1ae-1b0781f2df59",
-                "dir": "controller",
+                "id": "_60c05cf0-5b20-11e7-ae8d-359396cb5ba5",
+                "dir": "app/controller",
                 "input": [
                     "react"
                 ],
-                "pos": {
-                    "x": 217,
-                    "y": 245
-                }
+                "pos": {}
             }
         },
-        "controller": {
+        "app/controller": {
             "index.js": {
-                "id": "_e335b3f0-5afe-11e7-a1ae-1b0781f2df59",
-                "dir": "controller",
+                "id": "_60c0d220-5b20-11e7-ae8d-359396cb5ba5",
+                "dir": "app",
                 "input": [],
-                "pos": {
-                    "x": 145,
-                    "y": 549
-                }
+                "pos": {}
             },
             "pre.js": {
-                "id": "_e335db00-5afe-11e7-a1ae-1b0781f2df59",
-                "dir": "controller",
+                "id": "_60c19570-5b20-11e7-ae8d-359396cb5ba5",
+                "dir": "app",
                 "input": [
                     [
                         "model",
                         "index.js"
                     ]
                 ],
-                "pos": {
-                    "x": 392,
-                    "y": 335
-                }
+                "pos": {}
             }
         },
-        "entry": {
+        "app": {
             "index.js": {
-                "id": "_e3360210-5afe-11e7-a1ae-1b0781f2df59",
-                "dir": "entry",
+                "id": "_60c1e390-5b20-11e7-ae8d-359396cb5ba5",
+                "dir": ".",
                 "input": [
                     "jquery",
                     "antd"
                 ],
-                "pos": {
-                    "x": 566,
-                    "y": 288
-                }
+                "pos": {}
             }
         },
-        "model": {
+        "app/model": {
             "index.js": {
-                "id": "_e3362920-5afe-11e7-a1ae-1b0781f2df59",
-                "dir": "model",
+                "id": "_60c56600-5b20-11e7-ae8d-359396cb5ba5",
+                "dir": "app",
                 "input": [
                     "antd"
                 ],
-                "pos": {
-                    "x": 106,
-                    "y": 407
-                }
+                "pos": {}
+            }
+        },
+        "entry": {
+            "test.js": {
+                "id": "_60c67770-5b20-11e7-ae8d-359396cb5ba5",
+                "dir": ".",
+                "input": [],
+                "pos": {}
             }
         }
-    }
+    },
+    "dirList": [
+        "app"
+    ],
+    "dependencies": [
+        {
+            "name": "antd",
+            "id": "_60c67771-5b20-11e7-ae8d-359396cb5ba5"
+        },
+        {
+            "name": "d3",
+            "id": "_60c69e80-5b20-11e7-ae8d-359396cb5ba5"
+        },
+        {
+            "name": "electron",
+            "id": "_60c6c590-5b20-11e7-ae8d-359396cb5ba5"
+        },
+        {
+            "name": "jquery",
+            "id": "_60c6c591-5b20-11e7-ae8d-359396cb5ba5"
+        },
+        {
+            "name": "react",
+            "id": "_60c6c592-5b20-11e7-ae8d-359396cb5ba5"
+        },
+        {
+            "name": "react-dom",
+            "id": "_60c6c593-5b20-11e7-ae8d-359396cb5ba5"
+        },
+        {
+            "name": "shelljs",
+            "id": "_60c6c594-5b20-11e7-ae8d-359396cb5ba5"
+        },
+        {
+            "name": "socket.io",
+            "id": "_60c6c595-5b20-11e7-ae8d-359396cb5ba5"
+        },
+        {
+            "name": "uuid",
+            "id": "_60c6c596-5b20-11e7-ae8d-359396cb5ba5"
+        }
+    ]
 }
