@@ -3,6 +3,7 @@ import socket from '../util/socket.js';
 import { curveTo } from '../util/tools.js';
 import { pathText } from './render.js';
 import { getBatList } from '../model/batList.js';
+import { updatePosition } from '../model/relations.js';
 
 //常量
 const width = 6;
@@ -86,6 +87,7 @@ function batteryDown(that, event) {
         $(document).off('mousemove');
         $(document).off('mouseup');
         $('.selected').removeClass('selected');
+        updatePosition(batteryId, currX, currY);
     })
 }
 // input mouseup 事件

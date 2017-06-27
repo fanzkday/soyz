@@ -41,7 +41,6 @@ function renderRect(rect, startX, startY, endX, endY) {
 //根据框选范围，给符合条件的元素添加class
 function selectedBat(startX, startY, endX, endY) {
     const relations = getRelationData().relations;
-    console.log(relations);
     for (var key in relations) {
         const element = relations[key];
         const x = element.pos.x;

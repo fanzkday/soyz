@@ -7,7 +7,10 @@
             "input": [
                 "/src/model/relations.js"
             ],
-            "pos": {}
+            "pos": {
+                "x": 547,
+                "y": 556
+            }
         },
         "/src/components/content/index.js": {
             "id": "_7faf6d80-5b3f-11e7-875b-8f9305ebb83a",
@@ -19,7 +22,10 @@
                 "/src/util/socket.js",
                 "/src/dom/render.js"
             ],
-            "pos": {}
+            "pos": {
+                "x": 525,
+                "y": 48
+            }
         },
         "/src/components/index.js": {
             "id": "_7faf6d81-5b3f-11e7-875b-8f9305ebb83a",
@@ -30,7 +36,10 @@
                 "/src/components/settings/index.js",
                 "/src/components/content/index.js"
             ],
-            "pos": {}
+            "pos": {
+                "x": 145,
+                "y": 126
+            }
         },
         "/src/components/settings/index.js": {
             "id": "_7faf9490-5b3f-11e7-875b-8f9305ebb83a",
@@ -41,7 +50,10 @@
                 "jquery",
                 "antd"
             ],
-            "pos": {}
+            "pos": {
+                "x": 363,
+                "y": 333
+            }
         },
         "/src/dom/event.js": {
             "id": "_7fafbba0-5b3f-11e7-875b-8f9305ebb83a",
@@ -54,14 +66,20 @@
                 "/src/dom/render.js",
                 "/src/model/batList.js"
             ],
-            "pos": {}
+            "pos": {
+                "x": 423,
+                "y": 152
+            }
         },
         "/src/dom/group.js": {
             "id": "_7fafbba1-5b3f-11e7-875b-8f9305ebb83a",
             "dir": "/src/dom",
             "name": "group.js",
             "input": [],
-            "pos": {}
+            "pos": {
+                "x": 229,
+                "y": 173
+            }
         },
         "/src/dom/render.js": {
             "id": "_7fafe2b0-5b3f-11e7-875b-8f9305ebb83a",
@@ -75,7 +93,10 @@
                 "/src/model/batList.js",
                 "/src/util/tools.js"
             ],
-            "pos": {}
+            "pos": {
+                "x": 196,
+                "y": 224
+            }
         },
         "/src/dom/select.js": {
             "id": "_7fafe2b1-5b3f-11e7-875b-8f9305ebb83a",
@@ -86,7 +107,10 @@
                 "d3",
                 "/src/model/relations.js"
             ],
-            "pos": {}
+            "pos": {
+                "x": 114,
+                "y": 316
+            }
         },
         "/src/index.js": {
             "id": "_7fb009c0-5b3f-11e7-875b-8f9305ebb83a",
@@ -102,7 +126,10 @@
                 "antd/dist/antd.css",
                 "/src/style/style.css"
             ],
-            "pos": {}
+            "pos": {
+                "x": 334,
+                "y": 189
+            }
         },
         "/src/model/batList.js": {
             "id": "_7fb009c1-5b3f-11e7-875b-8f9305ebb83a",
@@ -111,14 +138,20 @@
             "input": [
                 "uuid/v1"
             ],
-            "pos": {}
+            "pos": {
+                "x": 101,
+                "y": 254
+            }
         },
         "/src/model/relations.js": {
             "id": "_7fb009c2-5b3f-11e7-875b-8f9305ebb83a",
             "dir": "/src/model",
             "name": "relations.js",
             "input": [],
-            "pos": {}
+            "pos": {
+                "x": 176,
+                "y": 288
+            }
         },
         "/src/util/socket.js": {
             "id": "_7fb030d0-5b3f-11e7-875b-8f9305ebb83a",
@@ -127,21 +160,30 @@
             "input": [
                 "socket.io-client"
             ],
-            "pos": {}
+            "pos": {
+                "x": 299,
+                "y": 137
+            }
         },
         "/src/util/tools.js": {
             "id": "_7fb030d1-5b3f-11e7-875b-8f9305ebb83a",
             "dir": "/src/util",
             "name": "tools.js",
             "input": [],
-            "pos": {}
+            "pos": {
+                "x": 502,
+                "y": 189
+            }
         },
         "/test.js": {
             "id": "_7fb030d2-5b3f-11e7-875b-8f9305ebb83a",
             "dir": "/",
             "name": "test.js",
             "input": [],
-            "pos": {}
+            "pos": {
+                "x": 119,
+                "y": 194
+            }
         },
         "/app/controller/hello/index.js": {
             "id": "_97ac2cc0-5b3f-11e7-91d4-21157d1aeaac",
@@ -150,14 +192,20 @@
             "input": [
                 "react"
             ],
-            "pos": {}
+            "pos": {
+                "x": 107,
+                "y": 156
+            }
         },
         "/app/controller/index.js": {
             "id": "_97ac53d0-5b3f-11e7-91d4-21157d1aeaac",
             "dir": "/app/controller",
             "name": "index.js",
             "input": [],
-            "pos": {}
+            "pos": {
+                "x": 636,
+                "y": 274
+            }
         },
         "/app/controller/pre.js": {
             "id": "_97ac53d1-5b3f-11e7-91d4-21157d1aeaac",
@@ -166,7 +214,10 @@
             "input": [
                 "/app/model/index.js"
             ],
-            "pos": {}
+            "pos": {
+                "x": 286,
+                "y": 415
+            }
         },
         "/app/index.js": {
             "id": "_97ac7ae0-5b3f-11e7-91d4-21157d1aeaac",
@@ -176,7 +227,10 @@
                 "jquery",
                 "antd"
             ],
-            "pos": {}
+            "pos": {
+                "x": 233,
+                "y": 95
+            }
         },
         "/app/model/index.js": {
             "id": "_97ac7ae1-5b3f-11e7-91d4-21157d1aeaac",
@@ -185,7 +239,10 @@
             "input": [
                 "antd"
             ],
-            "pos": {}
+            "pos": {
+                "x": 612,
+                "y": 327
+            }
         }
     },
     "dirList": [
@@ -195,39 +252,39 @@
     "dependencies": [
         {
             "name": "antd",
-            "id": "_97adb360-5b3f-11e7-91d4-21157d1aeaac"
+            "id": "_ec99b6d0-5b44-11e7-b8ea-6bc66ac72798"
         },
         {
             "name": "d3",
-            "id": "_97adb361-5b3f-11e7-91d4-21157d1aeaac"
+            "id": "_ec99b6d1-5b44-11e7-b8ea-6bc66ac72798"
         },
         {
             "name": "electron",
-            "id": "_97adb362-5b3f-11e7-91d4-21157d1aeaac"
+            "id": "_ec99b6d2-5b44-11e7-b8ea-6bc66ac72798"
         },
         {
             "name": "jquery",
-            "id": "_97adb363-5b3f-11e7-91d4-21157d1aeaac"
+            "id": "_ec99b6d3-5b44-11e7-b8ea-6bc66ac72798"
         },
         {
             "name": "react",
-            "id": "_97adb364-5b3f-11e7-91d4-21157d1aeaac"
+            "id": "_ec99b6d4-5b44-11e7-b8ea-6bc66ac72798"
         },
         {
             "name": "react-dom",
-            "id": "_97adb365-5b3f-11e7-91d4-21157d1aeaac"
+            "id": "_ec99b6d5-5b44-11e7-b8ea-6bc66ac72798"
         },
         {
             "name": "shelljs",
-            "id": "_97adb366-5b3f-11e7-91d4-21157d1aeaac"
+            "id": "_ec99b6d6-5b44-11e7-b8ea-6bc66ac72798"
         },
         {
             "name": "socket.io",
-            "id": "_97adb367-5b3f-11e7-91d4-21157d1aeaac"
+            "id": "_ec99b6d7-5b44-11e7-b8ea-6bc66ac72798"
         },
         {
             "name": "uuid",
-            "id": "_97adb368-5b3f-11e7-91d4-21157d1aeaac"
+            "id": "_ec99b6d8-5b44-11e7-b8ea-6bc66ac72798"
         }
     ]
 }
