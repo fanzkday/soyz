@@ -41,16 +41,14 @@ function renderRect(rect, startX, startY, endX, endY) {
 //根据框选范围，给符合条件的元素添加class
 function selectedBat(startX, startY, endX, endY) {
     const relations = getRelationData().relations;
+    console.log(relations);
     for (var key in relations) {
-        const o = relations[key];
-        for (var item in o) {
-            const elem = o[item];
-            const x = elem.pos.x;
-            const y = elem.pos.y;
-            if ((x > startX && x < endX) || (x < startX && x > endX)) {
-                if ((y > startY && y < endY) || (y < startY && y > endY)) {
-                    $(`#${elem.id}`).addClass('selected');
-                }
+        const element = relations[key];
+        const x = element.pos.x;
+        const y = element.pos.y;
+        if ((x > startX && x < endX) || (x < startX && x > endX)) {
+            if ((y > startY && y < endY) || (y < startY && y > endY)) {
+                $(`#${element.id}`).addClass('selected');
             }
         }
     }

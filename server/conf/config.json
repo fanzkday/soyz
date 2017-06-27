@@ -1,19 +1,12 @@
 {
-  "standard": {
-    "CommonJs": "",
-    "ES6": "import.*(.*|from).*((\\'.*\\')|(\\\".*\\\"))"
-  },
+  "standard": "import.*(.*|from).*((\\'.*\\')|(\\\".*\\\"))",
   "autoSaveInterval": 50000,
   "ignoreDirs": [
     "node_modules",
     "build",
     "public",
-    "server",
-    "src"
+    "server"
   ],
-  "matchExtFile": [
-    ".js",
-    ".css"
-  ],
+  "extname": ".js",
   "isDisplayPathText": 0
 }

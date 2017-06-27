@@ -1,24 +1,23 @@
 import { getRelationData } from '../../model/relations.js';
 
 export function battery(info) {
-    var path = (info.dir === 'entry') ? `Entry/${info.name}` : `${info.dir}/${info.name}`;
-    const className = (info.dir === 'entry') ? 'entry' : '';
-    const name = path.substring(path.lastIndexOf('/') + 1);
-    path = path.substring(0, path.lastIndexOf('/') + 1);
-
+    var path = (info.dir === '/') ? `/Entry/${info.name}` : `${info.dir}/${info.name}`;
+    const className = (info.dir === '/') ? 'entry' : '';
+    
+    const currDir = info.dir.split('/')[1];
     const dirList = getRelationData().dirList;
 
     var colorClass = '';
     dirList && dirList.forEach((dir, index) => {
-        if (info.dir === dir) {
+        if (currDir === dir) {
             colorClass = `_${index}`;
         }
     });
 
     return (
         `<div class="battery ${className} ${colorClass}" id="${info.id}">
-            <div>${path}</div>
-            <p class="title" title="${name}">${name}</p>
+            <div>${path.substr(1)}</div>
+            <p class="title" title="${info.name}">${info.name}</p>
             <span class="input"></span>
             <span class="output"></span>
         </div>`

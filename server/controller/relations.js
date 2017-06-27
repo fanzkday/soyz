@@ -10,8 +10,9 @@ const { getDependencies } = require('./tools.js');
 // 忽略的文件夹名字
 const ignoreDirs = config.ignoreDirs;
 // 需要匹配的文件后缀名
-const matchExtFile = config.matchExtFile;
-
+const extname = config.extname;
+// 需要匹配的文件后缀名
+const standard = config.standard;
 
 const rootdir = process.cwd();
 
@@ -26,15 +27,15 @@ try {
 } catch (e) {
     console.log(e);
 }
-structure.dirList = [];
+
 /**
  * 生成文档结构和关系
  */
 exports.generateSt = () => {
+    structure.dirList = [];
     getRootDir(rootdir);
     readdir(rootdir);
     structure.dependencies = getDependencies();
-
     fs.writeFileSync('./server/conf/relations.json', JSON.stringify(structure, null, 4));
 }
 /**
@@ -48,7 +49,6 @@ function getRootDir(path) {
             var currPath = `${path}/${name}`;
             var stat = fs.statSync(currPath);
             if (stat.isDirectory() && ignoreDirs.indexOf(name) === -1 && !/^\./.test(name)) {
-                console.log(stat);
                 structure.dirList.push(name);
             }
         })
@@ -67,9 +67,9 @@ function readdir(path) {
             if (stat.isDirectory() && ignoreDirs.indexOf(name) === -1) {
                 readdir(currPath);
             }
-            if (stat.isFile() && matchExtFile.indexOf(Path.extname(name)) !== -1) {
+            if (stat.isFile() && extname === Path.extname(name)) {
                 var modules = searchModulePath(currPath);
-                setJson(path, name, modules);
+                setJson(currPath, modules);
             }
         })
     }
@@ -77,66 +77,53 @@ function readdir(path) {
 /**
  * 生成structure结构
  */
-function setJson(path, name, modules) {
-    path = path.replace(rootdir, '');
-    console.log(structure);
-    console.log(path);
-    if (!path) {
-        path = '/entry';
+function setJson(currPath, modules) {
+    currPath = currPath.replace(rootdir, '');
+    if (!structure.relations[currPath]) {
+        structure.relations[currPath] = {
+            id: '_' + uuid(),
+            dir: Path.dirname(currPath),
+            name: Path.basename(currPath),
+            input: modules,
+            pos: {}
+        }
     }
-    path = path.substr(1);
-    if (!structure.relations[path]) {
-        structure.relations[path] = {};
-    }
-    structure.relations[path][name] = {};
-    structure.relations[path][name].id = '_' + uuid();
-    structure.relations[path][name].dir = Path.dirname(path);
-    structure.relations[path][name].input = modules || [];
-    structure.relations[path][name].pos = {};
-}
-/**
- * 根据的提供的path，生成[]
- */
-function formatPath(path) {
-    if (typeof path === 'string') {
-        return path.replace(rootdir, '').split('/').slice(1);
-    }
-    return path;
 }
 
 /**
  * 读取文件中包含信息，提取 import {} from 'antd'中的'antd'
  */
 function searchModulePath(path) {
+    const reg = new RegExp(standard, 'g');
     if (typeof path === 'string') {
         const data = fs.readFileSync(path, 'utf8');
-        var allResult = data.match(/\bimport.*(.*|from).*((\'.*\')|(\".*\"))/g) || [];
+        var allResult = data.match(reg) || [];
         var matchResult = allResult.map(item => {
             return item.match(/(\".*\")|(\'.*\')/)[0].replace(/"|'/g, '');
         })
-
         return parseModulePath(path, matchResult);
     }
 }
 /**
- * 把'../model/index[.js]'解析成 ['model', 'index.js'];
+ * 把'../model/index'解析成 /model/index.js;
  */
 function parseModulePath(currPath, moduleArr) {
     if (Array.isArray(moduleArr)) {
+        currPath = Path.dirname(currPath);
         const result = moduleArr.map(module => {
             const Reg = /^(\.\.\/|\.\/)/;
             if (Reg.test(module)) {
-                currPath = currPath.replace(/(\\|\/){1}\w*\.\w*$/, '');
                 module = Path.resolve(currPath, module);
                 const stat = fs.statSync(module);
                 if (stat.isDirectory()) {
                     module = `${module}/index${extname}`;
+                } else {
+                    module = fs.existsSync(module + extname) ? (module + extname) : module;
                 }
-                return module.replace(rootdir, '').split(/\\|\//).slice(2);
+                return module.replace(rootdir, '').replace(/\\|\//g, '/');
             }
             return module;
         })
         return result;
     }
-    return moduleArr;
 }

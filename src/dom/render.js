@@ -22,21 +22,24 @@ export function createModuleBat(data) {
  */
 export function createBats(obj, posArr) {
     for (var key in obj) {
-        const o = obj[key];
-        for (var name in o) {
-            var element = o[name];
-            if (element.hasOwnProperty('id')) {
-                const info = {
-                    id: element.id,
-                    dir: element.dir,
-                    name: name
+        const element = obj[key];
+        if (typeof element === 'object') {
+            const info = {
+                id: element.id,
+                dir: element.dir,
+                name: element.name
+            }
+            if ($(`#${info.id}`).length === 0) {
+                if (!element.pos.x) {
+                    element.pos.x = randomPos().x;
                 }
-                if ($(`#${info.id}`).length === 0) {
-                    const x = element.pos.x ? element.pos.x : randomPos().x;
-                    const y = element.pos.y ? element.pos.y : randomPos().y;
-                    $(battery(info)).css({ top: y, left: x }).appendTo($('#content'));
-                    posArr.push({ batteryId: element.id, currX: x, currY: y });
+                if (!element.pos.y) {
+                    element.pos.y = randomPos().y;
                 }
+                const x = element.pos.x;
+                const y = element.pos.y;
+                $(battery(info)).css({ top: y, left: x }).appendTo($('#content'));
+                posArr.push({ batteryId: element.id, currX: x, currY: y });
             }
         }
     }
@@ -49,12 +52,9 @@ export function createRelations(data) {
     const relations = data.relations;
     const dev = data.dependencies;
     for (var key in relations) {
-        const o = relations[key];
-        for (var name in o) {
-            var element = o[name];
-            if (element.hasOwnProperty('id')) {
-                _buildRelations(element, dev);
-            }
+        const element = relations[key];
+        if (typeof element === 'object') {
+            _buildRelations(element, dev);
         }
     }
 }
@@ -63,30 +63,24 @@ function _buildRelations(element, dev) {
     const inputId = element.id;
 
     inputs.forEach(input => {
-        if (Array.isArray(input)) {
-            _fileToFileRelation(input, inputId);
-        } else if (typeof input === 'string') {
-            _moduleToFileRelation(dev, input, inputId);
+        if (typeof input === 'string') {
+            //引用的为node_modules中的模块
+            dev.forEach(item => {
+                if (item.name === input) {
+                    const outputId = item.id;
+                    createRelationPath(outputId, inputId);
+                }
+            })
+            //
+            const relations = getRelationData().relations;
+            for (var key in relations) {
+                if (key === input) {
+                    const outputId = relations[key].id;
+                    createRelationPath(outputId, inputId);
+                }
+            }
         }
     })
-}
-function _moduleToFileRelation(dev, input, inputId) {
-    //引用的为node_modules中的模块
-    dev.forEach(item => {
-        if (item.name === input) {
-            const outputId = item.id;
-            createRelationPath(outputId, inputId);
-        }
-    })
-}
-function _fileToFileRelation(input, inputId) {
-    const relations = getRelationData().relations;
-
-    const name = input[input.length - 1];
-    input.pop();
-    const dir = input.join('/');
-    const o = relations[dir][name];
-    createRelationPath(o.id, inputId);
 }
 
 /**

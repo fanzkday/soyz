@@ -10,8 +10,8 @@ export function curveTo(x1, y1, x4, y4) {
         x2 = x3 = (x1 + x4) / 2;
     }
     if (x1 >= x4) {
-        x2 = x1 + (x1 + x4) / 5;
-        x3 = x4 - (x1 + x4) / 5;
+        x2 = x1 + (x1 + x4) / 25;
+        x3 = x4 - (x1 + x4) / 25;
     }
     return `M${x1} ${y1} C${x2} ${y1}, ${x3} ${y4}, ${x4} ${y4}`;
 }

@@ -1,13 +1,14 @@
 const fs = require('fs');
 const shell = require('shelljs');
 const { getStructure, makeDir, makeFile, buildRelations } = require('./util.js');
+const relations = require('../conf/relations.json');
 
+const autoSaveInterval = require('../conf/config.json').autoSaveInterval;
 exports.socketHandle = socket => {
-    const relations = require('../conf/relations.json');
     //自动保存
     const timer = setInterval(() => {
         fs.writeFileSync('./server/conf/relations.json', JSON.stringify(relations, null, 4));
-    }, 150000);
+    }, autoSaveInterval);
 
     socket.on('close', () => {
         clearInterval(timer);
@@ -48,13 +49,10 @@ exports.socketHandle = socket => {
 //遍历object， 修改数据
 function updatePosition(relation, item) {
     for (var key in relation) {
-        const o = relation[key];
-        for (var v in o) {
-            const element = o[v];
-            if (element.hasOwnProperty('id') && element.id === item.batteryId) {
-                element.pos.x = item.currX;
-                element.pos.y = item.currY;
-            }
+        const element = relation[key];
+        if (typeof element === 'object' && element.id === item.batteryId) {
+            element.pos.x = item.currX;
+            element.pos.y = item.currY;
         }
     }
 }
