@@ -1,270 +1,111 @@
 {
-    "devDependencies": [
+    "dirList": [
+        "controller",
+        "index.js",
+        "model"
+    ],
+    "dependencies": [
         {
             "name": "antd",
-            "id": "_9001b8a0-5a68-11e7-b52e-29bf531c728b"
+            "id": "_e3365030-5afe-11e7-a1ae-1b0781f2df59"
         },
         {
             "name": "d3",
-            "id": "_9001dfb0-5a68-11e7-b52e-29bf531c728b"
+            "id": "_e3365031-5afe-11e7-a1ae-1b0781f2df59"
         },
         {
             "name": "electron",
-            "id": "_9001dfb1-5a68-11e7-b52e-29bf531c728b"
+            "id": "_e3365032-5afe-11e7-a1ae-1b0781f2df59"
         },
         {
             "name": "jquery",
-            "id": "_9001dfb2-5a68-11e7-b52e-29bf531c728b"
+            "id": "_e3365033-5afe-11e7-a1ae-1b0781f2df59"
         },
         {
             "name": "react",
-            "id": "_9001dfb3-5a68-11e7-b52e-29bf531c728b"
+            "id": "_e3365034-5afe-11e7-a1ae-1b0781f2df59"
         },
         {
             "name": "react-dom",
-            "id": "_9001dfb4-5a68-11e7-b52e-29bf531c728b"
+            "id": "_e3365035-5afe-11e7-a1ae-1b0781f2df59"
         },
         {
             "name": "shelljs",
-            "id": "_9001dfb5-5a68-11e7-b52e-29bf531c728b"
+            "id": "_e3365036-5afe-11e7-a1ae-1b0781f2df59"
         },
         {
             "name": "socket.io",
-            "id": "_9001dfb6-5a68-11e7-b52e-29bf531c728b"
+            "id": "_e3365037-5afe-11e7-a1ae-1b0781f2df59"
         },
         {
             "name": "uuid",
-            "id": "_9001dfb7-5a68-11e7-b52e-29bf531c728b"
+            "id": "_e3365038-5afe-11e7-a1ae-1b0781f2df59"
         }
     ],
     "relations": {
-        "components/bat": {
+        "controller/hello": {
             "index.js": {
-                "id": "_90022dd0-5a68-11e7-b52e-29bf531c728b",
-                "dir": "bat",
+                "id": "_e3358ce0-5afe-11e7-a1ae-1b0781f2df59",
+                "dir": "controller",
+                "input": [
+                    "react"
+                ],
+                "pos": {
+                    "x": 217,
+                    "y": 245
+                }
+            }
+        },
+        "controller": {
+            "index.js": {
+                "id": "_e335b3f0-5afe-11e7-a1ae-1b0781f2df59",
+                "dir": "controller",
                 "input": [],
-                "pos": {}
-            }
-        },
-        "components/content": {
-            "index.js": {
-                "id": "_900254e0-5a68-11e7-b52e-29bf531c728b",
-                "dir": "content",
-                "input": [
-                    "react",
-                    "jquery",
-                    "antd",
-                    [
-                        "components",
-                        "bat",
-                        "index.js"
-                    ],
-                    [
-                        "model",
-                        "relations.js"
-                    ],
-                    [
-                        "util",
-                        "socket.js"
-                    ],
-                    [
-                        "model",
-                        "batList.js"
-                    ],
-                    [
-                        "dom",
-                        "render.js"
-                    ]
-                ],
-                "pos": {}
-            }
-        },
-        "components": {
-            "index.js": {
-                "id": "_900254e1-5a68-11e7-b52e-29bf531c728b",
-                "dir": "components",
-                "input": [
-                    "react",
-                    [
-                        "components",
-                        "settings",
-                        "index.js"
-                    ],
-                    [
-                        "components",
-                        "content",
-                        "index.js"
-                    ]
-                ],
-                "pos": {}
-            }
-        },
-        "components/settings": {
-            "index.js": {
-                "id": "_900254e2-5a68-11e7-b52e-29bf531c728b",
-                "dir": "settings",
-                "input": [
-                    "react",
-                    "jquery",
-                    "antd"
-                ],
-                "pos": {}
-            }
-        },
-        "dom": {
-            "event.js": {
-                "id": "_90027bf0-5a68-11e7-b52e-29bf531c728b",
-                "dir": "dom",
-                "input": [
-                    "jquery",
-                    [
-                        "util",
-                        "socket.js"
-                    ],
-                    [
-                        "util",
-                        "tools.js"
-                    ],
-                    [
-                        "dom",
-                        "render.js"
-                    ],
-                    [
-                        "model",
-                        "batList.js"
-                    ]
-                ],
-                "pos": {}
+                "pos": {
+                    "x": 145,
+                    "y": 549
+                }
             },
-            "group.js": {
-                "id": "_90027bf1-5a68-11e7-b52e-29bf531c728b",
-                "dir": "dom",
+            "pre.js": {
+                "id": "_e335db00-5afe-11e7-a1ae-1b0781f2df59",
+                "dir": "controller",
                 "input": [
-                    "jquery",
-                    "d3",
                     [
-                        "util",
-                        "tools.js"
-                    ]
-                ],
-                "pos": {}
-            },
-            "render.js": {
-                "id": "_90027bf2-5a68-11e7-b52e-29bf531c728b",
-                "dir": "dom",
-                "input": [
-                    "d3",
-                    "jquery",
-                    [
-                        "components",
-                        "bat",
+                        "model",
                         "index.js"
-                    ],
-                    [
-                        "model",
-                        "relations.js"
-                    ],
-                    [
-                        "model",
-                        "batList.js"
-                    ],
-                    [
-                        "util",
-                        "tools.js"
                     ]
                 ],
-                "pos": {}
-            },
-            "select.js": {
-                "id": "_9002a300-5a68-11e7-b52e-29bf531c728b",
-                "dir": "dom",
-                "input": [
-                    "jquery",
-                    "d3",
-                    [
-                        "model",
-                        "relations.js"
-                    ]
-                ],
-                "pos": {}
+                "pos": {
+                    "x": 392,
+                    "y": 335
+                }
             }
         },
         "entry": {
             "index.js": {
-                "id": "_9002a301-5a68-11e7-b52e-29bf531c728b",
+                "id": "_e3360210-5afe-11e7-a1ae-1b0781f2df59",
                 "dir": "entry",
                 "input": [
-                    "react",
-                    "react-dom",
-                    [
-                        "components",
-                        "index.js"
-                    ],
-                    [
-                        "dom",
-                        "event.js"
-                    ],
-                    [
-                        "dom",
-                        "select.js"
-                    ],
-                    [
-                        "dom",
-                        "group.js"
-                    ],
-                    "antd/dist/antd.css",
-                    [
-                        "style",
-                        "style.css"
-                    ]
+                    "jquery",
+                    "antd"
                 ],
-                "pos": {}
+                "pos": {
+                    "x": 566,
+                    "y": 288
+                }
             }
         },
         "model": {
-            "batList.js": {
-                "id": "_9002a302-5a68-11e7-b52e-29bf531c728b",
+            "index.js": {
+                "id": "_e3362920-5afe-11e7-a1ae-1b0781f2df59",
                 "dir": "model",
                 "input": [
-                    "uuid/v1"
+                    "antd"
                 ],
-                "pos": {}
-            },
-            "relations.js": {
-                "id": "_9002a303-5a68-11e7-b52e-29bf531c728b",
-                "dir": "model",
-                "input": [],
-                "pos": {}
-            }
-        },
-        "style": {
-            "style.css": {
-                "id": "_9002a304-5a68-11e7-b52e-29bf531c728b",
-                "dir": "style",
-                "input": [],
-                "pos": {}
-            },
-            "style.less": {
-                "id": "_9002ca10-5a68-11e7-b52e-29bf531c728b",
-                "dir": "style",
-                "input": [],
-                "pos": {}
-            }
-        },
-        "util": {
-            "socket.js": {
-                "id": "_9002ca11-5a68-11e7-b52e-29bf531c728b",
-                "dir": "util",
-                "input": [
-                    "socket.io-client"
-                ],
-                "pos": {}
-            },
-            "tools.js": {
-                "id": "_9002ca12-5a68-11e7-b52e-29bf531c728b",
-                "dir": "util",
-                "input": [],
-                "pos": {}
+                "pos": {
+                    "x": 106,
+                    "y": 407
+                }
             }
         }
     }

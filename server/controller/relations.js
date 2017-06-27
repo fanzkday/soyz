@@ -4,10 +4,10 @@
 const fs = require('fs');
 const path = require('path');
 const uuid = require('uuid/v1');
-const { getDevDependencies } = require('./tools.js');
+const { getDependencies } = require('./tools.js');
 
 const rootdir = process.cwd();
-const tempDir = 'src'; //后期可以cut
+const tempDir = 'app'; //后期可以cut
 const DIR = `${rootdir}/${tempDir}`; //后期可以cut
 
 //后缀名，目前按.js
@@ -19,18 +19,29 @@ try {
 } catch (e) {
     structure[tempDir] = {};
 }
-structure.devDependencies = getDevDependencies();
+
 /**
  * 生成文档结构和关系
  */
 exports.generateSt = path => {
+    getRootDir(DIR);
     readdir(DIR);
+    structure.dependencies = getDependencies();
     structure.relations = structure[tempDir];
     delete structure[tempDir];
     fs.writeFileSync('./server/conf/relations.json', JSON.stringify(structure, null, 4));
 }
 /**
- * 读取目录结构
+ * 读取根目录结构
+ */
+function getRootDir(path){
+    const isExist = fs.existsSync(path);
+    if (isExist) {
+        structure.dirList = fs.readdirSync(path);
+    }
+}
+/**
+ * 读取所有目录结构
  */
 function readdir(path) {
     const isExist = fs.existsSync(path);
@@ -63,7 +74,7 @@ function setJson(path, name, modules) {
     }
     structure[tempDir][path][name] = {};
     structure[tempDir][path][name].id = '_' + uuid();
-    structure[tempDir][path][name].dir = path.split('/')[1] || path.split('/')[0];
+    structure[tempDir][path][name].dir = path.split('/')[0] || path.split('/')[1];
     structure[tempDir][path][name].input = modules || [];
     structure[tempDir][path][name].pos = {};
 }

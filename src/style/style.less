@@ -96,11 +96,14 @@ body {
 
 .battery.entry {
     background: linear-gradient(#fff 5%, @color2 50%, @color2 100%);
+    >div{
+        background-color: rgba(97, 79, 105, 0.4);
+    }
 }
 
 .battery {
-    width: 110px;
-    height: 35px;
+    width: 90px;
+    height: 30px;
     border: 1px solid #999;
     background: linear-gradient(#fff 5%, @color3 50%, @color3 100%);
     border-radius: 6px;
@@ -108,12 +111,31 @@ body {
     position: absolute;
     cursor: pointer;
     pointer-events: auto;
-    p {
+    >div{
+        position: absolute;
+        min-width: 50px;
+        top: -25px;
+        left: 50%;
+        padding: 0 3px;
+        height: 20px;
+        line-height: 18px;
+        color: #666;
+        border: 1px solid #aaa;
+        border-radius: 3px;
+        text-align: center;
+        transform: translateX(-50%);
+        white-space: nowrap;
+    }
+    >p {
         height: 35px;
         margin: 0;
+        color: #666;
         padding: 0 10px;
-        line-height: 36px;
+        line-height: 26px;
         text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
     span {
         position: absolute;
@@ -172,4 +194,40 @@ body {
 
 div.selected {
     box-shadow: 0 0 15px #888;
+}
+//配置若干种颜色
+._0{
+    >div{
+        background-color: rgba(250, 115, 92, 0.4);
+    }
+}
+._1{
+    >div{
+        background-color: rgba(86, 205, 250, 0.4);
+    }
+}
+._2{
+    >div{
+        background-color: rgba(114, 124, 201, 0.4);
+    }
+}
+._3{
+    >div{
+        background-color: rgba(253, 182, 103, 0.4);
+    }
+}
+._4{
+    >div{
+        background-color: rgba(153, 51, 153, 0.4);
+    }
+}
+._5{
+    >div{
+        background-color: rgba(225, 224, 120, 0.4);
+    }
+}
+._6{
+    >div{
+        background-color: rgba(255, 224, 120, 0.4);
+    }
 }

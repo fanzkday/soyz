@@ -11,8 +11,8 @@ export class Main extends React.Component {
                 </div>
                 <Content></Content>
                 <div id="github">
-                    <a href="https://github.com/fanzkday/VisualCode">
-                        <img src="./gihub.png" alt="github.com"/>
+                    <a href="https://github.com/fanzkday/soyz">
+                        <img src='../github.png' alt="github.com"/>
                     </a>
                 </div>
                 <Setting></Setting>

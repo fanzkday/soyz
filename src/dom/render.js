@@ -9,7 +9,7 @@ import { randomPos, curveTo } from '../util/tools.js';
  * 生成module bat
  */
 export function createModuleBat(data) {
-    data.devDependencies.forEach(item => {
+    data.dependencies.forEach(item => {
         const info = addToList(item.id, '', item.name);
         if ($(`#${info.id}`).length === 0) {
             $('#content .module').append(onlyOutputBattery(info));
@@ -28,7 +28,7 @@ export function createBats(obj, posArr) {
             if (element.hasOwnProperty('id')) {
                 const info = {
                     id: element.id,
-                    dir: key,
+                    dir: element.dir,
                     name: name
                 }
                 if ($(`#${info.id}`).length === 0) {
@@ -47,7 +47,7 @@ export function createBats(obj, posArr) {
  */
 export function createRelations(data) {
     const relations = data.relations;
-    const dev = data.devDependencies;
+    const dev = data.dependencies;
     for (var key in relations) {
         const o = relations[key];
         for (var name in o) {
