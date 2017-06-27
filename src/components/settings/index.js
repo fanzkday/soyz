@@ -1,13 +1,16 @@
 import React from 'react';
 import * as $ from 'jquery';
-import { Button, Modal, Form, Input, Radio } from 'antd';
+import { Button, Modal, Form, Input, Radio, Icon } from 'antd';
 
 export class Setting extends React.Component {
     state = { isVisible: false };
     render() {
         return (
             <div id="setting">
-                <Button onClick={this.click.bind(this)}>设置</Button>
+                <a href="https://github.com/fanzkday/soyz" id="github">
+                    <Icon type="github" style={{fontSize: 15}}/>
+                </a>
+                <Button icon="setting" onClick={this.click.bind(this)}></Button>
                 <Modal
                     title="设置"
                     visible={this.state.isVisible}

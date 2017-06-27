@@ -10,11 +10,6 @@ export class Main extends React.Component {
                     <svg width="100%" height="100%"></svg>
                 </div>
                 <Content></Content>
-                <div id="github">
-                    <a href="https://github.com/fanzkday/soyz">
-                        <img src='../github.png' alt="github.com"/>
-                    </a>
-                </div>
                 <Setting></Setting>
                 <div id="select">
                     <svg width="100%" height="100%"></svg>
