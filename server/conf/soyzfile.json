@@ -1,0 +1,14 @@
+{
+    "autoSaveInterval": 50000,
+    "ignoreDirs": [
+        "node_modules",
+        "build",
+        "public",
+        "server"
+    ],
+    "extname": ".js",
+    "standard": "import.*(.*|from).*((\\'.*\\')|(\\\".*\\\"))",
+    "dirList": [],
+    "relations": {},
+    "dependencies": []
+}

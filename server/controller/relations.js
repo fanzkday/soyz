@@ -18,14 +18,12 @@ const rootdir = process.cwd();
 
 var structure = {};
 
-const msgdir =  Path.resolve(__dirname, '../') + '/conf/relations.json';
+const msgdir = Path.resolve(__dirname, '../') + '/conf/relations.json';
 
 const isExistMsgJson = fs.existsSync(msgdir);
 if (isExistMsgJson) {
     const relations = fs.readFileSync(msgdir, 'utf8');
     structure = JSON.parse(relations);
-} else {
-    structure.relations = {};
 }
 
 /**
@@ -114,7 +112,12 @@ function parseModulePath(currPath, moduleArr) {
             const Reg = /^(\.\.\/|\.\/)/;
             if (Reg.test(module)) {
                 module = Path.resolve(currPath, module);
-                const stat = fs.statSync(module);
+                var stat;
+                try {
+                    stat = fs.statSync(module);
+                } catch (e) {
+                    stat = fs.statSync(module + extname);
+                }
                 if (stat.isDirectory()) {
                     module = `${module}/index${extname}`;
                 } else {
