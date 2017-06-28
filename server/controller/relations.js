@@ -17,15 +17,15 @@ const standard = config.standard;
 const rootdir = process.cwd();
 
 var structure = {};
-try {
-    var relations = fs.readFileSync('./server/conf/relations.json', 'utf8');
-    if (relations) {
-        structure = JSON.parse(relations);
-    } else {
-        structure.relations = {};
-    }
-} catch (e) {
-    console.log(e);
+
+const msgdir =  Path.resolve(__dirname, '../') + '/conf/relations.json';
+
+const isExistMsgJson = fs.existsSync(msgdir);
+if (isExistMsgJson) {
+    const relations = fs.readFileSync(msgdir, 'utf8');
+    structure = JSON.parse(relations);
+} else {
+    structure.relations = {};
 }
 
 /**
@@ -36,7 +36,7 @@ exports.generateSt = () => {
     getRootDir(rootdir);
     readdir(rootdir);
     structure.dependencies = getDependencies();
-    fs.writeFileSync('./server/conf/relations.json', JSON.stringify(structure, null, 4));
+    fs.writeFileSync(msgdir, JSON.stringify(structure, null, 4));
 }
 /**
  * 读取根目录结构

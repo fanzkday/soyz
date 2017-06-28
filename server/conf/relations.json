@@ -1,290 +1,93 @@
 {
     "relations": {
-        "/src/components/bat/index.js": {
-            "id": "_7faf4670-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/components/bat",
-            "name": "index.js",
-            "input": [
-                "/src/model/relations.js"
-            ],
-            "pos": {
-                "x": 547,
-                "y": 556
-            }
-        },
-        "/src/components/content/index.js": {
-            "id": "_7faf6d80-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/components/content",
-            "name": "index.js",
-            "input": [
-                "react",
-                "/src/model/relations.js",
-                "/src/util/socket.js",
-                "/src/dom/render.js"
-            ],
-            "pos": {
-                "x": 525,
-                "y": 48
-            }
-        },
-        "/src/components/index.js": {
-            "id": "_7faf6d81-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/components",
-            "name": "index.js",
-            "input": [
-                "react",
-                "/src/components/settings/index.js",
-                "/src/components/content/index.js"
-            ],
-            "pos": {
-                "x": 145,
-                "y": 126
-            }
-        },
-        "/src/components/settings/index.js": {
-            "id": "_7faf9490-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/components/settings",
-            "name": "index.js",
-            "input": [
-                "react",
-                "jquery",
-                "antd"
-            ],
-            "pos": {
-                "x": 363,
-                "y": 333
-            }
-        },
-        "/src/dom/event.js": {
-            "id": "_7fafbba0-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/dom",
-            "name": "event.js",
-            "input": [
-                "jquery",
-                "/src/util/socket.js",
-                "/src/util/tools.js",
-                "/src/dom/render.js",
-                "/src/model/batList.js"
-            ],
-            "pos": {
-                "x": 423,
-                "y": 152
-            }
-        },
-        "/src/dom/group.js": {
-            "id": "_7fafbba1-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/dom",
-            "name": "group.js",
-            "input": [],
-            "pos": {
-                "x": 229,
-                "y": 173
-            }
-        },
-        "/src/dom/render.js": {
-            "id": "_7fafe2b0-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/dom",
-            "name": "render.js",
-            "input": [
-                "d3",
-                "jquery",
-                "/src/components/bat/index.js",
-                "/src/model/relations.js",
-                "/src/model/batList.js",
-                "/src/util/tools.js"
-            ],
-            "pos": {
-                "x": 196,
-                "y": 224
-            }
-        },
-        "/src/dom/select.js": {
-            "id": "_7fafe2b1-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/dom",
-            "name": "select.js",
-            "input": [
-                "jquery",
-                "d3",
-                "/src/model/relations.js"
-            ],
-            "pos": {
-                "x": 114,
-                "y": 316
-            }
-        },
-        "/src/index.js": {
-            "id": "_7fb009c0-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src",
-            "name": "index.js",
-            "input": [
-                "react",
-                "react-dom",
-                "/src/components/index.js",
-                "/src/dom/event.js",
-                "/src/dom/select.js",
-                "/src/dom/group.js",
-                "antd/dist/antd.css",
-                "/src/style/style.css"
-            ],
-            "pos": {
-                "x": 334,
-                "y": 189
-            }
-        },
-        "/src/model/batList.js": {
-            "id": "_7fb009c1-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/model",
-            "name": "batList.js",
-            "input": [
-                "uuid/v1"
-            ],
-            "pos": {
-                "x": 101,
-                "y": 254
-            }
-        },
-        "/src/model/relations.js": {
-            "id": "_7fb009c2-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/model",
-            "name": "relations.js",
-            "input": [],
-            "pos": {
-                "x": 176,
-                "y": 288
-            }
-        },
-        "/src/util/socket.js": {
-            "id": "_7fb030d0-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/util",
-            "name": "socket.js",
-            "input": [
-                "socket.io-client"
-            ],
-            "pos": {
-                "x": 299,
-                "y": 137
-            }
-        },
-        "/src/util/tools.js": {
-            "id": "_7fb030d1-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/src/util",
-            "name": "tools.js",
-            "input": [],
-            "pos": {
-                "x": 502,
-                "y": 189
-            }
-        },
-        "/test.js": {
-            "id": "_7fb030d2-5b3f-11e7-875b-8f9305ebb83a",
-            "dir": "/",
-            "name": "test.js",
-            "input": [],
-            "pos": {
-                "x": 119,
-                "y": 194
-            }
-        },
-        "/app/controller/hello/index.js": {
-            "id": "_97ac2cc0-5b3f-11e7-91d4-21157d1aeaac",
-            "dir": "/app/controller/hello",
-            "name": "index.js",
-            "input": [
-                "react"
-            ],
-            "pos": {
-                "x": 107,
-                "y": 156
-            }
-        },
-        "/app/controller/index.js": {
-            "id": "_97ac53d0-5b3f-11e7-91d4-21157d1aeaac",
-            "dir": "/app/controller",
+        "/controller/index.js": {
+            "id": "_63324670-5c14-11e7-96b4-47511e9b909c",
+            "dir": "/controller",
             "name": "index.js",
             "input": [],
             "pos": {
-                "x": 636,
-                "y": 274
+                "x": 573,
+                "y": 13
             }
         },
-        "/app/controller/pre.js": {
-            "id": "_97ac53d1-5b3f-11e7-91d4-21157d1aeaac",
-            "dir": "/app/controller",
+        "/controller/pre.js": {
+            "id": "_63324671-5c14-11e7-96b4-47511e9b909c",
+            "dir": "/controller",
             "name": "pre.js",
             "input": [
-                "/app/model/index.js"
+                "/model/index.js"
             ],
             "pos": {
-                "x": 286,
-                "y": 415
+                "x": 370,
+                "y": 396
             }
         },
-        "/app/index.js": {
-            "id": "_97ac7ae0-5b3f-11e7-91d4-21157d1aeaac",
-            "dir": "/app",
+        "/index.js": {
+            "id": "_63324672-5c14-11e7-96b4-47511e9b909c",
+            "dir": "/",
             "name": "index.js",
             "input": [
                 "jquery",
                 "antd"
             ],
             "pos": {
-                "x": 233,
-                "y": 95
+                "x": 288,
+                "y": 109
             }
         },
-        "/app/model/index.js": {
-            "id": "_97ac7ae1-5b3f-11e7-91d4-21157d1aeaac",
-            "dir": "/app/model",
+        "/model/index.js": {
+            "id": "_63324673-5c14-11e7-96b4-47511e9b909c",
+            "dir": "/model",
             "name": "index.js",
             "input": [
                 "antd"
             ],
             "pos": {
-                "x": 612,
-                "y": 327
+                "x": 437,
+                "y": 254
             }
         }
     },
     "dirList": [
-        "app",
-        "src"
+        "controller",
+        "model"
     ],
     "dependencies": [
         {
             "name": "antd",
-            "id": "_9fad8670-5b45-11e7-829b-c3874ab20556"
+            "id": "_d2987e80-5c14-11e7-a0a7-f5a1a5de65a5"
         },
         {
             "name": "d3",
-            "id": "_9fad8671-5b45-11e7-829b-c3874ab20556"
+            "id": "_d2987e81-5c14-11e7-a0a7-f5a1a5de65a5"
         },
         {
             "name": "electron",
-            "id": "_9fad8672-5b45-11e7-829b-c3874ab20556"
+            "id": "_d2987e82-5c14-11e7-a0a7-f5a1a5de65a5"
         },
         {
             "name": "jquery",
-            "id": "_9fad8673-5b45-11e7-829b-c3874ab20556"
+            "id": "_d2987e83-5c14-11e7-a0a7-f5a1a5de65a5"
         },
         {
             "name": "react",
-            "id": "_9fad8674-5b45-11e7-829b-c3874ab20556"
+            "id": "_d2987e84-5c14-11e7-a0a7-f5a1a5de65a5"
         },
         {
             "name": "react-dom",
-            "id": "_9fad8675-5b45-11e7-829b-c3874ab20556"
+            "id": "_d2987e85-5c14-11e7-a0a7-f5a1a5de65a5"
         },
         {
             "name": "shelljs",
-            "id": "_9fad8676-5b45-11e7-829b-c3874ab20556"
+            "id": "_d2987e86-5c14-11e7-a0a7-f5a1a5de65a5"
         },
         {
             "name": "socket.io",
-            "id": "_9fad8677-5b45-11e7-829b-c3874ab20556"
+            "id": "_d2987e87-5c14-11e7-a0a7-f5a1a5de65a5"
         },
         {
             "name": "uuid",
-            "id": "_9fad8678-5b45-11e7-829b-c3874ab20556"
+            "id": "_d2987e88-5c14-11e7-a0a7-f5a1a5de65a5"
         }
     ]
 }

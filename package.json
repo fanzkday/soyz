@@ -6,6 +6,16 @@
   "bin":{
     "soyz": "./bin/soyz.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fanzkday/soyz.git"
+  },
+  "keywords": [
+    "relation",
+    "visual",
+    "manager",
+    "happy code"
+  ],
   "dependencies": {
     "antd": "^2.11.0",
     "d3": "^4.9.1",

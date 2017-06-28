@@ -1,13 +1,16 @@
 const fs = require('fs');
+const Path = require('path');
 const shell = require('shelljs');
 const { getStructure, makeDir, makeFile, buildRelations } = require('./util.js');
 const relations = require('../conf/relations.json');
 
 const autoSaveInterval = require('../conf/config.json').autoSaveInterval;
+
+const msgdir =  Path.resolve(__dirname, '../') + '/conf/relations.json';
 exports.socketHandle = socket => {
     //自动保存
     const timer = setInterval(() => {
-        fs.writeFileSync('./server/conf/relations.json', JSON.stringify(relations, null, 4));
+        fs.writeFileSync(msgdir, JSON.stringify(relations, null, 4));
     }, autoSaveInterval);
 
     socket.on('close', () => {
