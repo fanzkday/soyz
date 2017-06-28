@@ -1,7 +1,11 @@
 {
-  "name": "demo",
-  "version": "0.1.0",
-  "private": true,
+  "name": "soyz",
+  "version": "0.1.6",
+  "private": false,
+  "author":"fanzkday",
+  "bin":{
+    "soyz": "./bin/soyz.js"
+  },
   "dependencies": {
     "antd": "^2.11.0",
     "d3": "^4.9.1",
