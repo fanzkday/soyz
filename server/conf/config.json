@@ -5,7 +5,8 @@
     "node_modules",
     "build",
     "public",
-    "server"
+    "server",
+    "src"
   ],
   "extname": ".js",
   "isDisplayPathText": 0

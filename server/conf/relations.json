@@ -1,94 +1,103 @@
 {
     "dirList": [
-        "controller",
-        "model"
+        "bin",
+        "demo"
     ],
     "relations": {
-        "/controller/index.js": {
-            "id": "_941e1a90-5c1c-11e7-a3a3-e7b64547ceda",
-            "dir": "/controller",
+        "/bin/soyz.js": {
+            "id": "_4e769190-5dfa-11e7-b6ed-3d0b4dea47d3",
+            "dir": "/bin",
+            "name": "soyz.js",
+            "input": [],
+            "pos": {
+                "x": 552,
+                "y": 354
+            }
+        },
+        "/demo/controller/index.js": {
+            "id": "_4e76b8a0-5dfa-11e7-b6ed-3d0b4dea47d3",
+            "dir": "/demo/controller",
             "name": "index.js",
             "input": [],
             "pos": {
-                "x": 407,
-                "y": 222
+                "x": 497,
+                "y": 104
             }
         },
-        "/controller/pre.js": {
-            "id": "_c11ca890-5c1c-11e7-8186-a7435b2e5a9e",
-            "dir": "/controller",
+        "/demo/controller/pre.js": {
+            "id": "_4e7cfa30-5dfa-11e7-b6ed-3d0b4dea47d3",
+            "dir": "/demo/controller",
             "name": "pre.js",
             "input": [
-                "/model/index.js"
+                "/demo/model/index.js"
             ],
             "pos": {
-                "x": 208,
-                "y": 386
+                "x": 298,
+                "y": 118
             }
         },
-        "/index.js": {
-            "id": "_c11ca891-5c1c-11e7-8186-a7435b2e5a9e",
-            "dir": "/",
+        "/demo/index.js": {
+            "id": "_4e7d2140-5dfa-11e7-b6ed-3d0b4dea47d3",
+            "dir": "/demo",
             "name": "index.js",
             "input": [
                 "jquery",
                 "antd"
             ],
             "pos": {
-                "x": 456,
-                "y": 381
+                "x": 223,
+                "y": 216
             }
         },
-        "/model/index.js": {
-            "id": "_c11ca892-5c1c-11e7-8186-a7435b2e5a9e",
-            "dir": "/model",
+        "/demo/model/index.js": {
+            "id": "_4e7d2141-5dfa-11e7-b6ed-3d0b4dea47d3",
+            "dir": "/demo/model",
             "name": "index.js",
             "input": [
-                "antd",
-                "/index.js"
+                "antd"
             ],
             "pos": {
-                "x": 319,
-                "y": 190
+                "x": 549,
+                "y": 562
             }
         }
     },
     "dependencies": [
         {
             "name": "antd",
-            "id": "_c11ef280-5c1c-11e7-8186-a7435b2e5a9e"
+            "id": "_4e7d6f60-5dfa-11e7-b6ed-3d0b4dea47d3"
         },
         {
             "name": "d3",
-            "id": "_c11ef281-5c1c-11e7-8186-a7435b2e5a9e"
+            "id": "_4e7d6f61-5dfa-11e7-b6ed-3d0b4dea47d3"
         },
         {
             "name": "electron",
-            "id": "_c11ef282-5c1c-11e7-8186-a7435b2e5a9e"
+            "id": "_4e7d6f62-5dfa-11e7-b6ed-3d0b4dea47d3"
         },
         {
             "name": "jquery",
-            "id": "_c11ef283-5c1c-11e7-8186-a7435b2e5a9e"
+            "id": "_4e7d6f63-5dfa-11e7-b6ed-3d0b4dea47d3"
         },
         {
             "name": "react",
-            "id": "_c11ef284-5c1c-11e7-8186-a7435b2e5a9e"
+            "id": "_4e7d6f64-5dfa-11e7-b6ed-3d0b4dea47d3"
         },
         {
             "name": "react-dom",
-            "id": "_c11ef285-5c1c-11e7-8186-a7435b2e5a9e"
+            "id": "_4e7d6f65-5dfa-11e7-b6ed-3d0b4dea47d3"
         },
         {
             "name": "shelljs",
-            "id": "_c11ef286-5c1c-11e7-8186-a7435b2e5a9e"
+            "id": "_4e7d6f66-5dfa-11e7-b6ed-3d0b4dea47d3"
         },
         {
             "name": "socket.io",
-            "id": "_c11ef287-5c1c-11e7-8186-a7435b2e5a9e"
+            "id": "_4e7d6f67-5dfa-11e7-b6ed-3d0b4dea47d3"
         },
         {
             "name": "uuid",
-            "id": "_c11ef288-5c1c-11e7-8186-a7435b2e5a9e"
+            "id": "_4e7d6f68-5dfa-11e7-b6ed-3d0b4dea47d3"
         }
     ]
 }

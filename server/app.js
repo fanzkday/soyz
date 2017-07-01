@@ -15,8 +15,8 @@ client.on('connection', socketHandle);
 
 const dirname = path.resolve(__dirname, '../');
 //open client view
-shell.cd(`${dirname}/build`);
-shell.exec(`${electron} ./index.html`, { async: true });
+//shell.cd(`${dirname}/build`);
+//shell.exec(`${electron} ./index.html`, { async: true });
 
 //全局错误处理
 process.on('uncaughtException', err => {

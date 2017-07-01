@@ -18,7 +18,8 @@ $(document).on('mousedown', e => {
         $(document).off('mousemove');
         $(document).off('mouseup');
         rect.remove();
-        selectedBat(startX, startY, endX, endY);
+        // 当移动多个bat时，svg的path渲染还有问题，不够实时，这个版本暂时不放弃。
+        // selectedBat(startX, startY, endX, endY);
     })
 })
 
