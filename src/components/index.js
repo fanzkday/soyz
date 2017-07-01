@@ -7,7 +7,7 @@ export class Main extends React.Component {
         return (
             <div>
                 <div id="svg">
-                    <svg width="1920" height="1080"></svg>
+                    <svg width="3000" height="3000"></svg>
                 </div>
                 <Content></Content>
                 <Setting></Setting>

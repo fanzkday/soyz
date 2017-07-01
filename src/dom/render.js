@@ -31,10 +31,10 @@ export function createBats(obj, posArr) {
             }
             if ($(`#${info.id}`).length === 0) {
                 if (!element.pos.x) {
-                    element.pos.x = randomPos().x;
+                    element.pos.x = randomPos(element.dir).x;
                 }
                 if (!element.pos.y) {
-                    element.pos.y = randomPos().y;
+                    element.pos.y = randomPos(element.dir).y;
                 }
                 const x = element.pos.x;
                 const y = element.pos.y;

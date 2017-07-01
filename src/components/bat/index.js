@@ -4,19 +4,18 @@ export function battery(info) {
     var path = (info.dir === '/') ? `/Entry/${info.name}` : `${info.dir}/${info.name}`;
     const className = (info.dir === '/') ? 'entry' : '';
     
-    const currDir = info.dir.split('/')[1];
     const dirList = getRelationData().dirList;
 
     var colorClass = '';
     dirList && dirList.forEach((dir, index) => {
-        if (currDir === dir) {
-            colorClass = `_${index}`;
+        if (info.dir === dir) {
+            colorClass = `_${index}color`;
         }
     });
 
     return (
         `<div class="battery ${className} ${colorClass}" id="${info.id}">
-            <div>${path.substr(1)}</div>
+            <div>${path}</div>
             <p class="title" title="${info.name}">${info.name}</p>
             <span class="input"></span>
             <span class="output"></span>

@@ -80,7 +80,7 @@ function setJson(currPath, modules) {
     if (!structure.relations[currPath]) {
         structure.relations[currPath] = {
             id: '_' + uuid(),
-            dir: Path.dirname(currPath),
+            dir: Path.dirname(currPath).split('/')[1],
             name: Path.basename(currPath),
             input: modules,
             pos: {}
