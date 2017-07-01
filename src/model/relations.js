@@ -10,14 +10,3 @@ export function getRelationData() {
 export function saveRelationData(data){
     info = data;
 }
-
-//修改坐标
-export function updatePosition(id, x, y){
-    for (var key in info.relations) {
-        const element = info.relations[key];
-        if (element.id === id) {
-            element.pos.x = x;
-            element.pos.y = y;
-        }
-    }
-}

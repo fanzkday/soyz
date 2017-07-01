@@ -6,39 +6,39 @@
     ],
     "relations": {
         "/bin/soyz.js": {
-            "id": "_de980c80-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2de390-5e55-11e7-8b71-351b9835810c",
             "dir": "bin",
             "name": "soyz.js",
             "input": [],
             "pos": {
-                "x": 23,
-                "y": 47
+                "x": 478.9921875,
+                "y": 261.984375
             }
         },
         "/demo/controller/index.js": {
-            "id": "_de983390-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2e0aa0-5e55-11e7-8b71-351b9835810c",
             "dir": "demo",
             "name": "index.js",
             "input": [],
             "pos": {
-                "x": 717,
-                "y": 363
+                "x": 1791,
+                "y": 117
             }
         },
         "/demo/controller/pre.js": {
-            "id": "_de985aa0-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2e31b0-5e55-11e7-8b71-351b9835810c",
             "dir": "demo",
             "name": "pre.js",
             "input": [
                 "/demo/model/index.js"
             ],
             "pos": {
-                "x": 999,
-                "y": 66
+                "x": 809,
+                "y": 542.984375
             }
         },
         "/demo/index.js": {
-            "id": "_de985aa1-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2e31b1-5e55-11e7-8b71-351b9835810c",
             "dir": "demo",
             "name": "index.js",
             "input": [
@@ -46,36 +46,36 @@
                 "antd"
             ],
             "pos": {
-                "x": 757,
-                "y": 304
+                "x": 349.984375,
+                "y": 338.9765625
             }
         },
         "/demo/model/index.js": {
-            "id": "_de9881b0-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2e31b2-5e55-11e7-8b71-351b9835810c",
             "dir": "demo",
             "name": "index.js",
             "input": [
                 "antd"
             ],
             "pos": {
-                "x": 994,
-                "y": 275
+                "x": 599.984375,
+                "y": 362.984375
             }
         },
         "/src/components/bat/index.js": {
-            "id": "_de98a8c0-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2e58c0-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "index.js",
             "input": [
                 "/src/model/relations.js"
             ],
             "pos": {
-                "x": 1677,
-                "y": 342
+                "x": 2217,
+                "y": 185
             }
         },
         "/src/components/content/index.js": {
-            "id": "_de98cfd0-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2e7fd0-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "index.js",
             "input": [
@@ -85,12 +85,12 @@
                 "/src/dom/render.js"
             ],
             "pos": {
-                "x": 1542,
-                "y": 324
+                "x": 2360,
+                "y": 110
             }
         },
         "/src/components/index.js": {
-            "id": "_de98cfd1-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2ea6e0-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "index.js",
             "input": [
@@ -99,12 +99,12 @@
                 "/src/components/content/index.js"
             ],
             "pos": {
-                "x": 1523,
-                "y": 236
+                "x": 2683,
+                "y": 402
             }
         },
         "/src/components/settings/index.js": {
-            "id": "_de98cfd2-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2ea6e1-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "index.js",
             "input": [
@@ -113,12 +113,24 @@
                 "antd"
             ],
             "pos": {
-                "x": 1560,
-                "y": 307
+                "x": 2517,
+                "y": 32
+            }
+        },
+        "/src/dom/background.js": {
+            "id": "_1c2ea6e2-5e55-11e7-8b71-351b9835810c",
+            "dir": "src",
+            "name": "background.js",
+            "input": [
+                "d3"
+            ],
+            "pos": {
+                "x": 1933,
+                "y": 12
             }
         },
         "/src/dom/event.js": {
-            "id": "_de991df0-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2ecdf0-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "event.js",
             "input": [
@@ -126,26 +138,25 @@
                 "/src/util/socket.js",
                 "/src/util/tools.js",
                 "/src/dom/render.js",
-                "/src/model/batList.js",
-                "/src/model/relations.js"
+                "/src/model/batList.js"
             ],
             "pos": {
-                "x": 1651,
-                "y": 181
+                "x": 2568,
+                "y": 44
             }
         },
         "/src/dom/group.js": {
-            "id": "_de991df1-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2ecdf1-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "group.js",
             "input": [],
             "pos": {
-                "x": 1596,
-                "y": 324
+                "x": 2200,
+                "y": 330
             }
         },
         "/src/dom/render.js": {
-            "id": "_de991df2-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2ef500-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "render.js",
             "input": [
@@ -157,12 +168,12 @@
                 "/src/util/tools.js"
             ],
             "pos": {
-                "x": 1668,
-                "y": 218
+                "x": 2262,
+                "y": 259
             }
         },
         "/src/dom/select.js": {
-            "id": "_de994500-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2ef501-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "select.js",
             "input": [
@@ -171,12 +182,12 @@
                 "/src/model/relations.js"
             ],
             "pos": {
-                "x": 1627,
-                "y": 216
+                "x": 1846.984375,
+                "y": 548.984375
             }
         },
         "/src/index.js": {
-            "id": "_de996c10-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2f1c10-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "index.js",
             "input": [
@@ -186,97 +197,98 @@
                 "/src/dom/event.js",
                 "/src/dom/select.js",
                 "/src/dom/group.js",
+                "/src/dom/background.js",
                 "antd/dist/antd.css",
                 "/src/style/style.css"
             ],
             "pos": {
-                "x": 1275,
-                "y": 84
+                "x": 2454,
+                "y": 459
             }
         },
         "/src/model/batList.js": {
-            "id": "_de996c11-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2f4320-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "batList.js",
             "input": [
                 "uuid/v1"
             ],
             "pos": {
-                "x": 1549,
-                "y": 80
+                "x": 2336,
+                "y": 131
             }
         },
         "/src/model/relations.js": {
-            "id": "_de996c12-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2f4321-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "relations.js",
             "input": [],
             "pos": {
-                "x": 1208,
-                "y": 324
+                "x": 1990,
+                "y": 244
             }
         },
         "/src/util/socket.js": {
-            "id": "_de999320-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2f4322-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "socket.js",
             "input": [
                 "socket.io-client"
             ],
             "pos": {
-                "x": 1617,
-                "y": 132
+                "x": 2611,
+                "y": 234
             }
         },
         "/src/util/tools.js": {
-            "id": "_de999321-5e0a-11e7-92fc-a552eff25842",
+            "id": "_1c2f6a30-5e55-11e7-8b71-351b9835810c",
             "dir": "src",
             "name": "tools.js",
             "input": [
                 "/src/model/relations.js"
             ],
             "pos": {
-                "x": 1567,
-                "y": 377
+                "x": 2590,
+                "y": 195
             }
         }
     },
     "dependencies": [
         {
             "name": "antd",
-            "id": "_de999322-5e0a-11e7-92fc-a552eff25842"
+            "id": "_1c2f9140-5e55-11e7-8b71-351b9835810c"
         },
         {
             "name": "d3",
-            "id": "_de999323-5e0a-11e7-92fc-a552eff25842"
+            "id": "_1c2f9141-5e55-11e7-8b71-351b9835810c"
         },
         {
             "name": "electron",
-            "id": "_de999324-5e0a-11e7-92fc-a552eff25842"
+            "id": "_1c2f9142-5e55-11e7-8b71-351b9835810c"
         },
         {
             "name": "jquery",
-            "id": "_de999325-5e0a-11e7-92fc-a552eff25842"
+            "id": "_1c2f9143-5e55-11e7-8b71-351b9835810c"
         },
         {
             "name": "react",
-            "id": "_de999326-5e0a-11e7-92fc-a552eff25842"
+            "id": "_1c2f9144-5e55-11e7-8b71-351b9835810c"
         },
         {
             "name": "react-dom",
-            "id": "_de999327-5e0a-11e7-92fc-a552eff25842"
+            "id": "_1c2f9145-5e55-11e7-8b71-351b9835810c"
         },
         {
             "name": "shelljs",
-            "id": "_de999328-5e0a-11e7-92fc-a552eff25842"
+            "id": "_1c2f9146-5e55-11e7-8b71-351b9835810c"
         },
         {
             "name": "socket.io",
-            "id": "_de999329-5e0a-11e7-92fc-a552eff25842"
+            "id": "_1c2f9147-5e55-11e7-8b71-351b9835810c"
         },
         {
             "name": "uuid",
-            "id": "_de99932a-5e0a-11e7-92fc-a552eff25842"
+            "id": "_1c2f9148-5e55-11e7-8b71-351b9835810c"
         }
     ]
 }

@@ -1,7 +1,7 @@
 import { getRelationData } from '../../model/relations.js';
 
 export function battery(info) {
-    var path = (info.dir === '/') ? `/Entry/${info.name}` : `${info.dir}/${info.name}`;
+    var path = (info.dir === '/') ? '/Entry' : info.dir;
     const className = (info.dir === '/') ? 'entry' : '';
     
     const dirList = getRelationData().dirList;
@@ -15,7 +15,7 @@ export function battery(info) {
 
     return (
         `<div class="battery ${className} ${colorClass}" id="${info.id}">
-            <div>${path}</div>
+            <div>${path}/</div>
             <p class="title" title="${info.name}">${info.name}</p>
             <span class="input"></span>
             <span class="output"></span>

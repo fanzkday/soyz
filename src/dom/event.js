@@ -3,7 +3,7 @@ import socket from '../util/socket.js';
 import { curveTo } from '../util/tools.js';
 import { pathText } from './render.js';
 import { getBatList } from '../model/batList.js';
-import { updatePosition } from '../model/relations.js';
+import { getRelationData } from '../model/relations.js';
 
 //常量
 const width = 6;
@@ -84,14 +84,14 @@ function batteryDown(that, event) {
         $('path[move=true]').css({ stroke: '#888' });
         currX = startX + moveX - downX;
         currY = startY + moveY - downY;
-        $(that).css({ top: startY + moveY - downY, left: startX + moveX - downX });
+        $(that).css({ top: currY, left: currX });
     })
     $(document).on('mouseup', '.battery', () => {
         $(document).off('mousemove');
         $(document).off('mouseup');
         $('.selected').removeClass('selected');
         $('path[move]').css({ stroke: '#ccc' }).attr('move', '');
-        updatePosition(batteryId, currX, currY);
+        socket.emit('position', { batteryId, currX, currY });
     })
 }
 // input mouseup 事件
@@ -153,8 +153,9 @@ function outputDown(event) {
     })
 }
 function editBat(event) {
-    var text = $(event.target).text().replace(/^\s*/, '').replace(/\s*$/, '');
-    socket.emit('edit-file', text);
+    var name = $(event.target).text().replace(/^\s*/, '').replace(/\s*$/, '');
+    var dir = $(event.target).prev('div').text().replace(/^\s*/, '').replace(/\s*$/, '');
+    socket.emit('edit-file', dir + name);
 }
 
 $('body').on('mousedown', 'div.battery', event => {
@@ -169,9 +170,10 @@ $('body').on('mousedown', 'span.output', outputDown);
 $('body').on('mouseup', 'span.input', inputUp);
 
 // 给所有的textPath添加click事件，用于切断联系
-$('body').on('click', 'textPath.Cut', e => {
-    const parent = $(e.target).parent('text');
-    const id = parent.attr('id'); //获取的id本身就带有#号
-    parent.remove();
-    $(`path${id}`).remove();
+$('body').on('dblclick', 'path', e => {
+    const path = $(e.target);
+    const outputId = path.attr('output');
+    const inputId = path.attr('input');
+    console.log(outputId, inputId)
+    $(e.target).remove();
 });

@@ -22,13 +22,16 @@ exports.socketHandle = socket => {
     })
     //修改bat的pos坐标
     socket.on('position', data => {
+        console.log(data);
         if (Array.isArray(data)) {
             data.forEach(item => {
                 updatePosition(relations.relations, item);
             })
+            fs.writeFileSync(msgdir, JSON.stringify(relations, null, 4));
         } else {
             updatePosition(relations.relations, data);
         }
+        console.log(relations.relations);
     })
 
     //get folders
@@ -45,7 +48,7 @@ exports.socketHandle = socket => {
     })
     //vsCode open file
     socket.on('edit-file', name => {
-        shell.exec(`code ${process.cwd()}${name}`);
+        shell.exec(`code ${process.cwd()}/${name}`);
     })
 }
 
