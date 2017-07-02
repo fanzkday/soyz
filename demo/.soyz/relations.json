@@ -1,0 +1,172 @@
+{
+    "dirList": [
+        "component",
+        "controller",
+        "model",
+        "route"
+    ],
+    "relations": {
+        "/component/login/login.js": {
+            "id": "_350f1780-5ee6-11e7-9870-f596e36b782e",
+            "dir": "component",
+            "name": "login.js",
+            "input": [
+                "/controller/index.js",
+                "/component/login/validate.js"
+            ],
+            "pos": {
+                "x": 1242,
+                "y": 389
+            }
+        },
+        "/component/login/validate.js": {
+            "id": "_350f1781-5ee6-11e7-9870-f596e36b782e",
+            "dir": "component",
+            "name": "validate.js",
+            "input": [
+                "/controller/index.js"
+            ],
+            "pos": {
+                "x": 1021,
+                "y": 235
+            }
+        },
+        "/component/registry/registry.js": {
+            "id": "_350f3e90-5ee6-11e7-9870-f596e36b782e",
+            "dir": "component",
+            "name": "registry.js",
+            "input": [
+                "/controller/socket.js"
+            ],
+            "pos": {
+                "x": 1224,
+                "y": 55
+            }
+        },
+        "/component/registry/validate.js": {
+            "id": "_350f3e91-5ee6-11e7-9870-f596e36b782e",
+            "dir": "component",
+            "name": "validate.js",
+            "input": [
+                "/controller/index.js"
+            ],
+            "pos": {
+                "x": 960,
+                "y": 133
+            }
+        },
+        "/controller/index.js": {
+            "id": "_350f65a0-5ee6-11e7-9870-f596e36b782e",
+            "dir": "controller",
+            "name": "index.js",
+            "input": [
+                "/index.js",
+                "/model/index.js"
+            ],
+            "pos": {
+                "x": 711,
+                "y": 243
+            }
+        },
+        "/controller/socket.js": {
+            "id": "_350f65a1-5ee6-11e7-9870-f596e36b782e",
+            "dir": "controller",
+            "name": "socket.js",
+            "input": [
+                "/model/index.js",
+                "socket.io"
+            ],
+            "pos": {
+                "x": 803,
+                "y": 47
+            }
+        },
+        "/index.js": {
+            "id": "_350f65a2-5ee6-11e7-9870-f596e36b782e",
+            "dir": "",
+            "name": "index.js",
+            "input": [
+                "jquery",
+                "antd"
+            ],
+            "pos": {
+                "x": 337,
+                "y": 280
+            }
+        },
+        "/model/db.js": {
+            "id": "_350f65a3-5ee6-11e7-9870-f596e36b782e",
+            "dir": "model",
+            "name": "db.js",
+            "input": [
+                "moogose"
+            ],
+            "pos": {
+                "x": 345,
+                "y": 427
+            }
+        },
+        "/model/index.js": {
+            "id": "_350f8cb0-5ee6-11e7-9870-f596e36b782e",
+            "dir": "model",
+            "name": "index.js",
+            "input": [
+                "antd"
+            ],
+            "pos": {
+                "x": 527,
+                "y": 46
+            }
+        },
+        "/route/admin.js": {
+            "id": "_350f8cb1-5ee6-11e7-9870-f596e36b782e",
+            "dir": "route",
+            "name": "admin.js",
+            "input": [
+                "/index.js"
+            ],
+            "pos": {
+                "x": 734,
+                "y": 354
+            }
+        },
+        "/route/user.js": {
+            "id": "_350f8cb2-5ee6-11e7-9870-f596e36b782e",
+            "dir": "route",
+            "name": "user.js",
+            "input": [
+                "/index.js"
+            ],
+            "pos": {
+                "x": 738,
+                "y": 461
+            }
+        }
+    },
+    "dependencies": [
+        {
+            "name": "antd",
+            "id": "_350ec960-5ee6-11e7-9870-f596e36b782e"
+        },
+        {
+            "name": "react",
+            "id": "_350ec961-5ee6-11e7-9870-f596e36b782e"
+        },
+        {
+            "name": "react-dom",
+            "id": "_350ec962-5ee6-11e7-9870-f596e36b782e"
+        },
+        {
+            "name": "shelljs",
+            "id": "_350ec963-5ee6-11e7-9870-f596e36b782e"
+        },
+        {
+            "name": "uuid",
+            "id": "_350ec964-5ee6-11e7-9870-f596e36b782e"
+        },
+        {
+            "name": "moogose",
+            "id": "_350ec965-5ee6-11e7-9870-f596e36b782e"
+        }
+    ]
+}

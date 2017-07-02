@@ -1,0 +1,203 @@
+{
+    "dirList": [
+        "components",
+        "dom",
+        "model",
+        "style",
+        "util"
+    ],
+    "relations": {
+        "/components/bat/index.js": {
+            "id": "_4b001650-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "components",
+            "name": "index.js",
+            "input": [
+                "/model/relations.js"
+            ],
+            "pos": {
+                "x": 81,
+                "y": 236
+            }
+        },
+        "/components/content/index.js": {
+            "id": "_4b003d60-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "components",
+            "name": "index.js",
+            "input": [
+                "react",
+                "/model/relations.js",
+                "/util/socket.js",
+                "/dom/render.js"
+            ],
+            "pos": {
+                "x": 640,
+                "y": 118
+            }
+        },
+        "/components/index.js": {
+            "id": "_4b003d61-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "components",
+            "name": "index.js",
+            "input": [
+                "react",
+                "/components/settings/index.js",
+                "/components/content/index.js"
+            ],
+            "pos": {
+                "x": 1018,
+                "y": 256
+            }
+        },
+        "/components/settings/index.js": {
+            "id": "_4b006470-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "components",
+            "name": "index.js",
+            "input": [
+                "react",
+                "jquery",
+                "antd"
+            ],
+            "pos": {
+                "x": 746,
+                "y": 288
+            }
+        },
+        "/dom/background.js": {
+            "id": "_4b006471-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "dom",
+            "name": "background.js",
+            "input": [
+                "d3"
+            ],
+            "pos": {
+                "x": 938,
+                "y": 153
+            }
+        },
+        "/dom/event.js": {
+            "id": "_4b008b80-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "dom",
+            "name": "event.js",
+            "input": [
+                "d3",
+                "jquery",
+                "/util/socket.js",
+                "/util/tools.js",
+                "/dom/render.js",
+                "/model/relations.js"
+            ],
+            "pos": {
+                "x": 1049,
+                "y": 435
+            }
+        },
+        "/dom/group.js": {
+            "id": "_4b008b81-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "dom",
+            "name": "group.js",
+            "input": [],
+            "pos": {
+                "x": 935,
+                "y": 7
+            }
+        },
+        "/dom/render.js": {
+            "id": "_4b008b82-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "dom",
+            "name": "render.js",
+            "input": [
+                "d3",
+                "jquery",
+                "/components/bat/index.js",
+                "/model/relations.js",
+                "/model/batList.js",
+                "/util/tools.js"
+            ],
+            "pos": {
+                "x": 401,
+                "y": 152
+            }
+        },
+        "/dom/select.js": {
+            "id": "_4b00b290-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "dom",
+            "name": "select.js",
+            "input": [
+                "jquery",
+                "d3",
+                "/model/relations.js"
+            ],
+            "pos": {
+                "x": 1059,
+                "y": 47
+            }
+        },
+        "/index.js": {
+            "id": "_4b00b291-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "",
+            "name": "index.js",
+            "input": [
+                "react",
+                "react-dom",
+                "/components/index.js",
+                "/dom/event.js",
+                "/dom/select.js",
+                "/dom/group.js",
+                "/dom/background.js",
+                "antd/dist/antd.css",
+                "/style/style.css"
+            ],
+            "pos": {
+                "x": 1304,
+                "y": 271
+            }
+        },
+        "/model/batList.js": {
+            "id": "_4b00d9a0-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "model",
+            "name": "batList.js",
+            "input": [
+                "uuid/v1"
+            ],
+            "pos": {
+                "x": 80,
+                "y": 180
+            }
+        },
+        "/model/relations.js": {
+            "id": "_4b00d9a1-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "model",
+            "name": "relations.js",
+            "input": [],
+            "pos": {
+                "x": 106,
+                "y": 734
+            }
+        },
+        "/util/socket.js": {
+            "id": "_4b00d9a2-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "util",
+            "name": "socket.js",
+            "input": [
+                "socket.io-client"
+            ],
+            "pos": {
+                "x": 542,
+                "y": 535
+            }
+        },
+        "/util/tools.js": {
+            "id": "_4b0100b0-5ee8-11e7-b39d-3d40dc76626e",
+            "dir": "util",
+            "name": "tools.js",
+            "input": [
+                "/model/relations.js"
+            ],
+            "pos": {
+                "x": 426,
+                "y": 442
+            }
+        }
+    },
+    "dependencies": []
+}
