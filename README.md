@@ -1,7 +1,6 @@
-## 如何更直观的了解项目结构，是时候试试soyz了！
-## 直观，有趣，功能丰富。
 
-## 先睹为快
+## 说是可视化工具，你可能不会相信。
+
 ![先睹为快，点我](https://github.com/fanzkday/soyz/tree/test/images/desc.png)
 ## 安装(需要全局)
 ````
