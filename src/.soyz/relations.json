@@ -9,19 +9,19 @@
     ],
     "relations": {
         "/bat/index.js": {
-            "id": "_33c00f30-5f1b-11e7-bdfb-1d5a7825cddd",
+            "id": "_2a068f20-5f1e-11e7-b847-f1ae69b93165",
             "dir": "bat",
             "name": "index.js",
             "input": [
                 "/model/relations.js"
             ],
             "pos": {
-                "x": 280,
-                "y": 133
+                "x": 382,
+                "y": 630
             }
         },
         "/controller/render.js": {
-            "id": "_33c03640-5f1b-11e7-bdfb-1d5a7825cddd",
+            "id": "_2a06dd40-5f1e-11e7-b847-f1ae69b93165",
             "dir": "controller",
             "name": "render.js",
             "input": [
@@ -30,22 +30,22 @@
                 "/dom/render.js"
             ],
             "pos": {
-                "x": 1023,
-                "y": 192
+                "x": 1128,
+                "y": 209
             }
         },
         "/dom/background.js": {
-            "id": "_33c05d50-5f1b-11e7-bdfb-1d5a7825cddd",
+            "id": "_2a06dd41-5f1e-11e7-b847-f1ae69b93165",
             "dir": "dom",
             "name": "background.js",
             "input": [],
             "pos": {
-                "x": 778,
-                "y": 45
+                "x": 1122,
+                "y": 38
             }
         },
         "/dom/event.js": {
-            "id": "_33c08460-5f1b-11e7-bdfb-1d5a7825cddd",
+            "id": "_2a070450-5f1e-11e7-b847-f1ae69b93165",
             "dir": "dom",
             "name": "event.js",
             "input": [
@@ -55,12 +55,12 @@
                 "/model/relations.js"
             ],
             "pos": {
-                "x": 911,
-                "y": 98
+                "x": 1384,
+                "y": 445
             }
         },
         "/dom/render.js": {
-            "id": "_33c08461-5f1b-11e7-bdfb-1d5a7825cddd",
+            "id": "_2a072b60-5f1e-11e7-b847-f1ae69b93165",
             "dir": "dom",
             "name": "render.js",
             "input": [
@@ -69,24 +69,24 @@
                 "/util/tools.js"
             ],
             "pos": {
-                "x": 553,
-                "y": 104
+                "x": 975,
+                "y": 631
             }
         },
         "/dom/select.js": {
-            "id": "_33c08462-5f1b-11e7-bdfb-1d5a7825cddd",
+            "id": "_2a072b61-5f1e-11e7-b847-f1ae69b93165",
             "dir": "dom",
             "name": "select.js",
             "input": [
                 "/model/relations.js"
             ],
             "pos": {
-                "x": 1026,
-                "y": 383
+                "x": 1126,
+                "y": 120
             }
         },
         "/index.js": {
-            "id": "_33c0ab70-5f1b-11e7-bdfb-1d5a7825cddd",
+            "id": "_2a075270-5f1e-11e7-b847-f1ae69b93165",
             "dir": "",
             "name": "index.js",
             "input": [
@@ -99,42 +99,42 @@
                 "/style/style.less"
             ],
             "pos": {
-                "x": 1285,
-                "y": 56
+                "x": 1487,
+                "y": 176
             }
         },
         "/model/relations.js": {
-            "id": "_33c0d280-5f1b-11e7-bdfb-1d5a7825cddd",
+            "id": "_2a075271-5f1e-11e7-b847-f1ae69b93165",
             "dir": "model",
             "name": "relations.js",
             "input": [],
             "pos": {
-                "x": 342,
-                "y": 633
+                "x": 90,
+                "y": 240
             }
         },
         "/util/socket.js": {
-            "id": "_33c0d281-5f1b-11e7-bdfb-1d5a7825cddd",
+            "id": "_2a077980-5f1e-11e7-b847-f1ae69b93165",
             "dir": "util",
             "name": "socket.js",
             "input": [
                 "socket.io-client"
             ],
             "pos": {
-                "x": 563,
-                "y": 252
+                "x": 857,
+                "y": 307
             }
         },
         "/util/tools.js": {
-            "id": "_33c0f990-5f1b-11e7-bdfb-1d5a7825cddd",
+            "id": "_2a077981-5f1e-11e7-b847-f1ae69b93165",
             "dir": "util",
             "name": "tools.js",
             "input": [
                 "/model/relations.js"
             ],
             "pos": {
-                "x": 366,
-                "y": 213
+                "x": 746,
+                "y": 455
             }
         }
     },

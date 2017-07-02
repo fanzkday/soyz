@@ -36,8 +36,8 @@ export function randomPos(dir) {
         yIndex += 1;
     }
     return {
-        x: Math.ceil((Math.random()) * 500) + 100 + 600 * xIndex,
-        y: Math.ceil((Math.random()) * 400) + 400 * yIndex
+        x: Math.ceil((Math.random()) * 400) + 100 + 400 * xIndex,
+        y: Math.ceil((Math.random()) * 300) + 300 * yIndex
     }
 }
 
