@@ -15,10 +15,11 @@ exports.socketHandle = socket => {
     //自动保存
     const timer = setInterval(() => {
         saveStructure();
-    }, autoSaveInterval);
+    }, autoSaveInterval * 60 * 1000);
 
     socket.on('close', () => {
         clearInterval(timer);
+        saveStructure();
     })
     //服务器推送数据
     socket.on('init', () => {
@@ -35,12 +36,7 @@ exports.socketHandle = socket => {
             updatePosition(structure.relations, data);
         }
     })
-
-    //make folders
-    socket.on('make-dir', folders => {
-        makeDir(folders);
-    })
-    //battery之间建立引用关系
+    //bat之间建立引用关系
     socket.on('build-relation', relation => {
         buildRelations(relation);
     })

@@ -1,12 +1,10 @@
 {
   "standard": "ES6",
-  "autoSaveInterval": 20000,
+  "autoSaveInterval": 3,
   "ignoreDirs": [
     "node_modules",
     "build",
-    "public",
-    "server",
-    "src"
+    "dist"
   ],
   "extname": ".js",
   "idel": "code"

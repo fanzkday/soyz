@@ -8,13 +8,13 @@ exports.getDependencies = function () {
     var package;
     try {
         package = JSON.parse(fs.readFileSync(`${rootdir}/package.json`));
-    } catch(e) {
-        console.error(e);
+    } catch (e) {
+        console.error('package.json is not exist!');
         return [];
     }
     const modulesName = [];
     for (var key in package.dependencies) {
-        modulesName.push({ name: key, id: `_${uuid()}`});
+        modulesName.push({ name: key, id: `_${uuid()}` });
     }
     return modulesName;
 }
