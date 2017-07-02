@@ -1,5 +1,5 @@
 {
-  "standard": "ES6",
+  "standard": "CommonJs",
   "autoSaveInterval": 20000,
   "ignoreDirs": [
     "node_modules",
