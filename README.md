@@ -1,5 +1,5 @@
 
-## 这是一款分析项目引用关系的小工具
+## 这是一款分析项目引用关系的小工具，拥有可视化的界面。
 
 ![先睹为快，点我](https://github.com/fanzkday/soyz/tree/test/images/desc.png)
 ## 安装(需要全局)
