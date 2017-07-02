@@ -12,7 +12,7 @@
 ````
 npm install -g soyz
 ````
-## 来个demo一试身手
+## 可以先来个demo
 ````
 soyz demo
 ````
@@ -28,7 +28,11 @@ soyz start
 
 > shift+鼠标滚轮     左右滚动
 
-> 双击小模块可以编辑当前文件（需要在配置文件中指定编辑器的可执行文件的地址,例如）
+> ctrl shift +      放大视图
+
+> ctrl -            缩小试图
+
+> 双击编辑文件（需要在配置文件中指定编辑器的可执行文件的地址,例如）
 
 ````
 C:\Program Files\sublime\sublime.exe
@@ -39,11 +43,11 @@ C:\Program Files\sublime\sublime.exe
 ## config.json文件说明
 > standard          //项目使用的语言规范(目前仅支持ES6和CommonJs)
 
-> autoSaveInterval  //自动保存的时间间隔
+> autoSaveInterval  //自动保存的时间间隔(单位：min)
 
 > ignoreDirs        //忽略的文件夹名字
 
-> extname           //项目使用的文件后缀名，可以是js，ts等等
+> extname           //项目使用的文件后缀名，可以是js或者ts等等
 
 > idel              //默认编辑器的可执行文件的地址(默认vs code)
 
