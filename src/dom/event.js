@@ -1,8 +1,8 @@
+import * as d3 from 'd3';
 import * as $ from 'jquery';
 import socket from '../util/socket.js';
 import { curveTo } from '../util/tools.js';
 import { pathText } from './render.js';
-import { getBatList } from '../model/batList.js';
 import { getRelationData } from '../model/relations.js';
 
 //常量
@@ -43,6 +43,7 @@ function batteryDown(that, event) {
     var startY = $(that).offset().top;
 
     var batteryId = getId(that);
+    $(that).addClass('selected');
 
     //battery的input端path
     var inputPaths = $(`path[input=${batteryId}]`);
@@ -109,21 +110,32 @@ function inputUp(event) {
         currPath.attr('input', inputId).attr('end', `${inputX},${inputY}`).attr('id', id);
 
         let fromPath, toPath;
-        var List = getBatList();
-        List.forEach(item => {
+        var List = getRelationData().relations;
+        for (var key in List) {
+            const elem = List[key];
+            if (elem.id === outputId) {
+                toPath = { name: elem.name, dir: key };
+            }
+            if (elem.id === inputId) {
+                fromPath = { name: elem.name, dir: key };
+            }
+        }
+        var dirList = getRelationData().dependencies;
+        dirList.forEach(item => {
             if (item.id === outputId) {
-                fromPath = { dir: item.dir, name: item.name };
+                toPath = { name: item.name, dir: '' };
             }
             if (item.id === inputId) {
-                toPath = { dir: item.dir, name: item.name };
+                fromPath = { name: item.name, dir: '' };
             }
-        })
-        socket.emit('build-relation', { fromPath, toPath });
-        //生成路径文字
-        const fromText = fromPath.dir ? `${fromPath.dir}/${fromPath.name}` : fromPath.name;
-        const toText = toPath.dir ? `${toPath.dir}/${toPath.name}` : toPath.name;
-        pathText(`#${id}`, `${fromText} TO ${toText}`);
-
+        });
+        if ($(`path#${id}`).length === 1) {
+            socket.emit('build-relation', { fromA: fromPath, toB: toPath });
+            //生成路径文字
+            pathText(`#${id}`, `${fromPath.name} From ${toPath.name}`);
+        } else {
+            currPath.remove();
+        }
         $(document).off('mousemove');
         tempX = tempY = currPath = inputId = outputId = '';
     }
@@ -138,7 +150,7 @@ function outputDown(event) {
     tempX = $(that).offset().left + width;
     tempY = $(that).offset().top + width;
 
-    currPath = $('#svg svg').append('path');
+    currPath = d3.select('#svg svg').append('path');
     currPath.attr('output', outputId).attr('start', `${tempX},${tempY}`);
 
     $(document).on('mousemove', event => {
@@ -155,7 +167,7 @@ function outputDown(event) {
 function editBat(event) {
     var name = $(event.target).text().replace(/^\s*/, '').replace(/\s*$/, '');
     var dir = $(event.target).prev('div').text().replace(/^\s*/, '').replace(/\s*$/, '');
-    socket.emit('edit-file', dir + name);
+    socket.emit('edit-file', dir + '/' + name);
 }
 
 $('body').on('mousedown', 'div.battery', event => {
@@ -170,10 +182,10 @@ $('body').on('mousedown', 'span.output', outputDown);
 $('body').on('mouseup', 'span.input', inputUp);
 
 // 给所有的textPath添加click事件，用于切断联系
-$('body').on('dblclick', 'path', e => {
+/*$('body').on('dblclick', 'path', e => {
     const path = $(e.target);
     const outputId = path.attr('output');
     const inputId = path.attr('input');
     console.log(outputId, inputId)
     $(e.target).remove();
-});
+});*/

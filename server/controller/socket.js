@@ -1,16 +1,20 @@
 const fs = require('fs');
 const Path = require('path');
 const shell = require('shelljs');
-const { getStructure, makeDir, makeFile, buildRelations } = require('./util.js');
-const relations = require('../conf/relations.json');
+const { buildRelations } = require('./util.js');
+const { initStructure , saveStructure } = require('../model/data.js');
 
-const autoSaveInterval = require('../conf/config.json').autoSaveInterval;
+const rootdir = process.cwd();
+const config = require(`${rootdir}/.soyz/config.json`);
+const idel = config.idel;
+const autoSaveInterval = config.autoSaveInterval;
 
-const msgdir =  Path.resolve(__dirname, '../') + '/conf/relations.json';
+const structure = initStructure();
+
 exports.socketHandle = socket => {
     //自动保存
     const timer = setInterval(() => {
-        fs.writeFileSync(msgdir, JSON.stringify(relations, null, 4));
+        saveStructure();
     }, autoSaveInterval);
 
     socket.on('close', () => {
@@ -18,26 +22,20 @@ exports.socketHandle = socket => {
     })
     //服务器推送数据
     socket.on('init', () => {
-        socket.emit('init', relations);
+        socket.emit('init', structure);
     })
     //修改bat的pos坐标
     socket.on('position', data => {
-        console.log(data);
         if (Array.isArray(data)) {
             data.forEach(item => {
-                updatePosition(relations.relations, item);
+                updatePosition(structure.relations, item);
             })
-            fs.writeFileSync(msgdir, JSON.stringify(relations, null, 4));
+            saveStructure();
         } else {
-            updatePosition(relations.relations, data);
+            updatePosition(structure.relations, data);
         }
-        console.log(relations.relations);
     })
 
-    //get folders
-    socket.on('get-folders', () => {
-        socket.emit('get-folders', getStructure());
-    })
     //make folders
     socket.on('make-dir', folders => {
         makeDir(folders);
@@ -46,16 +44,18 @@ exports.socketHandle = socket => {
     socket.on('build-relation', relation => {
         buildRelations(relation);
     })
-    //vsCode open file
+    //用编辑器打开文件进行修改
     socket.on('edit-file', name => {
-        shell.exec(`code ${process.cwd()}/${name}`);
+        const path = `${rootdir}${name}`.replace('/entry', '');
+        console.log(path);
+        shell.exec(`${idel} ${path}`);
     })
 }
 
 //遍历object， 修改数据
-function updatePosition(relation, item) {
-    for (var key in relation) {
-        const element = relation[key];
+function updatePosition(structure, item) {
+    for (var key in structure) {
+        const element = structure[key];
         if (typeof element === 'object' && element.id === item.batteryId) {
             element.pos.x = item.currX;
             element.pos.y = item.currY;

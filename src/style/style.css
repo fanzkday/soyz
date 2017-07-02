@@ -27,7 +27,7 @@ body {
   opacity: 0;
 }
 #setting {
-  position: absolute;
+  position: fixed;
   top: 5px;
   right: 5px;
   z-index: 1000;
@@ -64,7 +64,7 @@ body {
   stroke: blue;
   stroke-width: 1;
   fill-opacity: 0.1;
-  stroke-opacity: 0.7;
+  stroke-opacity: 0.5;
 }
 #svg polygon,
 #select polygon {
@@ -117,9 +117,9 @@ body {
   left: 50%;
   padding: 0 3px;
   height: 20px;
-  line-height: 15px;
+  line-height: 16px;
   color: #666;
-  border: 1px solid #aaa;
+  border: 1px solid #999;
   border-radius: 4px;
   text-align: center;
   transform: translateX(-50%);

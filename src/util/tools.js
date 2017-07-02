@@ -22,8 +22,7 @@ export function curveTo(x1, y1, x4, y4) {
  * 生成随机的坐标
  */
 export function randomPos(dir) {
-    // 3000*3000，划分成3*2，6块区域，存放不同的文件夹。另外单独划分一个区域，用于存放剩余的文件夹
-    // 平均每块的区域为 900 * 600
+    
     const dirList = getRelationData().dirList;
     var xIndex = 0;
     var yIndex = 0;
@@ -37,8 +36,8 @@ export function randomPos(dir) {
         yIndex += 1;
     }
     return {
-        x: Math.ceil((Math.random()) * 800) + 100 + 900 * xIndex,
-        y: Math.ceil((Math.random()) * 500) + 500 * yIndex
+        x: Math.ceil((Math.random()) * 500) + 100 + 600 * xIndex,
+        y: Math.ceil((Math.random()) * 400) + 400 * yIndex
     }
 }
 

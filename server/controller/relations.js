@@ -1,61 +1,26 @@
-/**
- * 本文件中所有io操作都必须是同步
- */
+
 const fs = require('fs');
 const Path = require('path');
 const uuid = require('uuid/v1');
-const config = require('../conf/config.json');
-const { getDependencies } = require('./tools.js');
 
-// 忽略的文件夹名字
-const ignoreDirs = config.ignoreDirs;
+const { initStructure } = require('../model/data.js');
+
+var rootdir = process.cwd();
+
+const config = require(`${rootdir}/.soyz/config.json`);
 // 需要匹配的文件后缀名
 const extname = config.extname;
 // 需要匹配的文件后缀名
 const standard = config.standard;
+// 忽略的文件夹名字
+const ignoreDirs = config.ignoreDirs;
 
-const rootdir = process.cwd();
+const structure = initStructure();
 
-var structure = {};
-
-const msgdir = Path.resolve(__dirname, '../') + '/conf/relations.json';
-
-const isExistMsgJson = fs.existsSync(msgdir);
-if (isExistMsgJson) {
-    const relations = fs.readFileSync(msgdir, 'utf8');
-    structure = JSON.parse(relations);
-}
-
-/**
- * 生成文档结构和关系
- */
-exports.generateSt = () => {
-    structure.dirList = [];
-    getRootDir(rootdir);
-    readdir(rootdir);
-    structure.dependencies = getDependencies();
-    fs.writeFileSync(msgdir, JSON.stringify(structure, null, 4));
-}
-/**
- * 读取根目录结构
- */
-function getRootDir(path) {
-    const isExist = fs.existsSync(path);
-    if (isExist) {
-        const list = fs.readdirSync(path);
-        list.forEach(name => {
-            var currPath = `${path}/${name}`;
-            var stat = fs.statSync(currPath);
-            if (stat.isDirectory() && ignoreDirs.indexOf(name) === -1 && !/^\./.test(name)) {
-                structure.dirList.push(name);
-            }
-        })
-    }
-}
 /**
  * 读取所有目录结构
  */
-function readdir(path) {
+exports.readdir = function readdir(path) {
     const isExist = fs.existsSync(path);
     if (isExist) {
         const dirList = fs.readdirSync(path);
@@ -86,13 +51,20 @@ function setJson(currPath, modules) {
             pos: {}
         }
     }
+    if (structure.relations[currPath]) {
+        structure.relations[currPath].input =  modules;
+    }
 }
 
 /**
- * 读取文件中包含信息，提取 import {} from 'antd'中的'antd'
+ * 读取文件中包含信息模块引用关系
  */
 function searchModulePath(path) {
-    const reg = new RegExp(standard, 'g');
+    var reg;
+    if (standard === 'ES6') {
+        reg = /import.*(.*|from).*((\'.*\')|(\".*\"))/g;
+    }
+    
     if (typeof path === 'string') {
         const data = fs.readFileSync(path, 'utf8');
         var allResult = data.match(reg) || [];
@@ -116,7 +88,12 @@ function parseModulePath(currPath, moduleArr) {
                 try {
                     stat = fs.statSync(module);
                 } catch (e) {
-                    stat = fs.statSync(module + extname);
+                    try{
+                        stat = fs.statSync(module + extname);
+                    } catch(e) {
+                        console.error(e);
+                        return '';
+                    }
                 }
                 if (stat.isDirectory()) {
                     module = `${module}/index${extname}`;

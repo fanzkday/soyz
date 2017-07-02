@@ -1,12 +1,13 @@
 {
-  "standard": "import.*(.*|from).*((\\'.*\\')|(\\\".*\\\"))",
-  "autoSaveInterval": 50000,
+  "standard": "ES6",
+  "autoSaveInterval": 20000,
   "ignoreDirs": [
     "node_modules",
     "build",
     "public",
-    "server"
+    "server",
+    "src"
   ],
   "extname": ".js",
-  "isDisplayPathText": 0
+  "idel": "code"
 }

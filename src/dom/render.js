@@ -27,7 +27,8 @@ export function createBats(obj, posArr) {
             const info = {
                 id: element.id,
                 dir: element.dir,
-                name: element.name
+                name: element.name,
+                path: key
             }
             if ($(`#${info.id}`).length === 0) {
                 if (!element.pos.x) {
@@ -112,13 +113,7 @@ export function pathText(id, texts) {
         .attr('dy', '-5px')
         .style('display', 'none');
     text.append('textPath')
-        .attr('startOffset', '45%')
+        .attr('startOffset', '35%')
         .attr('xlink:href', id)
         .text(texts);
-    text.append('textPath')
-        .style('fill', 'red')
-        .attr('startOffset', '40%')
-        .attr('class', 'Cut')
-        .attr('xlink:href', id)
-        .text('X');
 }
