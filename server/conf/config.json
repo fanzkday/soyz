@@ -1,6 +1,6 @@
 {
   "standard": "ES6",
-  "autoSaveInterval": 20000,
+  "autoSaveInterval": 2,
   "ignoreDirs": [
     "node_modules",
     "build",
