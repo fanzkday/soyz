@@ -1,5 +1,3 @@
-import * as $ from 'jquery';
-import * as d3 from 'd3';
 import { getRelationData } from '../model/relations.js';
 
 // 框选

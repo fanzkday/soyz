@@ -62,7 +62,10 @@ function setJson(currPath, modules) {
 function searchModulePath(path) {
     var reg;
     if (standard === 'ES6') {
-        reg = /import.*(.*|from).*((\'.*\')|(\".*\"))/g;
+        reg = /\bimport.*(.*|from).*((\'.*\')|(\".*\"))/g;
+    }
+    if (standard === 'CommonJs') {
+        reg = /=\s?require\(((\'.*\')|(\".*\"))\)/g;
     }
     
     if (typeof path === 'string') {

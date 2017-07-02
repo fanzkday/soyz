@@ -1,8 +1,5 @@
-import * as d3 from 'd3';
-import * as $ from 'jquery';
-import { battery, onlyOutputBattery } from '../components/bat';
+import { battery, onlyOutputBattery } from '../bat/index.js';
 import { getRelationData } from '../model/relations.js';
-import { addToList } from '../model/batList.js';
 import { randomPos, curveTo } from '../util/tools.js';
 
 /**
@@ -10,7 +7,11 @@ import { randomPos, curveTo } from '../util/tools.js';
  */
 export function createModuleBat(data) {
     data.dependencies.forEach(item => {
-        const info = addToList(item.id, '', item.name);
+        const info = {
+            id: item.id,
+            dir: '',
+            name: item.name
+        }
         if ($(`#${info.id}`).length === 0) {
             $('#content .module').append(onlyOutputBattery(info));
         }

@@ -1,5 +1,3 @@
-import * as d3 from 'd3';
-import * as $ from 'jquery';
 import socket from '../util/socket.js';
 import { curveTo } from '../util/tools.js';
 import { pathText } from './render.js';
