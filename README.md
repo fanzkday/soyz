@@ -32,10 +32,10 @@ soyz start
 
 > ctrl -            缩小试图
 
-> 双击编辑文件（需要在配置文件中指定编辑器的可执行文件的地址,例如）
+> 双击编辑文件（需要在配置文件中指定编辑器的可执行文件的地址,例如windows下）
 
 ````
-C:\Program Files\sublime\sublime.exe
+C:\\ProgramFiles\\sublime\\sublime.exe
 ````
 
 > 每个小模块的输出端可以牵引出一条连接线到另一个小模块的输入端(你的文件内容也会发生变化)
