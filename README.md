@@ -41,15 +41,15 @@ C:\\ProgramFiles\\sublime\\sublime.exe
 > 每个小模块的输出端可以牵引出一条连接线到另一个小模块的输入端(你的文件内容也会发生变化)
 
 ## config.json文件说明
-> standard          //项目使用的语言规范(目前仅支持ES6和CommonJs)
+> standard    //项目使用的语言规范(目前仅支持ES6和CommonJs)
 
-> autoSaveInterval  //自动保存的时间间隔(单位：min)
+> autoSaveInterval    //自动保存的时间间隔(单位：min)
 
-> ignoreDirs        //忽略的文件夹名字
+> ignoreDirs    //忽略的文件夹名字
 
-> extname           //项目使用的文件后缀名，可以是js或者ts等等
+> extname    //项目使用的文件后缀名，可以是js或者ts等等
 
-> idel              //默认编辑器的可执行文件的地址(默认vs code)
+> idel    //默认编辑器的可执行文件的地址(默认vs code)
 
 
 ### 这个项目才刚开始, 也算是我个人的一个探索
