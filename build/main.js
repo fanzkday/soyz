@@ -8,7 +8,7 @@ function createWindow() {
   win.loadURL(`file:///${__dirname}/index.html`);
 
   // 打开窗口的调试工具
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
   // 窗口关闭的监听
   win.on('closed', () => {
     win = null;

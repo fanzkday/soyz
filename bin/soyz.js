@@ -9,7 +9,7 @@ if (argv[0] === 'demo') {
 
     shell.rm('-rf', `${process.cwd()}/demo`);
     shell.cp('-Rf', `${dirname}/demo`, `${process.cwd()}/demo`);
-    shell.cd('/demo');
+    shell.cd(`${process.cwd()}/demo`);
     shell.exec(`soyz start`);
 
 } else if (argv[0] === 'init') {
