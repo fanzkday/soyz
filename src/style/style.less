@@ -103,6 +103,28 @@ body {
     bottom: 0;
     z-index: 100;
     pointer-events: none;
+    .menu{
+        position: absolute;
+        width: 80px;
+        border: 1px solid #999;
+        border-radius: 4px;;
+        li{
+            pointer-events: all;
+            cursor: pointer;
+            overflow: hidden;
+            height: 30px;
+            line-height: 30px;
+            list-style: none;
+            background-color: #fff;
+            border-bottom: 1px solid #999;
+            &:hover{
+                background-color: #ccc;
+            }
+            &:last-child{
+                border: none;
+            }
+        }
+    }
 }
 
 .battery.entry {

@@ -31,3 +31,15 @@ export function onlyOutputBattery(info) {
         </div>`
     )
 }
+
+export function inputContentMenu(data) {
+    const html = '<ul class="menu">';
+    const content = data.map(item => {
+        return (
+            `<li>${item}</li>`
+        );
+    }).join('');
+    return html + content + '</ul>';
+}
+
+

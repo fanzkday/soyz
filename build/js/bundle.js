@@ -173,12 +173,12 @@ function formatArgs(args) {
   if (!useColors) return;
 
   var c = 'color: ' + this.color;
-  args.splice(1, 0, c, 'color: inherit'
+  args.splice(1, 0, c, 'color: inherit');
 
   // the final "%c" is somewhat tricky, because there could be other
   // arguments passed either before or after the %c, so we need to
   // figure out the correct index to insert the CSS into
-  );var index = 0;
+  var index = 0;
   var lastC = 0;
   args[0].replace(/%[a-zA-Z%]/g, function (match) {
     if ('%%' === match) return;
@@ -445,15 +445,15 @@ Emitter.prototype.hasListeners = function(event){
  * Module dependencies.
  */
 
-var keys = __webpack_require__(40);
+var keys = __webpack_require__(42);
 var hasBinary = __webpack_require__(13);
-var sliceBuffer = __webpack_require__(41);
-var after = __webpack_require__(42);
-var utf8 = __webpack_require__(43);
+var sliceBuffer = __webpack_require__(43);
+var after = __webpack_require__(44);
+var utf8 = __webpack_require__(45);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(45);
+  base64encoder = __webpack_require__(47);
 }
 
 /**
@@ -511,7 +511,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(46);
+var Blob = __webpack_require__(48);
 
 /**
  * Encodes a packet.
@@ -11402,8 +11402,8 @@ module.exports = function(a, b){
 var debug = __webpack_require__(1)('socket.io-parser');
 var Emitter = __webpack_require__(2);
 var hasBin = __webpack_require__(13);
-var binary = __webpack_require__(34);
-var isBuf = __webpack_require__(15);
+var binary = __webpack_require__(35);
+var isBuf = __webpack_require__(14);
 
 /**
  * Protocol version.
@@ -11802,7 +11802,7 @@ function error() {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(38);
+var hasCORS = __webpack_require__(40);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -12079,7 +12079,7 @@ module.exports = function parseuri(str) {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(14);
+var isArray = __webpack_require__(34);
 
 var toString = Object.prototype.toString;
 var withNativeBlob = typeof global.Blob === 'function' || toString.call(global.Blob) === '[object BlobConstructor]';
@@ -12140,17 +12140,6 @@ function hasBinary (obj) {
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
-/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -12170,7 +12159,7 @@ function isBuf(obj) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -12178,15 +12167,15 @@ function isBuf(obj) {
  * Module dependencies.
  */
 
-var eio = __webpack_require__(35);
-var Socket = __webpack_require__(21);
+var eio = __webpack_require__(37);
+var Socket = __webpack_require__(20);
 var Emitter = __webpack_require__(2);
 var parser = __webpack_require__(8);
-var on = __webpack_require__(22);
-var bind = __webpack_require__(23);
+var on = __webpack_require__(21);
+var bind = __webpack_require__(22);
 var debug = __webpack_require__(1)('socket.io-client:manager');
-var indexOf = __webpack_require__(20);
-var Backoff = __webpack_require__(52);
+var indexOf = __webpack_require__(19);
+var Backoff = __webpack_require__(54);
 
 /**
  * IE6+ hasOwnProperty
@@ -12749,7 +12738,7 @@ Manager.prototype.onreconnect = function () {
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -12757,9 +12746,9 @@ Manager.prototype.onreconnect = function () {
  */
 
 var XMLHttpRequest = __webpack_require__(9);
-var XHR = __webpack_require__(39);
-var JSONP = __webpack_require__(47);
-var websocket = __webpack_require__(48);
+var XHR = __webpack_require__(41);
+var JSONP = __webpack_require__(49);
+var websocket = __webpack_require__(50);
 
 /**
  * Export transports.
@@ -12809,7 +12798,7 @@ function polling (opts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -12820,7 +12809,7 @@ var Transport = __webpack_require__(10);
 var parseqs = __webpack_require__(6);
 var parser = __webpack_require__(3);
 var inherit = __webpack_require__(7);
-var yeast = __webpack_require__(19);
+var yeast = __webpack_require__(18);
 var debug = __webpack_require__(1)('engine.io-client:polling');
 
 /**
@@ -13060,7 +13049,7 @@ Polling.prototype.uri = function () {
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13135,7 +13124,7 @@ module.exports = yeast;
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports) {
 
 
@@ -13150,7 +13139,7 @@ module.exports = function(arr, obj){
 };
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -13160,9 +13149,9 @@ module.exports = function(arr, obj){
 
 var parser = __webpack_require__(8);
 var Emitter = __webpack_require__(2);
-var toArray = __webpack_require__(51);
-var on = __webpack_require__(22);
-var bind = __webpack_require__(23);
+var toArray = __webpack_require__(53);
+var on = __webpack_require__(21);
+var bind = __webpack_require__(22);
 var debug = __webpack_require__(1)('socket.io-client:socket');
 var parseqs = __webpack_require__(6);
 
@@ -13574,7 +13563,7 @@ Socket.prototype.compress = function (compress) {
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports) {
 
 
@@ -13604,7 +13593,7 @@ function on (obj, ev, fn) {
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports) {
 
 /**
@@ -13633,7 +13622,7 @@ module.exports = function(obj, fn){
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13750,7 +13739,7 @@ function offsetCenter(arr2d) {
 }
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13768,11 +13757,11 @@ exports.createRelations = createRelations;
 exports.createRelationPath = createRelationPath;
 exports.pathText = pathText;
 
-var _index = __webpack_require__(53);
+var _index = __webpack_require__(25);
 
 var _relations = __webpack_require__(4);
 
-var _tools = __webpack_require__(24);
+var _tools = __webpack_require__(23);
 
 /**
  * 生成module bat
@@ -13844,9 +13833,9 @@ function _buildRelations(element, dev) {
                     var outputId = item.id;
                     createRelationPath(outputId, inputId);
                 }
-            }
+            });
             //
-            );var relations = (0, _relations.getRelationData)().relations;
+            var relations = (0, _relations.getRelationData)().relations;
             for (var key in relations) {
                 if (key === input) {
                     var outputId = relations[key].id;
@@ -13887,6 +13876,50 @@ function pathText(id, texts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.battery = battery;
+exports.onlyOutputBattery = onlyOutputBattery;
+exports.inputContentMenu = inputContentMenu;
+
+var _relations = __webpack_require__(4);
+
+function battery(info) {
+    var path = !info.dir ? '/entry' : info.path.split('/').slice(0, -1).join('/');
+    var className = !info.dir ? 'entry' : '';
+
+    var dirList = (0, _relations.getRelationData)().dirList;
+
+    var colorClass = '';
+    dirList && dirList.forEach(function (dir, index) {
+        if (info.dir === dir) {
+            colorClass = '_' + index + 'color';
+        }
+    });
+
+    return '<div class="battery ' + className + ' ' + colorClass + '" id="' + info.id + '">\n            <div>' + path + '</div>\n            <p class="title" title="' + info.name + '">' + info.name + '</p>\n            <span class="input"></span>\n            <span class="output"></span>\n        </div>';
+}
+
+function onlyOutputBattery(info) {
+    return '<div class="battery only_output" id="' + info.id + '">\n            <p class="title" title="' + info.name + '">' + info.name + '</p>\n            <span class="output"></span>\n        </div>';
+}
+
+function inputContentMenu(data) {
+    var html = '<ul class="menu">';
+    var content = data.map(function (item) {
+        return '<li>' + item + '</li>';
+    }).join('');
+    return html + content + '</ul>';
+}
+
+/***/ }),
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13903,13 +13936,13 @@ var d3 = _interopRequireWildcard(_d);
 
 __webpack_require__(28);
 
-__webpack_require__(54);
-
 __webpack_require__(55);
 
 __webpack_require__(56);
 
 __webpack_require__(57);
+
+__webpack_require__(58);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -30800,11 +30833,13 @@ var _socket = __webpack_require__(11);
 
 var _socket2 = _interopRequireDefault(_socket);
 
-var _tools = __webpack_require__(24);
+var _tools = __webpack_require__(23);
 
-var _render = __webpack_require__(25);
+var _render = __webpack_require__(24);
 
 var _relations = __webpack_require__(4);
+
+var _index = __webpack_require__(25);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30906,6 +30941,12 @@ function inputUp(event) {
     inputId = getId(that);
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
+    // 添加右键菜单
+    var html = (0, _index.inputContentMenu)(['hello', 'world', 'fanzkday']);
+    $('#content .menu').remove();
+    $('#content').append(html);
+    $('#content .menu').css({ top: inputY, left: inputX });
+    $(document).off('mousemove');
 
     if (tempX && tempY && currPath) {
         currPath.attr('d', (0, _tools.curveTo)(tempX, tempY, inputX, inputY));
@@ -30940,7 +30981,7 @@ function inputUp(event) {
         } else {
             currPath.remove();
         }
-        $(document).off('mousemove');
+
         tempX = tempY = currPath = inputId = outputId = '';
     }
 }
@@ -31006,7 +31047,7 @@ $('body').on('mouseup', 'span.input', inputUp);
 
 var url = __webpack_require__(30);
 var parser = __webpack_require__(8);
-var Manager = __webpack_require__(16);
+var Manager = __webpack_require__(15);
 var debug = __webpack_require__(1)('socket.io-client');
 
 /**
@@ -31091,8 +31132,8 @@ exports.connect = lookup;
  * @api public
  */
 
-exports.Manager = __webpack_require__(16);
-exports.Socket = __webpack_require__(21);
+exports.Manager = __webpack_require__(15);
+exports.Socket = __webpack_require__(20);
 
 
 /***/ }),
@@ -31737,6 +31778,17 @@ function plural(ms, n, name) {
 
 /***/ }),
 /* 34 */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+
+/***/ }),
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -31745,8 +31797,8 @@ function plural(ms, n, name) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(14);
-var isBuf = __webpack_require__(15);
+var isArray = __webpack_require__(36);
+var isBuf = __webpack_require__(14);
 var toString = Object.prototype.toString;
 var withNativeBlob = typeof global.Blob === 'function' || toString.call(global.Blob) === '[object BlobConstructor]';
 var withNativeFile = typeof global.File === 'function' || toString.call(global.File) === '[object FileConstructor]';
@@ -31884,19 +31936,30 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 36 */
+/***/ (function(module, exports) {
 
+var toString = {}.toString;
 
-module.exports = __webpack_require__(36);
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-module.exports = __webpack_require__(37);
+module.exports = __webpack_require__(38);
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+module.exports = __webpack_require__(39);
 
 /**
  * Exports parser
@@ -31908,20 +31971,20 @@ module.exports.parser = __webpack_require__(3);
 
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module dependencies.
  */
 
-var transports = __webpack_require__(17);
+var transports = __webpack_require__(16);
 var Emitter = __webpack_require__(2);
 var debug = __webpack_require__(1)('engine.io-client:socket');
-var index = __webpack_require__(20);
+var index = __webpack_require__(19);
 var parser = __webpack_require__(3);
 var parseuri = __webpack_require__(12);
-var parsejson = __webpack_require__(50);
+var parsejson = __webpack_require__(52);
 var parseqs = __webpack_require__(6);
 
 /**
@@ -32056,7 +32119,7 @@ Socket.protocol = parser.protocol; // this is an int
 
 Socket.Socket = Socket;
 Socket.Transport = __webpack_require__(10);
-Socket.transports = __webpack_require__(17);
+Socket.transports = __webpack_require__(16);
 Socket.parser = __webpack_require__(3);
 
 /**
@@ -32659,7 +32722,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports) {
 
 
@@ -32682,7 +32745,7 @@ try {
 
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -32690,7 +32753,7 @@ try {
  */
 
 var XMLHttpRequest = __webpack_require__(9);
-var Polling = __webpack_require__(18);
+var Polling = __webpack_require__(17);
 var Emitter = __webpack_require__(2);
 var inherit = __webpack_require__(7);
 var debug = __webpack_require__(1)('engine.io-client:polling-xhr');
@@ -33102,7 +33165,7 @@ function unloadHandler () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports) {
 
 
@@ -33127,7 +33190,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports) {
 
 /**
@@ -33162,7 +33225,7 @@ module.exports = function(arraybuffer, start, end) {
 
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = after
@@ -33196,7 +33259,7 @@ function noop() {}
 
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/utf8js v2.1.2 by @mathias */
@@ -33454,10 +33517,10 @@ function noop() {}
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(44)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -33485,7 +33548,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports) {
 
 /*
@@ -33558,7 +33621,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -33661,7 +33724,7 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -33669,7 +33732,7 @@ module.exports = (function() {
  * Module requirements.
  */
 
-var Polling = __webpack_require__(18);
+var Polling = __webpack_require__(17);
 var inherit = __webpack_require__(7);
 
 /**
@@ -33899,7 +33962,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -33910,13 +33973,13 @@ var Transport = __webpack_require__(10);
 var parser = __webpack_require__(3);
 var parseqs = __webpack_require__(6);
 var inherit = __webpack_require__(7);
-var yeast = __webpack_require__(19);
+var yeast = __webpack_require__(18);
 var debug = __webpack_require__(1)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(49);
+    NodeWebSocket = __webpack_require__(51);
   } catch (e) { }
 }
 
@@ -34192,13 +34255,13 @@ WS.prototype.check = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -34236,7 +34299,7 @@ module.exports = function parsejson(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -34255,7 +34318,7 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports) {
 
 
@@ -34346,42 +34409,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.battery = battery;
-exports.onlyOutputBattery = onlyOutputBattery;
-
-var _relations = __webpack_require__(4);
-
-function battery(info) {
-    var path = !info.dir ? '/entry' : info.path.split('/').slice(0, -1).join('/');
-    var className = !info.dir ? 'entry' : '';
-
-    var dirList = (0, _relations.getRelationData)().dirList;
-
-    var colorClass = '';
-    dirList && dirList.forEach(function (dir, index) {
-        if (info.dir === dir) {
-            colorClass = '_' + index + 'color';
-        }
-    });
-
-    return '<div class="battery ' + className + ' ' + colorClass + '" id="' + info.id + '">\n            <div>' + path + '</div>\n            <p class="title" title="' + info.name + '">' + info.name + '</p>\n            <span class="input"></span>\n            <span class="output"></span>\n        </div>';
-}
-
-function onlyOutputBattery(info) {
-    return '<div class="battery only_output" id="' + info.id + '">\n            <p class="title" title="' + info.name + '">' + info.name + '</p>\n            <span class="output"></span>\n        </div>';
-}
-
-/***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34408,10 +34436,10 @@ $(document).on('mousedown', function (e) {
         // 当移动多个bat时，svg的path渲染还有问题，不够实时，这个版本暂时不放弃。
         // selectedBat(startX, startY, endX, endY);
     });
-}
+});
 
 //绘制框选范围的矩形
-);function renderRect(rect, startX, startY, endX, endY) {
+function renderRect(rect, startX, startY, endX, endY) {
     var width = endX - startX;
     var height = endY - startY;
     if (endX > startX) {
@@ -34443,7 +34471,7 @@ function selectedBat(startX, startY, endX, endY) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34462,7 +34490,7 @@ for (var i = 0; i < count; i++) {
 }
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34476,7 +34504,7 @@ var _socket = __webpack_require__(11);
 
 var _socket2 = _interopRequireDefault(_socket);
 
-var _render = __webpack_require__(25);
+var _render = __webpack_require__(24);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34497,13 +34525,13 @@ _socket2.default.once('init', function (data) {
 });
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(58);
+var content = __webpack_require__(59);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -34511,14 +34539,14 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(60)(content, options);
+var update = __webpack_require__(61)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/_css-loader@0.28.4@css-loader/index.js!../../node_modules/_less-loader@4.0.4@less-loader/dist/index.js!./style.less", function() {
-			var newContent = require("!!../../node_modules/_css-loader@0.28.4@css-loader/index.js!../../node_modules/_less-loader@4.0.4@less-loader/dist/index.js!./style.less");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/less-loader/dist/index.js!./style.less", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/less-loader/dist/index.js!./style.less");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -34528,21 +34556,21 @@ if(false) {
 }
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(59)(undefined);
+exports = module.exports = __webpack_require__(60)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "/*全局模块的样式*/\n* {\n  padding: 0;\n  margin: 0;\n  box-sizing: border-box;\n  user-select: none;\n}\nhtml {\n  height: 100%;\n}\nbody {\n  font-size: 12px;\n  font-family: 'Consolas, \"Courier New\", monospace, \\9ED1\\4F53';\n  height: 100%;\n  background-color: #eefcec;\n  position: relative;\n}\n#root {\n  width: 1920px;\n  height: 1080px;\n}\n/*隐藏chrome的滚动条*/\n::-webkit-scrollbar {\n  width: 1px;\n  height: 1px;\n  opacity: 0;\n}\n#setting {\n  position: fixed;\n  top: 5px;\n  right: 5px;\n  z-index: 1000;\n}\n#svg,\n#select {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n}\n#svg line,\n#select line {\n  stroke: #ccc;\n  stroke-width: 0.2;\n}\n#svg path,\n#select path {\n  stroke: #ccc;\n  stroke-width: 1;\n  fill: rgba(0, 0, 0, 0);\n}\n#svg path:hover,\n#select path:hover {\n  stroke: #999;\n}\n#svg text,\n#select text {\n  font-size: 10px;\n  fill: #999;\n}\n#svg rect,\n#select rect {\n  fill: blue;\n  stroke: blue;\n  stroke-width: 1;\n  fill-opacity: 0.1;\n  stroke-opacity: 0.5;\n}\n#svg polygon,\n#select polygon {\n  fill: #ccc;\n  stroke: #ccc;\n  stroke-width: 30;\n  stroke-linejoin: round;\n  opacity: 0.5;\n}\n#select {\n  z-index: 900;\n  pointer-events: none;\n}\n#github {\n  pointer-events: all;\n  position: fixed;\n  bottom: 10px;\n  right: 10px;\n}\n#content {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 100;\n  pointer-events: none;\n}\n.battery.entry {\n  background: linear-gradient(#fff 5%, #9ace42 50%, #9ace42 100%);\n}\n.battery.entry > div {\n  background-color: rgba(97, 79, 105, 0.4);\n}\n.battery {\n  width: 80px;\n  height: 28px;\n  border: 1px solid #999;\n  background: linear-gradient(#fff 5%, #cee87d 50%, #cee87d 100%);\n  border-radius: 6px;\n  box-shadow: 0 0 5px #9ace42;\n  position: absolute;\n  cursor: pointer;\n  pointer-events: auto;\n}\n.battery > div {\n  position: absolute;\n  min-width: 50px;\n  top: -25px;\n  left: 50%;\n  padding: 0 3px;\n  height: 20px;\n  line-height: 16px;\n  color: #666;\n  border: 1px solid #999;\n  border-radius: 4px;\n  text-align: center;\n  transform: translateX(-50%);\n  white-space: nowrap;\n}\n.battery > p {\n  color: #666;\n  padding: 0 10px;\n  line-height: 22px;\n  text-align: center;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n.battery span {\n  position: absolute;\n  top: 50%;\n  width: 12px;\n  height: 12px;\n  border: 1px solid #999;\n  background-color: #eefcec;\n  border-radius: 50%;\n  margin-top: -6px;\n}\n.battery span:hover {\n  width: 14px;\n  height: 14px;\n  margin-top: -7px;\n}\n.battery .input {\n  left: -6px;\n}\n.battery .input:hover {\n  left: -7px;\n}\n.battery .output {\n  right: -6px;\n}\n.battery .output:hover {\n  right: -7px;\n}\n.module {\n  position: absolute;\n  top: 0;\n  left: 5px;\n  bottom: 0;\n}\n.module .battery.only_output {\n  width: 75px;\n  height: 25px;\n  position: relative;\n  top: 0;\n  left: -2px;\n  margin: 10px auto;\n  box-shadow: 0 0 5px #999;\n  background: linear-gradient(#eee 15%, #ccc);\n}\n.module .battery.only_output p {\n  line-height: 25px;\n  padding: 0 5px;\n  cursor: default;\n}\ndiv.selected {\n  box-shadow: 0 0 15px #888;\n}\n._0color > div {\n  background-color: rgba(250, 115, 92, 0.4);\n}\n._1color > div {\n  background-color: rgba(86, 205, 250, 0.4);\n}\n._2color > div {\n  background-color: rgba(114, 124, 201, 0.4);\n}\n._3color > div {\n  background-color: rgba(253, 182, 103, 0.4);\n}\n._4color > div {\n  background-color: rgba(153, 51, 153, 0.4);\n}\n._5color > div {\n  background-color: rgba(225, 224, 120, 0.4);\n}\n._6 > div {\n  background-color: rgba(255, 224, 120, 0.4);\n}\n", ""]);
+exports.push([module.i, "/*全局模块的样式*/\n* {\n  padding: 0;\n  margin: 0;\n  box-sizing: border-box;\n  user-select: none;\n}\nhtml {\n  height: 100%;\n}\nbody {\n  font-size: 12px;\n  font-family: 'Consolas, \"Courier New\", monospace, \\9ED1\\4F53';\n  height: 100%;\n  background-color: #eefcec;\n  position: relative;\n}\n#root {\n  width: 1920px;\n  height: 1080px;\n}\n/*隐藏chrome的滚动条*/\n::-webkit-scrollbar {\n  width: 1px;\n  height: 1px;\n  opacity: 0;\n}\n#setting {\n  position: fixed;\n  top: 5px;\n  right: 5px;\n  z-index: 1000;\n}\n#svg,\n#select {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n}\n#svg line,\n#select line {\n  stroke: #ccc;\n  stroke-width: 0.2;\n}\n#svg path,\n#select path {\n  stroke: #ccc;\n  stroke-width: 1;\n  fill: rgba(0, 0, 0, 0);\n}\n#svg path:hover,\n#select path:hover {\n  stroke: #999;\n}\n#svg text,\n#select text {\n  font-size: 10px;\n  fill: #999;\n}\n#svg rect,\n#select rect {\n  fill: blue;\n  stroke: blue;\n  stroke-width: 1;\n  fill-opacity: 0.1;\n  stroke-opacity: 0.5;\n}\n#svg polygon,\n#select polygon {\n  fill: #ccc;\n  stroke: #ccc;\n  stroke-width: 30;\n  stroke-linejoin: round;\n  opacity: 0.5;\n}\n#select {\n  z-index: 900;\n  pointer-events: none;\n}\n#github {\n  pointer-events: all;\n  position: fixed;\n  bottom: 10px;\n  right: 10px;\n}\n#content {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 100;\n  pointer-events: none;\n}\n#content .menu {\n  position: absolute;\n  width: 80px;\n  border: 1px solid #999;\n  border-radius: 4px;\n}\n#content .menu li {\n  pointer-events: all;\n  cursor: pointer;\n  overflow: hidden;\n  height: 30px;\n  line-height: 30px;\n  list-style: none;\n  background-color: #fff;\n  border-bottom: 1px solid #999;\n}\n#content .menu li:hover {\n  background-color: #ccc;\n}\n#content .menu li:last-child {\n  border: none;\n}\n.battery.entry {\n  background: linear-gradient(#fff 5%, #9ace42 50%, #9ace42 100%);\n}\n.battery.entry > div {\n  background-color: rgba(97, 79, 105, 0.4);\n}\n.battery {\n  width: 80px;\n  height: 28px;\n  border: 1px solid #999;\n  background: linear-gradient(#fff 5%, #cee87d 50%, #cee87d 100%);\n  border-radius: 6px;\n  box-shadow: 0 0 5px #9ace42;\n  position: absolute;\n  cursor: pointer;\n  pointer-events: auto;\n}\n.battery > div {\n  position: absolute;\n  min-width: 50px;\n  top: -25px;\n  left: 50%;\n  padding: 0 3px;\n  height: 20px;\n  line-height: 16px;\n  color: #666;\n  border: 1px solid #999;\n  border-radius: 4px;\n  text-align: center;\n  transform: translateX(-50%);\n  white-space: nowrap;\n}\n.battery > p {\n  color: #666;\n  padding: 0 10px;\n  line-height: 22px;\n  text-align: center;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n.battery span {\n  position: absolute;\n  top: 50%;\n  width: 12px;\n  height: 12px;\n  border: 1px solid #999;\n  background-color: #eefcec;\n  border-radius: 50%;\n  margin-top: -6px;\n}\n.battery span:hover {\n  width: 14px;\n  height: 14px;\n  margin-top: -7px;\n}\n.battery .input {\n  left: -6px;\n}\n.battery .input:hover {\n  left: -7px;\n}\n.battery .output {\n  right: -6px;\n}\n.battery .output:hover {\n  right: -7px;\n}\n.module {\n  position: absolute;\n  top: 0;\n  left: 5px;\n  bottom: 0;\n}\n.module .battery.only_output {\n  width: 75px;\n  height: 25px;\n  position: relative;\n  top: 0;\n  left: -2px;\n  margin: 10px auto;\n  box-shadow: 0 0 5px #999;\n  background: linear-gradient(#eee 15%, #ccc);\n}\n.module .battery.only_output p {\n  line-height: 25px;\n  padding: 0 5px;\n  cursor: default;\n}\ndiv.selected {\n  box-shadow: 0 0 15px #888;\n}\n._0color > div {\n  background-color: rgba(250, 115, 92, 0.4);\n}\n._1color > div {\n  background-color: rgba(86, 205, 250, 0.4);\n}\n._2color > div {\n  background-color: rgba(114, 124, 201, 0.4);\n}\n._3color > div {\n  background-color: rgba(253, 182, 103, 0.4);\n}\n._4color > div {\n  background-color: rgba(153, 51, 153, 0.4);\n}\n._5color > div {\n  background-color: rgba(225, 224, 120, 0.4);\n}\n._6 > div {\n  background-color: rgba(255, 224, 120, 0.4);\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports) {
 
 /*
@@ -34624,7 +34652,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -34670,7 +34698,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(61);
+var	fixUrls = __webpack_require__(62);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -34983,7 +35011,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 

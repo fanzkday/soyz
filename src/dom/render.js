@@ -1,4 +1,4 @@
-import { battery, onlyOutputBattery } from '../bat/index.js';
+import { battery, onlyOutputBattery, inputContentMenu } from '../bat/index.js';
 import { getRelationData } from '../model/relations.js';
 import { randomPos, curveTo } from '../util/tools.js';
 

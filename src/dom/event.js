@@ -2,6 +2,7 @@ import socket from '../util/socket.js';
 import { curveTo } from '../util/tools.js';
 import { pathText } from './render.js';
 import { getRelationData } from '../model/relations.js';
+import { inputContentMenu } from '../bat/index.js';
 
 //常量
 const width = 6;
@@ -101,6 +102,12 @@ function inputUp(event) {
     inputId = getId(that);
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
+    // 添加右键菜单
+    const html = inputContentMenu(['hello', 'world', 'fanzkday']);
+    $('#content .menu').remove();
+    $('#content').append(html);
+    $('#content .menu').css({top: inputY, left: inputX});
+    $(document).off('mousemove');
 
     if (tempX && tempY && currPath) {
         currPath.attr('d', curveTo(tempX, tempY, inputX, inputY));
@@ -134,7 +141,7 @@ function inputUp(event) {
         } else {
             currPath.remove();
         }
-        $(document).off('mousemove');
+        
         tempX = tempY = currPath = inputId = outputId = '';
     }
 }
