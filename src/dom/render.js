@@ -1,6 +1,6 @@
 import { battery, onlyOutputBattery, inputContentMenu } from '../bat/index.js';
 import { getRelationData } from '../model/relations.js';
-import { randomPos, curveTo } from '../util/tools.js';
+import { randomPos, curveTo } from '../util/feature.js';
 
 /**
  * 生成module bat

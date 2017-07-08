@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     //页面入口文件配置
@@ -24,6 +25,10 @@ module.exports = {
             $: "jquery",
             jQuery: "jquery",
             "window.jQuery": "jquery"
-        })
+        }),
+        new HtmlWebpackPlugin({
+            template: './build/index.html'
+        }),
+        new webpack.HotModuleReplacementPlugin()
     ]
 };

@@ -1,5 +1,5 @@
 import socket from '../util/socket.js';
-import { curveTo } from '../util/tools.js';
+import { curveTo } from '../util/feature.js';
 import { pathText } from './render.js';
 import { getRelationData } from '../model/relations.js';
 import { inputContentMenu } from '../bat/index.js';
@@ -15,6 +15,12 @@ var currPath, tempX, tempY;
 
 //用于输出的battery 和 用于接收的battry的 path
 var inputId, outputId;
+
+//保存当前选择的模块名字
+var moduleName;
+
+//右键菜单的内容
+var rightContentMenu;
 
 //获取battery元素的坐标信息
 function getPos(that) {
@@ -103,47 +109,31 @@ function inputUp(event) {
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
     // 添加右键菜单
-    const html = inputContentMenu(['hello', 'world', 'fanzkday']);
+    const html = inputContentMenu(rightContentMenu);
     $('#content .menu').remove();
     $('#content').append(html);
-    $('#content .menu').css({top: inputY, left: inputX});
+    $('#content .menu').css({ top: inputY, left: inputX });
     $(document).off('mousemove');
-
-    if (tempX && tempY && currPath) {
-        currPath.attr('d', curveTo(tempX, tempY, inputX, inputY));
-        const id = outputId + inputId;
-        currPath.attr('input', inputId).attr('end', `${inputX},${inputY}`).attr('id', id);
-
-        let fromPath, toPath;
-        var List = getRelationData().relations;
-        for (var key in List) {
-            const elem = List[key];
-            if (elem.id === outputId) {
-                toPath = { name: elem.name, dir: key };
+    //选择邮件菜单选项
+    $('body').on('mousedown', '#content .menu li', event => {
+        moduleName = $(event.target).text();
+        $(event.target).parent('.menu').remove();
+        if (tempX && tempY && currPath) {
+            currPath.attr('d', curveTo(tempX, tempY, inputX, inputY));
+            const id = outputId + inputId;
+            currPath.attr('input', inputId).attr('end', `${inputX},${inputY}`).attr('id', id);
+            //判断两个文件之间是否已经建立联系
+            if ($(`path#${id}`).length === 1) {
+                const o = fromAndTo();
+                socket.emit('build-relation', { fromA: o.fromPath, toB: o.toPath, moduleName: moduleName });
+                //生成路径文字
+                pathText(`#${id}`, `import {${moduleName}} from ${o.toPath.name}`);
+            } else {
+                currPath.remove();
             }
-            if (elem.id === inputId) {
-                fromPath = { name: elem.name, dir: key };
-            }
+            tempX = tempY = currPath = inputId = outputId = moduleName = '';
         }
-        var dirList = getRelationData().dependencies;
-        dirList.forEach(item => {
-            if (item.id === outputId) {
-                toPath = { name: item.name, dir: '' };
-            }
-            if (item.id === inputId) {
-                fromPath = { name: item.name, dir: '' };
-            }
-        });
-        if ($(`path#${id}`).length === 1) {
-            socket.emit('build-relation', { fromA: fromPath, toB: toPath });
-            //生成路径文字
-            pathText(`#${id}`, `${fromPath.name} From ${toPath.name}`);
-        } else {
-            currPath.remove();
-        }
-        
-        tempX = tempY = currPath = inputId = outputId = '';
-    }
+    })
 }
 // output mousedown
 function outputDown(event) {
@@ -151,6 +141,12 @@ function outputDown(event) {
     var that = this;
 
     outputId = getId(that);
+    const dir = $(that).siblings('div').text();
+    const name = $(that).siblings('p').text();
+    socket.emit('get-file-module-names', `${dir}/${name}`);
+    socket.on('get-file-module-names', data => {
+        rightContentMenu = data;
+    })
 
     tempX = $(that).offset().left + width;
     tempY = $(that).offset().top + width;
@@ -194,3 +190,27 @@ $('body').on('mouseup', 'span.input', inputUp);
     console.log(outputId, inputId)
     $(e.target).remove();
 });*/
+
+function fromAndTo() {
+    let fromPath, toPath;
+    var List = getRelationData().relations;
+    for (var key in List) {
+        const elem = List[key];
+        if (elem.id === outputId) {
+            toPath = { name: elem.name, dir: key };
+        }
+        if (elem.id === inputId) {
+            fromPath = { name: elem.name, dir: key };
+        }
+    }
+    var dirList = getRelationData().dependencies;
+    dirList.forEach(item => {
+        if (item.id === outputId) {
+            toPath = { name: item.name, dir: '' };
+        }
+        if (item.id === inputId) {
+            fromPath = { name: item.name, dir: '' };
+        }
+    });
+    return { fromPath, toPath };
+}

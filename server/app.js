@@ -18,7 +18,7 @@ const { socketHandle } = require('./controller/socket.js');
 client.on('connection', socketHandle);
 
 //open client view
-const dirname = path.resolve(__dirname, '../');
-shell.cd(`${dirname}/build`);
-shell.exec(`${electron} .`, { async: true });
-shell.cd(`../`);
+// const dirname = path.resolve(__dirname, '../');
+// shell.cd(`${dirname}/build`);
+// shell.exec(`${electron} .`, { async: true });
+// shell.cd(`../`);

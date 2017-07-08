@@ -1,7 +1,6 @@
-const fs = require('fs');
 const Path = require('path');
 const shell = require('shelljs');
-const { buildRelations } = require('./util.js');
+const { buildRelations, getFileModuleName } = require('./util.js');
 const { initStructure , saveStructure } = require('../model/data.js');
 
 const rootdir = process.cwd();
@@ -44,6 +43,10 @@ exports.socketHandle = socket => {
     socket.on('edit-file', name => {
         const path = `${rootdir}${name}`.replace('/entry', '');
         shell.exec(`"${idel}" ${path}`);
+    })
+    //获取文件暴露出来的模块
+    socket.on('get-file-module-names', filename => {
+        getFileModuleName(filename);
     })
 }
 

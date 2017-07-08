@@ -33,6 +33,7 @@ export function onlyOutputBattery(info) {
 }
 
 export function inputContentMenu(data) {
+    data = data || [];
     const html = '<ul class="menu">';
     const content = data.map(item => {
         return (
