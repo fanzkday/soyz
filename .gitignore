@@ -37,6 +37,7 @@ node_modules/
 jspm_packages/
 public/
 .vscode/
+.soyz/
 
 # Typescript v1 declaration files
 typings/

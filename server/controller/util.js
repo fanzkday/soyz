@@ -48,8 +48,9 @@ function doneRelation(targetPath, text, moduleName) {
 //获取文件暴露的模块名
 exports.getFileModuleName = function (filename) {
     if (standard === 'ES6') {
-        console.log(filename);
-        const modules = require(`${rootdir}${filename}`);
-        console.log(modules);
+        const modules = require(`${rootdir}/.soyz${filename}`);
+        for (var key in modules) {
+            console.log(key);
+        }
     }
 }
