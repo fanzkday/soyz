@@ -3,7 +3,6 @@ const Path = require('path');
 
 const rootdir = process.cwd();
 
-
 const config = require(`${rootdir}/.soyz/config.json`);
 const standard = config.standard;
 /**
@@ -42,15 +41,5 @@ function doneRelation(targetPath, text, moduleName) {
         fs.writeFileSync(currPath, `${line}${data}`, 'utf8');
     } catch (e) {
         console.log(`${currPaht} is not exist!`);
-    }
-}
-
-//获取文件暴露的模块名
-exports.getFileModuleName = function (filename) {
-    if (standard === 'ES6') {
-        const modules = require(`${rootdir}/.soyz${filename}`);
-        for (var key in modules) {
-            console.log(key);
-        }
     }
 }

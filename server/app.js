@@ -8,10 +8,8 @@ const electron = require('electron');
 const rootdir = process.cwd();
 
 // 整理目录结构及关系并保存一次
-const { readdir } = require('./controller/relations.js');
-readdir(rootdir);
-const { saveStructure } = require('./model/data.js');
-saveStructure();
+const { run } = require('./controller/relations.js');
+run(rootdir);
 
 // socket
 const { socketHandle } = require('./controller/socket.js');

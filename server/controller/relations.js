@@ -3,7 +3,7 @@ const fs = require('fs');
 const Path = require('path');
 const uuid = require('uuid/v1');
 
-const { initStructure } = require('../model/data.js');
+const { initStructure, saveStructure } = require('../model/data.js');
 
 var rootdir = process.cwd();
 
@@ -16,6 +16,19 @@ const standard = config.standard;
 const ignoreDirs = config.ignoreDirs;
 
 const structure = initStructure();
+const newStructure = {
+    dirList: [],
+    relations: {},
+    dependencies: []
+}
+
+/**
+ * main函数
+ */
+exports.run = (path) => {
+    this.readdir(path);
+    saveStructure(newStructure);
+}
 
 /**
  * 读取所有目录结构
@@ -43,7 +56,7 @@ exports.readdir = function readdir(path) {
 function setJson(currPath, modules) {
     currPath = currPath.replace(rootdir, '');
     if (!structure.relations[currPath]) {
-        structure.relations[currPath] = {
+        newStructure.relations[currPath] = {
             id: '_' + uuid(),
             dir: Path.dirname(currPath).split('/')[1],
             name: Path.basename(currPath),
@@ -52,8 +65,11 @@ function setJson(currPath, modules) {
         }
     }
     if (structure.relations[currPath]) {
-        structure.relations[currPath].input =  modules;
+        newStructure.relations[currPath] = structure.relations[currPath];
+        newStructure.relations[currPath].input = modules;
     }
+    newStructure.dirList = structure.dirList;
+    newStructure.dependencies = structure.dependencies;
 }
 
 /**
@@ -67,7 +83,7 @@ function searchModulePath(path) {
     if (standard === 'CommonJs') {
         reg = /=\s?require\(((\'.*\')|(\".*\"))\)/g;
     }
-    
+
     if (typeof path === 'string') {
         const data = fs.readFileSync(path, 'utf8');
         var allResult = data.match(reg) || [];
@@ -91,12 +107,9 @@ function parseModulePath(currPath, moduleArr) {
                 try {
                     stat = fs.statSync(module);
                 } catch (e) {
-                    try{
-                        stat = fs.statSync(module + extname);
-                    } catch(e) {
-                        console.error(e);
-                        return '';
-                    }
+                    stat = fs.statSync(module + extname);
+                } finally {
+                    if (!stat) return;
                 }
                 if (stat.isDirectory()) {
                     module = `${module}/index${extname}`;

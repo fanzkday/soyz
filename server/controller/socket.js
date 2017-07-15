@@ -1,6 +1,6 @@
 const Path = require('path');
 const shell = require('shelljs');
-const { buildRelations, getFileModuleName } = require('./util.js');
+const { buildRelations } = require('./util.js');
 const { initStructure , saveStructure } = require('../model/data.js');
 
 const rootdir = process.cwd();
@@ -13,12 +13,12 @@ const structure = initStructure();
 exports.socketHandle = socket => {
     //自动保存
     const timer = setInterval(() => {
-        saveStructure();
+        saveStructure(structure);
     }, autoSaveInterval * 60 * 1000);
 
     socket.on('close', () => {
         clearInterval(timer);
-        saveStructure();
+        saveStructure(structure);
     })
     //服务器推送数据
     socket.on('init', () => {
@@ -30,7 +30,7 @@ exports.socketHandle = socket => {
             data.forEach(item => {
                 updatePosition(structure.relations, item);
             })
-            saveStructure();
+            saveStructure(structure);
         } else {
             updatePosition(structure.relations, data);
         }
@@ -43,10 +43,6 @@ exports.socketHandle = socket => {
     socket.on('edit-file', name => {
         const path = `${rootdir}${name}`.replace('/entry', '');
         shell.exec(`"${idel}" ${path}`);
-    })
-    //获取文件暴露出来的模块
-    socket.on('get-file-module-names', filename => {
-        getFileModuleName(filename);
     })
 }
 

@@ -1,7 +1,6 @@
 const fs = require('fs');
 const Path = require('path');
-
-const { getDependencies } = require('../controller/tools.js');
+const uuid = require('uuid/v1');
 
 const rootdir = process.cwd();
 
@@ -24,27 +23,26 @@ exports.initStructure = function () {
         try{
             structure = JSON.parse(data);
         } catch (e) {
-            console.error('not json data: ' + e);
             structure = {};
         }
     } else {
         structure = {};
     }
-    if (!structure.dirList) {
-        structure.dirList = [];
-        getRootDir(process.cwd());
-    }
+    structure.dirList =  getRootDir(rootdir);
+    structure.dependencies = getDependencies();
     if (!structure.relations) {
         structure.relations = {};
-    }
-    if (!structure.dependencies) {
-        structure.dependencies = getDependencies();
     }
     return structure;
 }
 
-exports.saveStructure = function () {
-    fs.writeFileSync(msgdir, JSON.stringify(structure, null, 4));
+exports.saveStructure = function (data) {
+    try{
+        data = JSON.stringify(data, null, 4);
+    } catch(e) {
+        data = {};
+    }
+    fs.writeFileSync(msgdir, data);
 }
 
 
@@ -55,6 +53,7 @@ const ignoreDirs = config.ignoreDirs;
  * 读取根目录结构
  */
 function getRootDir(path) {
+    const dirList = [];
     const isExist = fs.existsSync(path);
     if (isExist) {
         const list = fs.readdirSync(path);
@@ -62,8 +61,26 @@ function getRootDir(path) {
             var currPath = `${path}/${name}`;
             var stat = fs.statSync(currPath);
             if (stat.isDirectory() && ignoreDirs.indexOf(name) === -1 && !/^\./.test(name)) {
-                structure.dirList.push(name);
+                dirList.push(name);
             }
         })
     }
+    return dirList;
+}
+
+/**
+ * 获取项目的依赖name
+ */
+function getDependencies() {
+    var package;
+    try {
+        package = JSON.parse(fs.readFileSync(`${rootdir}/package.json`));
+    } catch (e) {
+        return [];
+    }
+    const modulesName = [];
+    for (var key in package.dependencies) {
+        modulesName.push({ name: key, id: `_${uuid()}` });
+    }
+    return modulesName;
 }
