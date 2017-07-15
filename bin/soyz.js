@@ -16,7 +16,7 @@ if (argv[0] === 'demo') {
 
     shell.rm('-rf', `${process.cwd()}/.soyz`);
     shell.mkdir('-p', `${process.cwd()}/.soyz`);
-    shell.cp('-Rf', `${dirname}/server/conf/config.json`, `${process.cwd()}/.soyz`);
+    shell.cp('-Rf', `${dirname}/server/config.json`, `${process.cwd()}/.soyz`);
 
 } else if (argv[0] === 'start') {
 

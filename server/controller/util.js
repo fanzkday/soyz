@@ -29,9 +29,9 @@ exports.buildRelations = relation => {
 function doneRelation(targetPath, text, moduleName) {
     var line;
     if (standard === 'ES6') {
-        line = `import { ${moduleName} } from '${text}';\r\n`;
+        line = `import {  } from '${text}';\r\n`;
     } else if (standard === 'CommonJs') {
-        line = `const { ${moduleName} } = require('${text}');\r\n`;
+        line = `const {  } = require('${text}');\r\n`;
     }
     try {
         const currPath = rootdir + targetPath;

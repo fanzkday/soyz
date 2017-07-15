@@ -9,7 +9,7 @@ export function battery(info) {
     var colorClass = '';
     dirList && dirList.forEach((dir, index) => {
         if (info.dir === dir) {
-            colorClass = `_${index}color`;
+            colorClass = `color${index}`;
         }
     });
 

@@ -42,7 +42,11 @@ exports.socketHandle = socket => {
     //用编辑器打开文件进行修改
     socket.on('edit-file', name => {
         const path = `${rootdir}${name}`.replace('/entry', '');
-        shell.exec(`"${idel}" ${path}`);
+        if (/\s/.test(idel)) {
+            shell.exec(`"${idel}" ${path}`);
+        } else {
+            shell.exec(`${idel} ${path}`);
+        }
     })
 }
 

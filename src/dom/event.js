@@ -19,9 +19,6 @@ var inputId, outputId;
 //保存当前选择的模块名字
 var moduleName;
 
-//右键菜单的内容
-var rightContentMenu;
-
 //获取battery元素的坐标信息
 function getPos(that) {
     outputX = $(that).children('.output').offset().left + width;
@@ -108,48 +105,29 @@ function inputUp(event) {
     inputId = getId(that);
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
-    // 添加右键菜单
-    const html = inputContentMenu(rightContentMenu);
-    $('#content .menu').remove();
-    $('#content').append(html);
-    $('#content .menu').css({ top: inputY, left: inputX });
-    $(document).off('mousemove');
-    //选择邮件菜单选项
-    $('body').on('mousedown', '#content .menu li', event => {
-        moduleName = $(event.target).text();
-        $(event.target).parent('.menu').remove();
-        if (tempX && tempY && currPath) {
-            currPath.attr('d', curveTo(tempX, tempY, inputX, inputY));
-            const id = outputId + inputId;
-            currPath.attr('input', inputId).attr('end', `${inputX},${inputY}`).attr('id', id);
-            //判断两个文件之间是否已经建立联系
-            if ($(`path#${id}`).length === 1) {
-                const o = fromAndTo();
-                socket.emit('build-relation', { fromA: o.fromPath, toB: o.toPath, moduleName: moduleName });
-                //生成路径文字
-                pathText(`#${id}`, `import {${moduleName}} from ${o.toPath.name}`);
-            } else {
-                currPath.remove();
-            }
-            tempX = tempY = currPath = inputId = outputId = moduleName = '';
+
+    if (tempX && tempY && currPath) {
+        currPath.attr('d', curveTo(tempX, tempY, inputX, inputY));
+        const id = outputId + inputId;
+        currPath.attr('input', inputId).attr('end', `${inputX},${inputY}`).attr('id', id);
+        //判断两个文件之间是否已经建立联系
+        if ($(`path#${id}`).length === 1) {
+            const o = fromAndTo();
+            socket.emit('build-relation', { fromA: o.fromPath, toB: o.toPath, moduleName: moduleName });
+            //生成路径文字
+            // pathText(`#${id}`, `import {${moduleName}} from ${o.toPath.name}`);
+        } else {
+            currPath.remove();
         }
-    })
+        tempX = tempY = currPath = inputId = outputId = moduleName = '';
+    }
 }
 // output mousedown
 function outputDown(event) {
     event.stopPropagation();
-    var that = this;
-
-    outputId = getId(that);
-    const dir = $(that).siblings('div').text();
-    const name = $(that).siblings('p').text();
-    socket.emit('get-file-module-names', `${dir}/${name}`);
-    socket.on('get-file-module-names', data => {
-        rightContentMenu = data;
-    })
-
-    tempX = $(that).offset().left + width;
-    tempY = $(that).offset().top + width;
+    outputId = getId(this);
+    tempX = $(this).offset().left + width;
+    tempY = $(this).offset().top + width;
 
     currPath = d3.select('#svg svg').append('path');
     currPath.attr('output', outputId).attr('start', `${tempX},${tempY}`);
@@ -181,15 +159,6 @@ $('body').on('dblclick', 'div.battery', editBat);
 
 $('body').on('mousedown', 'span.output', outputDown);
 $('body').on('mouseup', 'span.input', inputUp);
-
-// 给所有的textPath添加click事件，用于切断联系
-/*$('body').on('dblclick', 'path', e => {
-    const path = $(e.target);
-    const outputId = path.attr('output');
-    const inputId = path.attr('input');
-    console.log(outputId, inputId)
-    $(e.target).remove();
-});*/
 
 function fromAndTo() {
     let fromPath, toPath;

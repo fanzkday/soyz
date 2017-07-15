@@ -2,6 +2,7 @@ import { battery, onlyOutputBattery, inputContentMenu } from '../bat/index.js';
 import { getRelationData } from '../model/relations.js';
 import { randomPos, curveTo } from '../util/feature.js';
 
+var doc = $(document);
 /**
  * 生成module bat
  */
@@ -32,11 +33,12 @@ export function createBats(obj, posArr) {
                 path: key
             }
             if ($(`#${info.id}`).length === 0) {
+                const pos = randomPos(element.dir, doc.width(), doc.height());
                 if (!element.pos.x) {
-                    element.pos.x = randomPos(element.dir).x;
+                    element.pos.x = pos.x;
                 }
                 if (!element.pos.y) {
-                    element.pos.y = randomPos(element.dir).y;
+                    element.pos.y = pos.y;
                 }
                 const x = element.pos.x;
                 const y = element.pos.y;

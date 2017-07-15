@@ -1,4 +1,643 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	function hotDisposeChunk(chunkId) {
+/******/ 		delete installedChunks[chunkId];
+/******/ 	}
+/******/ 	var parentHotUpdateCallback = this["webpackHotUpdate"];
+/******/ 	this["webpackHotUpdate"] = 
+/******/ 	function webpackHotUpdateCallback(chunkId, moreModules) { // eslint-disable-line no-unused-vars
+/******/ 		hotAddUpdateChunk(chunkId, moreModules);
+/******/ 		if(parentHotUpdateCallback) parentHotUpdateCallback(chunkId, moreModules);
+/******/ 	} ;
+/******/ 	
+/******/ 	function hotDownloadUpdateChunk(chunkId) { // eslint-disable-line no-unused-vars
+/******/ 		var head = document.getElementsByTagName("head")[0];
+/******/ 		var script = document.createElement("script");
+/******/ 		script.type = "text/javascript";
+/******/ 		script.charset = "utf-8";
+/******/ 		script.src = __webpack_require__.p + "" + chunkId + "." + hotCurrentHash + ".hot-update.js";
+/******/ 		head.appendChild(script);
+/******/ 	}
+/******/ 	
+/******/ 	function hotDownloadManifest(requestTimeout) { // eslint-disable-line no-unused-vars
+/******/ 		requestTimeout = requestTimeout || 10000;
+/******/ 		return new Promise(function(resolve, reject) {
+/******/ 			if(typeof XMLHttpRequest === "undefined")
+/******/ 				return reject(new Error("No browser support"));
+/******/ 			try {
+/******/ 				var request = new XMLHttpRequest();
+/******/ 				var requestPath = __webpack_require__.p + "" + hotCurrentHash + ".hot-update.json";
+/******/ 				request.open("GET", requestPath, true);
+/******/ 				request.timeout = requestTimeout;
+/******/ 				request.send(null);
+/******/ 			} catch(err) {
+/******/ 				return reject(err);
+/******/ 			}
+/******/ 			request.onreadystatechange = function() {
+/******/ 				if(request.readyState !== 4) return;
+/******/ 				if(request.status === 0) {
+/******/ 					// timeout
+/******/ 					reject(new Error("Manifest request to " + requestPath + " timed out."));
+/******/ 				} else if(request.status === 404) {
+/******/ 					// no update available
+/******/ 					resolve();
+/******/ 				} else if(request.status !== 200 && request.status !== 304) {
+/******/ 					// other failure
+/******/ 					reject(new Error("Manifest request to " + requestPath + " failed."));
+/******/ 				} else {
+/******/ 					// success
+/******/ 					try {
+/******/ 						var update = JSON.parse(request.responseText);
+/******/ 					} catch(e) {
+/******/ 						reject(e);
+/******/ 						return;
+/******/ 					}
+/******/ 					resolve(update);
+/******/ 				}
+/******/ 			};
+/******/ 		});
+/******/ 	}
+/******/
+/******/ 	
+/******/ 	
+/******/ 	var hotApplyOnUpdate = true;
+/******/ 	var hotCurrentHash = "24b5f99f922d938094c0"; // eslint-disable-line no-unused-vars
+/******/ 	var hotRequestTimeout = 10000;
+/******/ 	var hotCurrentModuleData = {};
+/******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentParentsTemp = []; // eslint-disable-line no-unused-vars
+/******/ 	
+/******/ 	function hotCreateRequire(moduleId) { // eslint-disable-line no-unused-vars
+/******/ 		var me = installedModules[moduleId];
+/******/ 		if(!me) return __webpack_require__;
+/******/ 		var fn = function(request) {
+/******/ 			if(me.hot.active) {
+/******/ 				if(installedModules[request]) {
+/******/ 					if(installedModules[request].parents.indexOf(moduleId) < 0)
+/******/ 						installedModules[request].parents.push(moduleId);
+/******/ 				} else {
+/******/ 					hotCurrentParents = [moduleId];
+/******/ 					hotCurrentChildModule = request;
+/******/ 				}
+/******/ 				if(me.children.indexOf(request) < 0)
+/******/ 					me.children.push(request);
+/******/ 			} else {
+/******/ 				console.warn("[HMR] unexpected require(" + request + ") from disposed module " + moduleId);
+/******/ 				hotCurrentParents = [];
+/******/ 			}
+/******/ 			return __webpack_require__(request);
+/******/ 		};
+/******/ 		var ObjectFactory = function ObjectFactory(name) {
+/******/ 			return {
+/******/ 				configurable: true,
+/******/ 				enumerable: true,
+/******/ 				get: function() {
+/******/ 					return __webpack_require__[name];
+/******/ 				},
+/******/ 				set: function(value) {
+/******/ 					__webpack_require__[name] = value;
+/******/ 				}
+/******/ 			};
+/******/ 		};
+/******/ 		for(var name in __webpack_require__) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(__webpack_require__, name) && name !== "e") {
+/******/ 				Object.defineProperty(fn, name, ObjectFactory(name));
+/******/ 			}
+/******/ 		}
+/******/ 		fn.e = function(chunkId) {
+/******/ 			if(hotStatus === "ready")
+/******/ 				hotSetStatus("prepare");
+/******/ 			hotChunksLoading++;
+/******/ 			return __webpack_require__.e(chunkId).then(finishChunkLoading, function(err) {
+/******/ 				finishChunkLoading();
+/******/ 				throw err;
+/******/ 			});
+/******/ 	
+/******/ 			function finishChunkLoading() {
+/******/ 				hotChunksLoading--;
+/******/ 				if(hotStatus === "prepare") {
+/******/ 					if(!hotWaitingFilesMap[chunkId]) {
+/******/ 						hotEnsureUpdateChunk(chunkId);
+/******/ 					}
+/******/ 					if(hotChunksLoading === 0 && hotWaitingFiles === 0) {
+/******/ 						hotUpdateDownloaded();
+/******/ 					}
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 		return fn;
+/******/ 	}
+/******/ 	
+/******/ 	function hotCreateModule(moduleId) { // eslint-disable-line no-unused-vars
+/******/ 		var hot = {
+/******/ 			// private stuff
+/******/ 			_acceptedDependencies: {},
+/******/ 			_declinedDependencies: {},
+/******/ 			_selfAccepted: false,
+/******/ 			_selfDeclined: false,
+/******/ 			_disposeHandlers: [],
+/******/ 			_main: hotCurrentChildModule !== moduleId,
+/******/ 	
+/******/ 			// Module API
+/******/ 			active: true,
+/******/ 			accept: function(dep, callback) {
+/******/ 				if(typeof dep === "undefined")
+/******/ 					hot._selfAccepted = true;
+/******/ 				else if(typeof dep === "function")
+/******/ 					hot._selfAccepted = dep;
+/******/ 				else if(typeof dep === "object")
+/******/ 					for(var i = 0; i < dep.length; i++)
+/******/ 						hot._acceptedDependencies[dep[i]] = callback || function() {};
+/******/ 				else
+/******/ 					hot._acceptedDependencies[dep] = callback || function() {};
+/******/ 			},
+/******/ 			decline: function(dep) {
+/******/ 				if(typeof dep === "undefined")
+/******/ 					hot._selfDeclined = true;
+/******/ 				else if(typeof dep === "object")
+/******/ 					for(var i = 0; i < dep.length; i++)
+/******/ 						hot._declinedDependencies[dep[i]] = true;
+/******/ 				else
+/******/ 					hot._declinedDependencies[dep] = true;
+/******/ 			},
+/******/ 			dispose: function(callback) {
+/******/ 				hot._disposeHandlers.push(callback);
+/******/ 			},
+/******/ 			addDisposeHandler: function(callback) {
+/******/ 				hot._disposeHandlers.push(callback);
+/******/ 			},
+/******/ 			removeDisposeHandler: function(callback) {
+/******/ 				var idx = hot._disposeHandlers.indexOf(callback);
+/******/ 				if(idx >= 0) hot._disposeHandlers.splice(idx, 1);
+/******/ 			},
+/******/ 	
+/******/ 			// Management API
+/******/ 			check: hotCheck,
+/******/ 			apply: hotApply,
+/******/ 			status: function(l) {
+/******/ 				if(!l) return hotStatus;
+/******/ 				hotStatusHandlers.push(l);
+/******/ 			},
+/******/ 			addStatusHandler: function(l) {
+/******/ 				hotStatusHandlers.push(l);
+/******/ 			},
+/******/ 			removeStatusHandler: function(l) {
+/******/ 				var idx = hotStatusHandlers.indexOf(l);
+/******/ 				if(idx >= 0) hotStatusHandlers.splice(idx, 1);
+/******/ 			},
+/******/ 	
+/******/ 			//inherit from previous dispose call
+/******/ 			data: hotCurrentModuleData[moduleId]
+/******/ 		};
+/******/ 		hotCurrentChildModule = undefined;
+/******/ 		return hot;
+/******/ 	}
+/******/ 	
+/******/ 	var hotStatusHandlers = [];
+/******/ 	var hotStatus = "idle";
+/******/ 	
+/******/ 	function hotSetStatus(newStatus) {
+/******/ 		hotStatus = newStatus;
+/******/ 		for(var i = 0; i < hotStatusHandlers.length; i++)
+/******/ 			hotStatusHandlers[i].call(null, newStatus);
+/******/ 	}
+/******/ 	
+/******/ 	// while downloading
+/******/ 	var hotWaitingFiles = 0;
+/******/ 	var hotChunksLoading = 0;
+/******/ 	var hotWaitingFilesMap = {};
+/******/ 	var hotRequestedFilesMap = {};
+/******/ 	var hotAvailableFilesMap = {};
+/******/ 	var hotDeferred;
+/******/ 	
+/******/ 	// The update info
+/******/ 	var hotUpdate, hotUpdateNewHash;
+/******/ 	
+/******/ 	function toModuleId(id) {
+/******/ 		var isNumber = (+id) + "" === id;
+/******/ 		return isNumber ? +id : id;
+/******/ 	}
+/******/ 	
+/******/ 	function hotCheck(apply) {
+/******/ 		if(hotStatus !== "idle") throw new Error("check() is only allowed in idle status");
+/******/ 		hotApplyOnUpdate = apply;
+/******/ 		hotSetStatus("check");
+/******/ 		return hotDownloadManifest(hotRequestTimeout).then(function(update) {
+/******/ 			if(!update) {
+/******/ 				hotSetStatus("idle");
+/******/ 				return null;
+/******/ 			}
+/******/ 			hotRequestedFilesMap = {};
+/******/ 			hotWaitingFilesMap = {};
+/******/ 			hotAvailableFilesMap = update.c;
+/******/ 			hotUpdateNewHash = update.h;
+/******/ 	
+/******/ 			hotSetStatus("prepare");
+/******/ 			var promise = new Promise(function(resolve, reject) {
+/******/ 				hotDeferred = {
+/******/ 					resolve: resolve,
+/******/ 					reject: reject
+/******/ 				};
+/******/ 			});
+/******/ 			hotUpdate = {};
+/******/ 			var chunkId = 0;
+/******/ 			{ // eslint-disable-line no-lone-blocks
+/******/ 				/*globals chunkId */
+/******/ 				hotEnsureUpdateChunk(chunkId);
+/******/ 			}
+/******/ 			if(hotStatus === "prepare" && hotChunksLoading === 0 && hotWaitingFiles === 0) {
+/******/ 				hotUpdateDownloaded();
+/******/ 			}
+/******/ 			return promise;
+/******/ 		});
+/******/ 	}
+/******/ 	
+/******/ 	function hotAddUpdateChunk(chunkId, moreModules) { // eslint-disable-line no-unused-vars
+/******/ 		if(!hotAvailableFilesMap[chunkId] || !hotRequestedFilesMap[chunkId])
+/******/ 			return;
+/******/ 		hotRequestedFilesMap[chunkId] = false;
+/******/ 		for(var moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				hotUpdate[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(--hotWaitingFiles === 0 && hotChunksLoading === 0) {
+/******/ 			hotUpdateDownloaded();
+/******/ 		}
+/******/ 	}
+/******/ 	
+/******/ 	function hotEnsureUpdateChunk(chunkId) {
+/******/ 		if(!hotAvailableFilesMap[chunkId]) {
+/******/ 			hotWaitingFilesMap[chunkId] = true;
+/******/ 		} else {
+/******/ 			hotRequestedFilesMap[chunkId] = true;
+/******/ 			hotWaitingFiles++;
+/******/ 			hotDownloadUpdateChunk(chunkId);
+/******/ 		}
+/******/ 	}
+/******/ 	
+/******/ 	function hotUpdateDownloaded() {
+/******/ 		hotSetStatus("ready");
+/******/ 		var deferred = hotDeferred;
+/******/ 		hotDeferred = null;
+/******/ 		if(!deferred) return;
+/******/ 		if(hotApplyOnUpdate) {
+/******/ 			hotApply(hotApplyOnUpdate).then(function(result) {
+/******/ 				deferred.resolve(result);
+/******/ 			}, function(err) {
+/******/ 				deferred.reject(err);
+/******/ 			});
+/******/ 		} else {
+/******/ 			var outdatedModules = [];
+/******/ 			for(var id in hotUpdate) {
+/******/ 				if(Object.prototype.hasOwnProperty.call(hotUpdate, id)) {
+/******/ 					outdatedModules.push(toModuleId(id));
+/******/ 				}
+/******/ 			}
+/******/ 			deferred.resolve(outdatedModules);
+/******/ 		}
+/******/ 	}
+/******/ 	
+/******/ 	function hotApply(options) {
+/******/ 		if(hotStatus !== "ready") throw new Error("apply() is only allowed in ready status");
+/******/ 		options = options || {};
+/******/ 	
+/******/ 		var cb;
+/******/ 		var i;
+/******/ 		var j;
+/******/ 		var module;
+/******/ 		var moduleId;
+/******/ 	
+/******/ 		function getAffectedStuff(updateModuleId) {
+/******/ 			var outdatedModules = [updateModuleId];
+/******/ 			var outdatedDependencies = {};
+/******/ 	
+/******/ 			var queue = outdatedModules.slice().map(function(id) {
+/******/ 				return {
+/******/ 					chain: [id],
+/******/ 					id: id
+/******/ 				};
+/******/ 			});
+/******/ 			while(queue.length > 0) {
+/******/ 				var queueItem = queue.pop();
+/******/ 				var moduleId = queueItem.id;
+/******/ 				var chain = queueItem.chain;
+/******/ 				module = installedModules[moduleId];
+/******/ 				if(!module || module.hot._selfAccepted)
+/******/ 					continue;
+/******/ 				if(module.hot._selfDeclined) {
+/******/ 					return {
+/******/ 						type: "self-declined",
+/******/ 						chain: chain,
+/******/ 						moduleId: moduleId
+/******/ 					};
+/******/ 				}
+/******/ 				if(module.hot._main) {
+/******/ 					return {
+/******/ 						type: "unaccepted",
+/******/ 						chain: chain,
+/******/ 						moduleId: moduleId
+/******/ 					};
+/******/ 				}
+/******/ 				for(var i = 0; i < module.parents.length; i++) {
+/******/ 					var parentId = module.parents[i];
+/******/ 					var parent = installedModules[parentId];
+/******/ 					if(!parent) continue;
+/******/ 					if(parent.hot._declinedDependencies[moduleId]) {
+/******/ 						return {
+/******/ 							type: "declined",
+/******/ 							chain: chain.concat([parentId]),
+/******/ 							moduleId: moduleId,
+/******/ 							parentId: parentId
+/******/ 						};
+/******/ 					}
+/******/ 					if(outdatedModules.indexOf(parentId) >= 0) continue;
+/******/ 					if(parent.hot._acceptedDependencies[moduleId]) {
+/******/ 						if(!outdatedDependencies[parentId])
+/******/ 							outdatedDependencies[parentId] = [];
+/******/ 						addAllToSet(outdatedDependencies[parentId], [moduleId]);
+/******/ 						continue;
+/******/ 					}
+/******/ 					delete outdatedDependencies[parentId];
+/******/ 					outdatedModules.push(parentId);
+/******/ 					queue.push({
+/******/ 						chain: chain.concat([parentId]),
+/******/ 						id: parentId
+/******/ 					});
+/******/ 				}
+/******/ 			}
+/******/ 	
+/******/ 			return {
+/******/ 				type: "accepted",
+/******/ 				moduleId: updateModuleId,
+/******/ 				outdatedModules: outdatedModules,
+/******/ 				outdatedDependencies: outdatedDependencies
+/******/ 			};
+/******/ 		}
+/******/ 	
+/******/ 		function addAllToSet(a, b) {
+/******/ 			for(var i = 0; i < b.length; i++) {
+/******/ 				var item = b[i];
+/******/ 				if(a.indexOf(item) < 0)
+/******/ 					a.push(item);
+/******/ 			}
+/******/ 		}
+/******/ 	
+/******/ 		// at begin all updates modules are outdated
+/******/ 		// the "outdated" status can propagate to parents if they don't accept the children
+/******/ 		var outdatedDependencies = {};
+/******/ 		var outdatedModules = [];
+/******/ 		var appliedUpdate = {};
+/******/ 	
+/******/ 		var warnUnexpectedRequire = function warnUnexpectedRequire() {
+/******/ 			console.warn("[HMR] unexpected require(" + result.moduleId + ") to disposed module");
+/******/ 		};
+/******/ 	
+/******/ 		for(var id in hotUpdate) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(hotUpdate, id)) {
+/******/ 				moduleId = toModuleId(id);
+/******/ 				var result;
+/******/ 				if(hotUpdate[id]) {
+/******/ 					result = getAffectedStuff(moduleId);
+/******/ 				} else {
+/******/ 					result = {
+/******/ 						type: "disposed",
+/******/ 						moduleId: id
+/******/ 					};
+/******/ 				}
+/******/ 				var abortError = false;
+/******/ 				var doApply = false;
+/******/ 				var doDispose = false;
+/******/ 				var chainInfo = "";
+/******/ 				if(result.chain) {
+/******/ 					chainInfo = "\nUpdate propagation: " + result.chain.join(" -> ");
+/******/ 				}
+/******/ 				switch(result.type) {
+/******/ 					case "self-declined":
+/******/ 						if(options.onDeclined)
+/******/ 							options.onDeclined(result);
+/******/ 						if(!options.ignoreDeclined)
+/******/ 							abortError = new Error("Aborted because of self decline: " + result.moduleId + chainInfo);
+/******/ 						break;
+/******/ 					case "declined":
+/******/ 						if(options.onDeclined)
+/******/ 							options.onDeclined(result);
+/******/ 						if(!options.ignoreDeclined)
+/******/ 							abortError = new Error("Aborted because of declined dependency: " + result.moduleId + " in " + result.parentId + chainInfo);
+/******/ 						break;
+/******/ 					case "unaccepted":
+/******/ 						if(options.onUnaccepted)
+/******/ 							options.onUnaccepted(result);
+/******/ 						if(!options.ignoreUnaccepted)
+/******/ 							abortError = new Error("Aborted because " + moduleId + " is not accepted" + chainInfo);
+/******/ 						break;
+/******/ 					case "accepted":
+/******/ 						if(options.onAccepted)
+/******/ 							options.onAccepted(result);
+/******/ 						doApply = true;
+/******/ 						break;
+/******/ 					case "disposed":
+/******/ 						if(options.onDisposed)
+/******/ 							options.onDisposed(result);
+/******/ 						doDispose = true;
+/******/ 						break;
+/******/ 					default:
+/******/ 						throw new Error("Unexception type " + result.type);
+/******/ 				}
+/******/ 				if(abortError) {
+/******/ 					hotSetStatus("abort");
+/******/ 					return Promise.reject(abortError);
+/******/ 				}
+/******/ 				if(doApply) {
+/******/ 					appliedUpdate[moduleId] = hotUpdate[moduleId];
+/******/ 					addAllToSet(outdatedModules, result.outdatedModules);
+/******/ 					for(moduleId in result.outdatedDependencies) {
+/******/ 						if(Object.prototype.hasOwnProperty.call(result.outdatedDependencies, moduleId)) {
+/******/ 							if(!outdatedDependencies[moduleId])
+/******/ 								outdatedDependencies[moduleId] = [];
+/******/ 							addAllToSet(outdatedDependencies[moduleId], result.outdatedDependencies[moduleId]);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 				if(doDispose) {
+/******/ 					addAllToSet(outdatedModules, [result.moduleId]);
+/******/ 					appliedUpdate[moduleId] = warnUnexpectedRequire;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 	
+/******/ 		// Store self accepted outdated modules to require them later by the module system
+/******/ 		var outdatedSelfAcceptedModules = [];
+/******/ 		for(i = 0; i < outdatedModules.length; i++) {
+/******/ 			moduleId = outdatedModules[i];
+/******/ 			if(installedModules[moduleId] && installedModules[moduleId].hot._selfAccepted)
+/******/ 				outdatedSelfAcceptedModules.push({
+/******/ 					module: moduleId,
+/******/ 					errorHandler: installedModules[moduleId].hot._selfAccepted
+/******/ 				});
+/******/ 		}
+/******/ 	
+/******/ 		// Now in "dispose" phase
+/******/ 		hotSetStatus("dispose");
+/******/ 		Object.keys(hotAvailableFilesMap).forEach(function(chunkId) {
+/******/ 			if(hotAvailableFilesMap[chunkId] === false) {
+/******/ 				hotDisposeChunk(chunkId);
+/******/ 			}
+/******/ 		});
+/******/ 	
+/******/ 		var idx;
+/******/ 		var queue = outdatedModules.slice();
+/******/ 		while(queue.length > 0) {
+/******/ 			moduleId = queue.pop();
+/******/ 			module = installedModules[moduleId];
+/******/ 			if(!module) continue;
+/******/ 	
+/******/ 			var data = {};
+/******/ 	
+/******/ 			// Call dispose handlers
+/******/ 			var disposeHandlers = module.hot._disposeHandlers;
+/******/ 			for(j = 0; j < disposeHandlers.length; j++) {
+/******/ 				cb = disposeHandlers[j];
+/******/ 				cb(data);
+/******/ 			}
+/******/ 			hotCurrentModuleData[moduleId] = data;
+/******/ 	
+/******/ 			// disable module (this disables requires from this module)
+/******/ 			module.hot.active = false;
+/******/ 	
+/******/ 			// remove module from cache
+/******/ 			delete installedModules[moduleId];
+/******/ 	
+/******/ 			// remove "parents" references from all children
+/******/ 			for(j = 0; j < module.children.length; j++) {
+/******/ 				var child = installedModules[module.children[j]];
+/******/ 				if(!child) continue;
+/******/ 				idx = child.parents.indexOf(moduleId);
+/******/ 				if(idx >= 0) {
+/******/ 					child.parents.splice(idx, 1);
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 	
+/******/ 		// remove outdated dependency from module children
+/******/ 		var dependency;
+/******/ 		var moduleOutdatedDependencies;
+/******/ 		for(moduleId in outdatedDependencies) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(outdatedDependencies, moduleId)) {
+/******/ 				module = installedModules[moduleId];
+/******/ 				if(module) {
+/******/ 					moduleOutdatedDependencies = outdatedDependencies[moduleId];
+/******/ 					for(j = 0; j < moduleOutdatedDependencies.length; j++) {
+/******/ 						dependency = moduleOutdatedDependencies[j];
+/******/ 						idx = module.children.indexOf(dependency);
+/******/ 						if(idx >= 0) module.children.splice(idx, 1);
+/******/ 					}
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 	
+/******/ 		// Not in "apply" phase
+/******/ 		hotSetStatus("apply");
+/******/ 	
+/******/ 		hotCurrentHash = hotUpdateNewHash;
+/******/ 	
+/******/ 		// insert new code
+/******/ 		for(moduleId in appliedUpdate) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(appliedUpdate, moduleId)) {
+/******/ 				modules[moduleId] = appliedUpdate[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 	
+/******/ 		// call accept handlers
+/******/ 		var error = null;
+/******/ 		for(moduleId in outdatedDependencies) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(outdatedDependencies, moduleId)) {
+/******/ 				module = installedModules[moduleId];
+/******/ 				moduleOutdatedDependencies = outdatedDependencies[moduleId];
+/******/ 				var callbacks = [];
+/******/ 				for(i = 0; i < moduleOutdatedDependencies.length; i++) {
+/******/ 					dependency = moduleOutdatedDependencies[i];
+/******/ 					cb = module.hot._acceptedDependencies[dependency];
+/******/ 					if(callbacks.indexOf(cb) >= 0) continue;
+/******/ 					callbacks.push(cb);
+/******/ 				}
+/******/ 				for(i = 0; i < callbacks.length; i++) {
+/******/ 					cb = callbacks[i];
+/******/ 					try {
+/******/ 						cb(moduleOutdatedDependencies);
+/******/ 					} catch(err) {
+/******/ 						if(options.onErrored) {
+/******/ 							options.onErrored({
+/******/ 								type: "accept-errored",
+/******/ 								moduleId: moduleId,
+/******/ 								dependencyId: moduleOutdatedDependencies[i],
+/******/ 								error: err
+/******/ 							});
+/******/ 						}
+/******/ 						if(!options.ignoreErrored) {
+/******/ 							if(!error)
+/******/ 								error = err;
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 	
+/******/ 		// Load self accepted modules
+/******/ 		for(i = 0; i < outdatedSelfAcceptedModules.length; i++) {
+/******/ 			var item = outdatedSelfAcceptedModules[i];
+/******/ 			moduleId = item.module;
+/******/ 			hotCurrentParents = [moduleId];
+/******/ 			try {
+/******/ 				__webpack_require__(moduleId);
+/******/ 			} catch(err) {
+/******/ 				if(typeof item.errorHandler === "function") {
+/******/ 					try {
+/******/ 						item.errorHandler(err);
+/******/ 					} catch(err2) {
+/******/ 						if(options.onErrored) {
+/******/ 							options.onErrored({
+/******/ 								type: "self-accept-error-handler-errored",
+/******/ 								moduleId: moduleId,
+/******/ 								error: err2,
+/******/ 								orginalError: err
+/******/ 							});
+/******/ 						}
+/******/ 						if(!options.ignoreErrored) {
+/******/ 							if(!error)
+/******/ 								error = err2;
+/******/ 						}
+/******/ 						if(!error)
+/******/ 							error = err;
+/******/ 					}
+/******/ 				} else {
+/******/ 					if(options.onErrored) {
+/******/ 						options.onErrored({
+/******/ 							type: "self-accept-errored",
+/******/ 							moduleId: moduleId,
+/******/ 							error: err
+/******/ 						});
+/******/ 					}
+/******/ 					if(!options.ignoreErrored) {
+/******/ 						if(!error)
+/******/ 							error = err;
+/******/ 					}
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 	
+/******/ 		// handle errors in accept handlers and self accepted module load
+/******/ 		if(error) {
+/******/ 			hotSetStatus("fail");
+/******/ 			return Promise.reject(error);
+/******/ 		}
+/******/ 	
+/******/ 		hotSetStatus("idle");
+/******/ 		return new Promise(function(resolve) {
+/******/ 			resolve(outdatedModules);
+/******/ 		});
+/******/ 	}
+/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -13,11 +652,14 @@
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
-/******/ 			exports: {}
+/******/ 			exports: {},
+/******/ 			hot: hotCreateModule(moduleId),
+/******/ 			parents: (hotCurrentParentsTemp = hotCurrentParents, hotCurrentParents = [], hotCurrentParentsTemp),
+/******/ 			children: []
 /******/ 		};
 /******/
 /******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, hotCreateRequire(moduleId));
 /******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
@@ -59,8 +701,11 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/ 	// __webpack_hash__
+/******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 26);
+/******/ 	return hotCreateRequire(28)(__webpack_require__.s = 28);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -105,7 +750,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(31);
+exports = module.exports = __webpack_require__(33);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -266,7 +911,7 @@ function localstorage() {
     return window.localStorage;
   } catch (e) {}
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ }),
 /* 2 */
@@ -446,7 +1091,7 @@ Emitter.prototype.hasListeners = function(event){
  */
 
 var keys = __webpack_require__(41);
-var hasBinary = __webpack_require__(13);
+var hasBinary = __webpack_require__(14);
 var sliceBuffer = __webpack_require__(42);
 var after = __webpack_require__(43);
 var utf8 = __webpack_require__(44);
@@ -11401,9 +12046,9 @@ return jQuery;
 
 var debug = __webpack_require__(1)('socket.io-parser');
 var Emitter = __webpack_require__(2);
-var hasBin = __webpack_require__(13);
-var binary = __webpack_require__(34);
-var isBuf = __webpack_require__(14);
+var hasBin = __webpack_require__(14);
+var binary = __webpack_require__(35);
+var isBuf = __webpack_require__(16);
 
 /**
  * Protocol version.
@@ -12007,6 +12652,20 @@ Transport.prototype.onClose = function () {
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
+exports = module.exports = __webpack_require__(59)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "/*全局模块的样式*/\n* {\n  padding: 0;\n  margin: 0;\n  box-sizing: border-box;\n  user-select: none;\n}\nhtml {\n  height: 100%;\n}\nbody {\n  font-size: 12px;\n  font-family: 'Consolas, \"Courier New\", monospace, \\9ED1\\4F53';\n  height: 100%;\n  background-color: #eefcec;\n  position: relative;\n  overflow: hidden;\n}\n#root {\n  width: 100%;\n  height: 100%;\n}\n/*隐藏chrome的滚动条*/\n::-webkit-scrollbar {\n  width: 1px;\n  height: 1px;\n  opacity: 0;\n}\n#setting {\n  position: fixed;\n  top: 5px;\n  right: 5px;\n  z-index: 1000;\n}\n#svg,\n#select {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n}\n#svg line,\n#select line {\n  stroke: #ccc;\n  stroke-width: 0.2;\n}\n#svg path,\n#select path {\n  stroke: #ccc;\n  stroke-width: 1;\n  fill: rgba(0, 0, 0, 0);\n}\n#svg path:hover,\n#select path:hover {\n  stroke: #999;\n}\n#svg text,\n#select text {\n  font-size: 10px;\n  fill: #999;\n}\n#svg rect,\n#select rect {\n  fill: blue;\n  stroke: blue;\n  stroke-width: 1;\n  fill-opacity: 0.1;\n  stroke-opacity: 0.5;\n}\n#svg polygon,\n#select polygon {\n  fill: #ccc;\n  stroke: #ccc;\n  stroke-width: 30;\n  stroke-linejoin: round;\n  opacity: 0.5;\n}\n#select {\n  z-index: 900;\n  pointer-events: none;\n}\n#github {\n  pointer-events: all;\n  position: fixed;\n  bottom: 10px;\n  right: 10px;\n}\n#content {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 100;\n  pointer-events: none;\n}\n#content .menu {\n  position: absolute;\n  width: 80px;\n  border: 1px solid #999;\n  border-radius: 6px;\n}\n#content .menu li {\n  pointer-events: all;\n  cursor: pointer;\n  overflow: hidden;\n  height: 25px;\n  line-height: 25px;\n  list-style: none;\n  text-indent: 10px;\n  color: #666;\n  background-color: rgba(250, 115, 92, 0.8);\n  border-bottom: 1px solid #999;\n}\n#content .menu li:hover {\n  background-color: #ccc;\n}\n#content .menu li:last-child {\n  border: none;\n}\n.battery.entry {\n  background: linear-gradient(#fff 5%, #9ace42 50%, #9ace42 100%);\n}\n.battery.entry > div {\n  background-color: rgba(97, 79, 105, 0.4);\n}\n.battery {\n  width: 80px;\n  height: 28px;\n  border: 1px solid #999;\n  background: linear-gradient(#fff 5%, #cee87d 50%, #cee87d 100%);\n  border-radius: 6px;\n  box-shadow: 0 0 5px #9ace42;\n  position: absolute;\n  cursor: pointer;\n  pointer-events: auto;\n}\n.battery > div {\n  position: absolute;\n  min-width: 50px;\n  top: -25px;\n  left: 50%;\n  padding: 0 3px;\n  height: 20px;\n  line-height: 16px;\n  color: #666;\n  border: 1px solid #999;\n  border-radius: 4px;\n  text-align: center;\n  transform: translateX(-50%);\n  white-space: nowrap;\n}\n.battery > p {\n  color: #666;\n  padding: 0 10px;\n  line-height: 22px;\n  text-align: center;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n.battery span {\n  position: absolute;\n  top: 50%;\n  width: 12px;\n  height: 12px;\n  border: 1px solid #999;\n  background-color: #eefcec;\n  border-radius: 50%;\n  margin-top: -6px;\n}\n.battery span:hover {\n  width: 14px;\n  height: 14px;\n  margin-top: -7px;\n}\n.battery .input {\n  left: -6px;\n}\n.battery .input:hover {\n  left: -7px;\n}\n.battery .output {\n  right: -6px;\n}\n.battery .output:hover {\n  right: -7px;\n}\n.module {\n  position: absolute;\n  top: 0;\n  left: 5px;\n  bottom: 0;\n}\n.module .battery.only_output {\n  width: 75px;\n  height: 25px;\n  position: relative;\n  top: 0;\n  left: -2px;\n  margin: 10px auto;\n  box-shadow: 0 0 5px #999;\n  background: linear-gradient(#eee 15%, #ccc);\n}\n.module .battery.only_output p {\n  line-height: 25px;\n  padding: 0 5px;\n  cursor: default;\n}\ndiv.selected {\n  box-shadow: 0 0 15px #888;\n}\n.color0 > div {\n  background-color: rgba(250, 115, 92, 0.4);\n}\n.color1 > div {\n  background-color: rgba(86, 205, 250, 0.4);\n}\n.color2 > div {\n  background-color: rgba(114, 124, 201, 0.4);\n}\n.color3 > div {\n  background-color: rgba(253, 182, 103, 0.4);\n}\n.color4 > div {\n  background-color: rgba(153, 51, 153, 0.4);\n}\n.color5 > div {\n  background-color: rgba(225, 224, 120, 0.4);\n}\n.color6 > div {\n  background-color: rgba(255, 224, 120, 0.4);\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -12014,7 +12673,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _socket = __webpack_require__(28);
+var _socket = __webpack_require__(30);
 
 var io = _interopRequireWildcard(_socket);
 
@@ -12025,7 +12684,7 @@ var socket = io.connect('ws://localhost:3030');
 exports.default = socket;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 /**
@@ -12070,7 +12729,7 @@ module.exports = function parseuri(str) {
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/* global Blob File */
@@ -12079,7 +12738,7 @@ module.exports = function parseuri(str) {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(33);
+var isArray = __webpack_require__(15);
 
 var toString = Object.prototype.toString;
 var withNativeBlob = typeof global.Blob === 'function' || toString.call(global.Blob) === '[object BlobConstructor]';
@@ -12139,7 +12798,18 @@ function hasBinary (obj) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 14 */
+/* 15 */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+
+/***/ }),
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -12159,7 +12829,7 @@ function isBuf(obj) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -12168,13 +12838,13 @@ function isBuf(obj) {
  */
 
 var eio = __webpack_require__(36);
-var Socket = __webpack_require__(20);
+var Socket = __webpack_require__(22);
 var Emitter = __webpack_require__(2);
 var parser = __webpack_require__(8);
-var on = __webpack_require__(21);
-var bind = __webpack_require__(22);
+var on = __webpack_require__(23);
+var bind = __webpack_require__(24);
 var debug = __webpack_require__(1)('socket.io-client:manager');
-var indexOf = __webpack_require__(19);
+var indexOf = __webpack_require__(21);
 var Backoff = __webpack_require__(53);
 
 /**
@@ -12738,7 +13408,7 @@ Manager.prototype.onreconnect = function () {
 
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -12798,7 +13468,7 @@ function polling (opts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -12809,7 +13479,7 @@ var Transport = __webpack_require__(10);
 var parseqs = __webpack_require__(5);
 var parser = __webpack_require__(3);
 var inherit = __webpack_require__(6);
-var yeast = __webpack_require__(18);
+var yeast = __webpack_require__(20);
 var debug = __webpack_require__(1)('engine.io-client:polling');
 
 /**
@@ -13049,7 +13719,7 @@ Polling.prototype.uri = function () {
 
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13124,7 +13794,7 @@ module.exports = yeast;
 
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports) {
 
 
@@ -13139,7 +13809,7 @@ module.exports = function(arr, obj){
 };
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -13150,8 +13820,8 @@ module.exports = function(arr, obj){
 var parser = __webpack_require__(8);
 var Emitter = __webpack_require__(2);
 var toArray = __webpack_require__(52);
-var on = __webpack_require__(21);
-var bind = __webpack_require__(22);
+var on = __webpack_require__(23);
+var bind = __webpack_require__(24);
 var debug = __webpack_require__(1)('socket.io-client:socket');
 var parseqs = __webpack_require__(5);
 
@@ -13563,7 +14233,7 @@ Socket.prototype.compress = function (compress) {
 
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports) {
 
 
@@ -13593,7 +14263,7 @@ function on (obj, ev, fn) {
 
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, exports) {
 
 /**
@@ -13622,7 +14292,7 @@ module.exports = function(obj, fn){
 
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13657,8 +14327,11 @@ function curveTo(x1, y1, x4, y4) {
 /**
  * 生成随机的坐标
  */
-function randomPos(dir) {
-
+function randomPos(dir, width, height) {
+    var xCount = 3; // 在水平方向分的段数
+    var yCount = 2; // 在垂直方向分的段数
+    var preW = width / xCount;
+    var preH = height / yCount;
     var dirList = (0, _relations.getRelationData)().dirList;
     var xIndex = 0;
     var yIndex = 0;
@@ -13667,13 +14340,17 @@ function randomPos(dir) {
             xIndex = index;
         }
     });
-    if (xIndex > 2) {
-        xIndex = xIndex % 2;
+    console.log(width, height);
+    if (xIndex >= xCount) {
+        xIndex = xIndex % xCount;
         yIndex += 1;
     }
+    if (yIndex >= yCount) {
+        yIndex = yCount;
+    }
     return {
-        x: Math.ceil(Math.random() * 400) + 100 + 400 * xIndex,
-        y: Math.ceil(Math.random() * 300) + 300 * yIndex
+        x: Math.ceil(Math.random() * preW) + preW * xIndex,
+        y: Math.ceil(Math.random() * preH) + preH * yIndex
     };
 }
 
@@ -13739,7 +14416,7 @@ function offsetCenter(arr2d) {
 }
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13757,12 +14434,13 @@ exports.createRelations = createRelations;
 exports.createRelationPath = createRelationPath;
 exports.pathText = pathText;
 
-var _index = __webpack_require__(25);
+var _index = __webpack_require__(27);
 
 var _relations = __webpack_require__(4);
 
-var _feature = __webpack_require__(23);
+var _feature = __webpack_require__(25);
 
+var doc = $(document);
 /**
  * 生成module bat
  */
@@ -13793,11 +14471,12 @@ function createBats(obj, posArr) {
                 path: key
             };
             if ($('#' + info.id).length === 0) {
+                var pos = (0, _feature.randomPos)(element.dir, doc.width(), doc.height());
                 if (!element.pos.x) {
-                    element.pos.x = (0, _feature.randomPos)(element.dir).x;
+                    element.pos.x = pos.x;
                 }
                 if (!element.pos.y) {
-                    element.pos.y = (0, _feature.randomPos)(element.dir).y;
+                    element.pos.y = pos.y;
                 }
                 var x = element.pos.x;
                 var y = element.pos.y;
@@ -13876,7 +14555,7 @@ function pathText(id, texts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13900,7 +14579,7 @@ function battery(info) {
     var colorClass = '';
     dirList && dirList.forEach(function (dir, index) {
         if (info.dir === dir) {
-            colorClass = '_' + index + 'color';
+            colorClass = 'color' + index;
         }
     });
 
@@ -13912,7 +14591,8 @@ function onlyOutputBattery(info) {
 }
 
 function inputContentMenu(data) {
-    var html = '<ul class="menu"><li>请选择：</li>';
+    data = data || [];
+    var html = '<ul class="menu">';
     var content = data.map(function (item) {
         return '<li>' + item + '</li>';
     }).join('');
@@ -13920,13 +14600,13 @@ function inputContentMenu(data) {
 }
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(27);
+__webpack_require__(29);
 
 __webpack_require__(54);
 
@@ -13943,23 +14623,23 @@ window.oncontextmenu = function () {
 };
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
-var _socket = __webpack_require__(11);
+var _socket = __webpack_require__(12);
 
 var _socket2 = _interopRequireDefault(_socket);
 
-var _feature = __webpack_require__(23);
+var _feature = __webpack_require__(25);
 
-var _render = __webpack_require__(24);
+var _render = __webpack_require__(26);
 
 var _relations = __webpack_require__(4);
 
-var _index = __webpack_require__(25);
+var _index = __webpack_require__(27);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14064,41 +14744,29 @@ function inputUp(event) {
     inputId = getId(that);
     inputX = $(that).offset().left + width;
     inputY = $(that).offset().top + width;
-    // 添加右键菜单
-    var html = (0, _index.inputContentMenu)(['hello', 'world', 'fanzkday']);
-    $('#content .menu').remove();
-    $('#content').append(html);
-    $('#content .menu').css({ top: inputY, left: inputX });
-    $(document).off('mousemove');
-    //选择邮件菜单选项
-    $('body').on('mousedown', '#content .menu li', function (event) {
-        moduleName = $(event.target).text();
-        $(event.target).parent('.menu').remove();
-        if (tempX && tempY && currPath) {
-            currPath.attr('d', (0, _feature.curveTo)(tempX, tempY, inputX, inputY));
-            var id = outputId + inputId;
-            currPath.attr('input', inputId).attr('end', inputX + ',' + inputY).attr('id', id);
-            if ($('path#' + id).length === 1) {
-                var o = fromAndTo();
-                _socket2.default.emit('build-relation', { fromA: o.fromPath, toB: o.toPath, moduleName: moduleName });
-                //生成路径文字
-                (0, _render.pathText)('#' + id, 'import {' + moduleName + '} from ' + o.toPath.name);
-            } else {
-                currPath.remove();
-            }
-            tempX = tempY = currPath = inputId = outputId = moduleName = '';
+
+    if (tempX && tempY && currPath) {
+        currPath.attr('d', (0, _feature.curveTo)(tempX, tempY, inputX, inputY));
+        var id = outputId + inputId;
+        currPath.attr('input', inputId).attr('end', inputX + ',' + inputY).attr('id', id);
+        //判断两个文件之间是否已经建立联系
+        if ($('path#' + id).length === 1) {
+            var o = fromAndTo();
+            _socket2.default.emit('build-relation', { fromA: o.fromPath, toB: o.toPath, moduleName: moduleName });
+            //生成路径文字
+            // pathText(`#${id}`, `import {${moduleName}} from ${o.toPath.name}`);
+        } else {
+            currPath.remove();
         }
-    });
+        tempX = tempY = currPath = inputId = outputId = moduleName = '';
+    }
 }
 // output mousedown
 function outputDown(event) {
     event.stopPropagation();
-    var that = this;
-
-    outputId = getId(that);
-
-    tempX = $(that).offset().left + width;
-    tempY = $(that).offset().top + width;
+    outputId = getId(this);
+    tempX = $(this).offset().left + width;
+    tempY = $(this).offset().top + width;
 
     currPath = d3.select('#svg svg').append('path');
     currPath.attr('output', outputId).attr('start', tempX + ',' + tempY);
@@ -14131,15 +14799,6 @@ $('body').on('dblclick', 'div.battery', editBat);
 $('body').on('mousedown', 'span.output', outputDown);
 $('body').on('mouseup', 'span.input', inputUp);
 
-// 给所有的textPath添加click事件，用于切断联系
-/*$('body').on('dblclick', 'path', e => {
-    const path = $(e.target);
-    const outputId = path.attr('output');
-    const inputId = path.attr('input');
-    console.log(outputId, inputId)
-    $(e.target).remove();
-});*/
-
 function fromAndTo() {
     var fromPath = void 0,
         toPath = void 0;
@@ -14167,7 +14826,7 @@ function fromAndTo() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -14175,9 +14834,9 @@ function fromAndTo() {
  * Module dependencies.
  */
 
-var url = __webpack_require__(29);
+var url = __webpack_require__(31);
 var parser = __webpack_require__(8);
-var Manager = __webpack_require__(15);
+var Manager = __webpack_require__(17);
 var debug = __webpack_require__(1)('socket.io-client');
 
 /**
@@ -14262,12 +14921,12 @@ exports.connect = lookup;
  * @api public
  */
 
-exports.Manager = __webpack_require__(15);
-exports.Socket = __webpack_require__(20);
+exports.Manager = __webpack_require__(17);
+exports.Socket = __webpack_require__(22);
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -14275,7 +14934,7 @@ exports.Socket = __webpack_require__(20);
  * Module dependencies.
  */
 
-var parseuri = __webpack_require__(12);
+var parseuri = __webpack_require__(13);
 var debug = __webpack_require__(1)('socket.io-client:url');
 
 /**
@@ -14349,7 +15008,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -14539,7 +15198,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14557,7 +15216,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(32);
+exports.humanize = __webpack_require__(34);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -14749,7 +15408,7 @@ function coerce(val) {
 }
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports) {
 
 /**
@@ -14907,18 +15566,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 33 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -14927,8 +15575,8 @@ module.exports = Array.isArray || function (arr) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(35);
-var isBuf = __webpack_require__(14);
+var isArray = __webpack_require__(15);
+var isBuf = __webpack_require__(16);
 var toString = Object.prototype.toString;
 var withNativeBlob = typeof global.Blob === 'function' || toString.call(global.Blob) === '[object BlobConstructor]';
 var withNativeFile = typeof global.File === 'function' || toString.call(global.File) === '[object FileConstructor]';
@@ -15066,17 +15714,6 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15108,12 +15745,12 @@ module.exports.parser = __webpack_require__(3);
  * Module dependencies.
  */
 
-var transports = __webpack_require__(16);
+var transports = __webpack_require__(18);
 var Emitter = __webpack_require__(2);
 var debug = __webpack_require__(1)('engine.io-client:socket');
-var index = __webpack_require__(19);
+var index = __webpack_require__(21);
 var parser = __webpack_require__(3);
-var parseuri = __webpack_require__(12);
+var parseuri = __webpack_require__(13);
 var parsejson = __webpack_require__(51);
 var parseqs = __webpack_require__(5);
 
@@ -15249,7 +15886,7 @@ Socket.protocol = parser.protocol; // this is an int
 
 Socket.Socket = Socket;
 Socket.Transport = __webpack_require__(10);
-Socket.transports = __webpack_require__(16);
+Socket.transports = __webpack_require__(18);
 Socket.parser = __webpack_require__(3);
 
 /**
@@ -15883,7 +16520,7 @@ try {
  */
 
 var XMLHttpRequest = __webpack_require__(9);
-var Polling = __webpack_require__(17);
+var Polling = __webpack_require__(19);
 var Emitter = __webpack_require__(2);
 var inherit = __webpack_require__(6);
 var debug = __webpack_require__(1)('engine.io-client:polling-xhr');
@@ -16862,7 +17499,7 @@ module.exports = (function() {
  * Module requirements.
  */
 
-var Polling = __webpack_require__(17);
+var Polling = __webpack_require__(19);
 var inherit = __webpack_require__(6);
 
 /**
@@ -17103,7 +17740,7 @@ var Transport = __webpack_require__(10);
 var parser = __webpack_require__(3);
 var parseqs = __webpack_require__(5);
 var inherit = __webpack_require__(6);
-var yeast = __webpack_require__(18);
+var yeast = __webpack_require__(20);
 var debug = __webpack_require__(1)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
@@ -17637,11 +18274,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _relations = __webpack_require__(4);
 
-var _socket = __webpack_require__(11);
+var _socket = __webpack_require__(12);
 
 var _socket2 = _interopRequireDefault(_socket);
 
-var _render = __webpack_require__(24);
+var _render = __webpack_require__(26);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17668,7 +18305,7 @@ _socket2.default.once('init', function (data) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(59);
+var content = __webpack_require__(11);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -17676,15 +18313,15 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(61)(content, options);
+var update = __webpack_require__(60)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
-if(false) {
+if(true) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/less-loader/dist/index.js!./style.less", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/less-loader/dist/index.js!./style.less");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+		module.hot.accept(11, function() {
+			var newContent = __webpack_require__(11);
+			if(typeof newContent === 'string') newContent = [[module.i, newContent, '']];
 			update(newContent);
 		});
 	}
@@ -17694,20 +18331,6 @@ if(false) {
 
 /***/ }),
 /* 59 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(60)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "/*全局模块的样式*/\n* {\n  padding: 0;\n  margin: 0;\n  box-sizing: border-box;\n  user-select: none;\n}\nhtml {\n  height: 100%;\n}\nbody {\n  font-size: 12px;\n  font-family: 'Consolas, \"Courier New\", monospace, \\9ED1\\4F53';\n  height: 100%;\n  background-color: #eefcec;\n  position: relative;\n}\n#root {\n  width: 1920px;\n  height: 1080px;\n}\n/*隐藏chrome的滚动条*/\n::-webkit-scrollbar {\n  width: 1px;\n  height: 1px;\n  opacity: 0;\n}\n#setting {\n  position: fixed;\n  top: 5px;\n  right: 5px;\n  z-index: 1000;\n}\n#svg,\n#select {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n}\n#svg line,\n#select line {\n  stroke: #ccc;\n  stroke-width: 0.2;\n}\n#svg path,\n#select path {\n  stroke: #ccc;\n  stroke-width: 1;\n  fill: rgba(0, 0, 0, 0);\n}\n#svg path:hover,\n#select path:hover {\n  stroke: #999;\n}\n#svg text,\n#select text {\n  font-size: 10px;\n  fill: #999;\n}\n#svg rect,\n#select rect {\n  fill: blue;\n  stroke: blue;\n  stroke-width: 1;\n  fill-opacity: 0.1;\n  stroke-opacity: 0.5;\n}\n#svg polygon,\n#select polygon {\n  fill: #ccc;\n  stroke: #ccc;\n  stroke-width: 30;\n  stroke-linejoin: round;\n  opacity: 0.5;\n}\n#select {\n  z-index: 900;\n  pointer-events: none;\n}\n#github {\n  pointer-events: all;\n  position: fixed;\n  bottom: 10px;\n  right: 10px;\n}\n#content {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 100;\n  pointer-events: none;\n}\n#content .menu {\n  position: absolute;\n  width: 80px;\n  border: 1px solid #999;\n  border-radius: 6px;\n}\n#content .menu li {\n  pointer-events: all;\n  cursor: pointer;\n  overflow: hidden;\n  height: 25px;\n  line-height: 25px;\n  list-style: none;\n  text-indent: 10px;\n  color: #666;\n  background-color: rgba(250, 115, 92, 0.4);\n  border-bottom: 1px solid #999;\n}\n#content .menu li:hover {\n  background-color: #ccc;\n}\n#content .menu li:last-child {\n  border: none;\n}\n.battery.entry {\n  background: linear-gradient(#fff 5%, #9ace42 50%, #9ace42 100%);\n}\n.battery.entry > div {\n  background-color: rgba(97, 79, 105, 0.4);\n}\n.battery {\n  width: 80px;\n  height: 28px;\n  border: 1px solid #999;\n  background: linear-gradient(#fff 5%, #cee87d 50%, #cee87d 100%);\n  border-radius: 6px;\n  box-shadow: 0 0 5px #9ace42;\n  position: absolute;\n  cursor: pointer;\n  pointer-events: auto;\n}\n.battery > div {\n  position: absolute;\n  min-width: 50px;\n  top: -25px;\n  left: 50%;\n  padding: 0 3px;\n  height: 20px;\n  line-height: 16px;\n  color: #666;\n  border: 1px solid #999;\n  border-radius: 4px;\n  text-align: center;\n  transform: translateX(-50%);\n  white-space: nowrap;\n}\n.battery > p {\n  color: #666;\n  padding: 0 10px;\n  line-height: 22px;\n  text-align: center;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n.battery span {\n  position: absolute;\n  top: 50%;\n  width: 12px;\n  height: 12px;\n  border: 1px solid #999;\n  background-color: #eefcec;\n  border-radius: 50%;\n  margin-top: -6px;\n}\n.battery span:hover {\n  width: 14px;\n  height: 14px;\n  margin-top: -7px;\n}\n.battery .input {\n  left: -6px;\n}\n.battery .input:hover {\n  left: -7px;\n}\n.battery .output {\n  right: -6px;\n}\n.battery .output:hover {\n  right: -7px;\n}\n.module {\n  position: absolute;\n  top: 0;\n  left: 5px;\n  bottom: 0;\n}\n.module .battery.only_output {\n  width: 75px;\n  height: 25px;\n  position: relative;\n  top: 0;\n  left: -2px;\n  margin: 10px auto;\n  box-shadow: 0 0 5px #999;\n  background: linear-gradient(#eee 15%, #ccc);\n}\n.module .battery.only_output p {\n  line-height: 25px;\n  padding: 0 5px;\n  cursor: default;\n}\ndiv.selected {\n  box-shadow: 0 0 15px #888;\n}\n._0color > div {\n  background-color: rgba(250, 115, 92, 0.4);\n}\n._1color > div {\n  background-color: rgba(86, 205, 250, 0.4);\n}\n._2color > div {\n  background-color: rgba(114, 124, 201, 0.4);\n}\n._3color > div {\n  background-color: rgba(253, 182, 103, 0.4);\n}\n._4color > div {\n  background-color: rgba(153, 51, 153, 0.4);\n}\n._5color > div {\n  background-color: rgba(225, 224, 120, 0.4);\n}\n._6 > div {\n  background-color: rgba(255, 224, 120, 0.4);\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 60 */
 /***/ (function(module, exports) {
 
 /*
@@ -17789,7 +18412,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -17835,7 +18458,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(62);
+var	fixUrls = __webpack_require__(61);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -18148,7 +18771,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports) {
 
 

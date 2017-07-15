@@ -21,8 +21,11 @@ export function curveTo(x1, y1, x4, y4) {
 /**
  * 生成随机的坐标
  */
-export function randomPos(dir) {
-    
+export function randomPos(dir, width, height) {
+    const xCount = 3; // 在水平方向分的段数
+    const yCount = 2; // 在垂直方向分的段数
+    const preW = width / xCount;
+    const preH = height / yCount;
     const dirList = getRelationData().dirList;
     var xIndex = 0;
     var yIndex = 0;
@@ -31,13 +34,17 @@ export function randomPos(dir) {
             xIndex = index;
         }
     })
-    if (xIndex> 2) {
-        xIndex = xIndex % 2;
+    console.log(width, height);
+    if (xIndex >= xCount) {
+        xIndex = xIndex % xCount;
         yIndex += 1;
     }
+    if (yIndex >= yCount) {
+        yIndex = yCount;
+    }
     return {
-        x: Math.ceil((Math.random()) * 400) + 100 + 400 * xIndex,
-        y: Math.ceil((Math.random()) * 300) + 300 * yIndex
+        x: Math.ceil((Math.random()) * preW) + preW * xIndex,
+        y: Math.ceil((Math.random()) * preH) + preH * yIndex
     }
 }
 
