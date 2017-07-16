@@ -17,7 +17,11 @@ exports.buildRelations = relation => {
             //多个文件之间的引用
         } else {
             const fromPath = Path.dirname(relation.fromA.dir);
-            const text = Path.relative(fromPath, relation.toB.dir).replace(/\\/g, '/');
+            const toPath = Path.dirname(relation.toB.dir);
+            let text = Path.relative(fromPath, relation.toB.dir).replace(/\\/g, '/');
+            if (fromPath === toPath) {
+               text = `./${text}`; 
+            }
             doneRelation(relation.fromA.dir, text, relation.moduleName);
         }
     }
@@ -29,9 +33,9 @@ exports.buildRelations = relation => {
 function doneRelation(targetPath, text, moduleName) {
     var line;
     if (standard === 'ES6') {
-        line = `import {  } from '${text}';\r\n`;
+        line = `import {} from '${text}';\r\n`;
     } else if (standard === 'CommonJs') {
-        line = `const {  } = require('${text}');\r\n`;
+        line = `const {} = require('${text}');\r\n`;
     }
     try {
         const currPath = rootdir + targetPath;
