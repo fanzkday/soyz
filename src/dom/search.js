@@ -5,7 +5,7 @@ $(document).on('dblclick', '#svg',(e) => {
     $('#search').remove();
     const input = $('<input type="text" id="search"/>');
     input.appendTo($('#content'));
-    $('#search').css({ position: 'absolute', top: e.clientY, left: e.clientX });
+    $('#search').css({ position: 'absolute', top: e.clientY - 12, left: e.clientX - 10 });
     $('#search').on('focus', () => {
         $('#select').hide();
     })
