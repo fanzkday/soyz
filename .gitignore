@@ -61,3 +61,6 @@ typings/
 # dotenv environment variables file
 .env
 .map
+
+webpack.config.js
+gulpfile.js
