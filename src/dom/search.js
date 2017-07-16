@@ -1,6 +1,6 @@
 import { getRelationData } from '../model/relations.js';
 var relations;
-$(document).on('dblclick', (e) => {
+$(document).on('dblclick', '#svg',(e) => {
     relations = getRelationData().relations;
     $('#search').remove();
     const input = $('<input type="text" id="search"/>');
