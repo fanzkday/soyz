@@ -60,7 +60,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "24b5f99f922d938094c0"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ff5874b32e24e528b5f3"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -917,6 +917,31 @@ function localstorage() {
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getRelationData = getRelationData;
+exports.saveRelationData = saveRelationData;
+//所有bat的信息
+var info = {};
+
+//向外暴露数据
+function getRelationData() {
+    return info;
+}
+
+//对内保存数据
+function saveRelationData(data) {
+    info = data;
+}
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
 
 /**
  * Expose `Emitter`.
@@ -1083,7 +1108,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -1696,87 +1721,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.getRelationData = getRelationData;
-exports.saveRelationData = saveRelationData;
-//所有bat的信息
-var info = {};
-
-//向外暴露数据
-function getRelationData() {
-    return info;
-}
-
-//对内保存数据
-function saveRelationData(data) {
-    info = data;
-}
-
-/***/ }),
 /* 5 */
-/***/ (function(module, exports) {
-
-/**
- * Compiles a querystring
- * Returns string representation of the object
- *
- * @param {Object}
- * @api private
- */
-
-exports.encode = function (obj) {
-  var str = '';
-
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      if (str.length) str += '&';
-      str += encodeURIComponent(i) + '=' + encodeURIComponent(obj[i]);
-    }
-  }
-
-  return str;
-};
-
-/**
- * Parses a simple querystring into an object
- *
- * @param {String} qs
- * @api private
- */
-
-exports.decode = function(qs){
-  var qry = {};
-  var pairs = qs.split('&');
-  for (var i = 0, l = pairs.length; i < l; i++) {
-    var pair = pairs[i].split('=');
-    qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
-  }
-  return qry;
-};
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-
-module.exports = function(a, b){
-  var fn = function(){};
-  fn.prototype = b.prototype;
-  a.prototype = new fn;
-  a.prototype.constructor = a;
-};
-
-/***/ }),
-/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -12036,6 +11981,61 @@ return jQuery;
 
 
 /***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+/**
+ * Compiles a querystring
+ * Returns string representation of the object
+ *
+ * @param {Object}
+ * @api private
+ */
+
+exports.encode = function (obj) {
+  var str = '';
+
+  for (var i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      if (str.length) str += '&';
+      str += encodeURIComponent(i) + '=' + encodeURIComponent(obj[i]);
+    }
+  }
+
+  return str;
+};
+
+/**
+ * Parses a simple querystring into an object
+ *
+ * @param {String} qs
+ * @api private
+ */
+
+exports.decode = function(qs){
+  var qry = {};
+  var pairs = qs.split('&');
+  for (var i = 0, l = pairs.length; i < l; i++) {
+    var pair = pairs[i].split('=');
+    qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+  }
+  return qry;
+};
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+
+module.exports = function(a, b){
+  var fn = function(){};
+  fn.prototype = b.prototype;
+  a.prototype = new fn;
+  a.prototype.constructor = a;
+};
+
+/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12045,7 +12045,7 @@ return jQuery;
  */
 
 var debug = __webpack_require__(1)('socket.io-parser');
-var Emitter = __webpack_require__(2);
+var Emitter = __webpack_require__(3);
 var hasBin = __webpack_require__(14);
 var binary = __webpack_require__(35);
 var isBuf = __webpack_require__(16);
@@ -12493,8 +12493,8 @@ module.exports = function (opts) {
  * Module dependencies.
  */
 
-var parser = __webpack_require__(3);
-var Emitter = __webpack_require__(2);
+var parser = __webpack_require__(4);
+var Emitter = __webpack_require__(3);
 
 /**
  * Module exports.
@@ -12652,12 +12652,12 @@ Transport.prototype.onClose = function () {
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(59)(undefined);
+exports = module.exports = __webpack_require__(60)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "/*全局模块的样式*/\n* {\n  padding: 0;\n  margin: 0;\n  box-sizing: border-box;\n  user-select: none;\n}\nhtml {\n  height: 100%;\n}\nbody {\n  font-size: 12px;\n  font-family: 'Consolas, \"Courier New\", monospace, \\9ED1\\4F53';\n  height: 100%;\n  background-color: #eefcec;\n  position: relative;\n  overflow: hidden;\n}\n#root {\n  width: 100%;\n  height: 100%;\n}\n/*隐藏chrome的滚动条*/\n::-webkit-scrollbar {\n  width: 1px;\n  height: 1px;\n  opacity: 0;\n}\n#setting {\n  position: fixed;\n  top: 5px;\n  right: 5px;\n  z-index: 1000;\n}\n#svg,\n#select {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n}\n#svg line,\n#select line {\n  stroke: #ccc;\n  stroke-width: 0.2;\n}\n#svg path,\n#select path {\n  stroke: #ccc;\n  stroke-width: 1;\n  fill: rgba(0, 0, 0, 0);\n}\n#svg path:hover,\n#select path:hover {\n  stroke: #999;\n}\n#svg text,\n#select text {\n  font-size: 10px;\n  fill: #999;\n}\n#svg rect,\n#select rect {\n  fill: blue;\n  stroke: blue;\n  stroke-width: 1;\n  fill-opacity: 0.1;\n  stroke-opacity: 0.5;\n}\n#svg polygon,\n#select polygon {\n  fill: #ccc;\n  stroke: #ccc;\n  stroke-width: 30;\n  stroke-linejoin: round;\n  opacity: 0.5;\n}\n#select {\n  z-index: 900;\n  pointer-events: none;\n}\n#github {\n  pointer-events: all;\n  position: fixed;\n  bottom: 10px;\n  right: 10px;\n}\n#content {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 100;\n  pointer-events: none;\n}\n#content .menu {\n  position: absolute;\n  width: 80px;\n  border: 1px solid #999;\n  border-radius: 6px;\n}\n#content .menu li {\n  pointer-events: all;\n  cursor: pointer;\n  overflow: hidden;\n  height: 25px;\n  line-height: 25px;\n  list-style: none;\n  text-indent: 10px;\n  color: #666;\n  background-color: rgba(250, 115, 92, 0.8);\n  border-bottom: 1px solid #999;\n}\n#content .menu li:hover {\n  background-color: #ccc;\n}\n#content .menu li:last-child {\n  border: none;\n}\n.battery.entry {\n  background: linear-gradient(#fff 5%, #9ace42 50%, #9ace42 100%);\n}\n.battery.entry > div {\n  background-color: rgba(97, 79, 105, 0.4);\n}\n.battery {\n  width: 80px;\n  height: 28px;\n  border: 1px solid #999;\n  background: linear-gradient(#fff 5%, #cee87d 50%, #cee87d 100%);\n  border-radius: 6px;\n  box-shadow: 0 0 5px #9ace42;\n  position: absolute;\n  cursor: pointer;\n  pointer-events: auto;\n}\n.battery > div {\n  position: absolute;\n  min-width: 50px;\n  top: -25px;\n  left: 50%;\n  padding: 0 3px;\n  height: 20px;\n  line-height: 16px;\n  color: #666;\n  border: 1px solid #999;\n  border-radius: 4px;\n  text-align: center;\n  transform: translateX(-50%);\n  white-space: nowrap;\n}\n.battery > p {\n  color: #666;\n  padding: 0 10px;\n  line-height: 22px;\n  text-align: center;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n.battery span {\n  position: absolute;\n  top: 50%;\n  width: 12px;\n  height: 12px;\n  border: 1px solid #999;\n  background-color: #eefcec;\n  border-radius: 50%;\n  margin-top: -6px;\n}\n.battery span:hover {\n  width: 14px;\n  height: 14px;\n  margin-top: -7px;\n}\n.battery .input {\n  left: -6px;\n}\n.battery .input:hover {\n  left: -7px;\n}\n.battery .output {\n  right: -6px;\n}\n.battery .output:hover {\n  right: -7px;\n}\n.module {\n  position: absolute;\n  top: 0;\n  left: 5px;\n  bottom: 0;\n}\n.module .battery.only_output {\n  width: 75px;\n  height: 25px;\n  position: relative;\n  top: 0;\n  left: -2px;\n  margin: 10px auto;\n  box-shadow: 0 0 5px #999;\n  background: linear-gradient(#eee 15%, #ccc);\n}\n.module .battery.only_output p {\n  line-height: 25px;\n  padding: 0 5px;\n  cursor: default;\n}\ndiv.selected {\n  box-shadow: 0 0 15px #888;\n}\n.color0 > div {\n  background-color: rgba(250, 115, 92, 0.4);\n}\n.color1 > div {\n  background-color: rgba(86, 205, 250, 0.4);\n}\n.color2 > div {\n  background-color: rgba(114, 124, 201, 0.4);\n}\n.color3 > div {\n  background-color: rgba(253, 182, 103, 0.4);\n}\n.color4 > div {\n  background-color: rgba(153, 51, 153, 0.4);\n}\n.color5 > div {\n  background-color: rgba(225, 224, 120, 0.4);\n}\n.color6 > div {\n  background-color: rgba(255, 224, 120, 0.4);\n}\n", ""]);
+exports.push([module.i, "/*全局模块的样式*/\n* {\n  padding: 0;\n  margin: 0;\n  box-sizing: border-box;\n  user-select: none;\n}\nhtml {\n  height: 100%;\n}\nbody {\n  font-size: 12px;\n  font-family: 'Consolas, \"Courier New\", monospace, \\9ED1\\4F53';\n  height: 100%;\n  background-color: #eefcec;\n  position: relative;\n  overflow: hidden;\n}\n#root {\n  width: 100%;\n  height: 100%;\n}\n/*隐藏chrome的滚动条*/\n::-webkit-scrollbar {\n  width: 1px;\n  height: 1px;\n  opacity: 0;\n}\n#setting {\n  position: fixed;\n  top: 5px;\n  right: 5px;\n  z-index: 1000;\n}\n#svg,\n#select {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n}\n#svg line,\n#select line {\n  stroke: #ccc;\n  stroke-width: 0.2;\n}\n#svg path,\n#select path {\n  stroke: #ccc;\n  stroke-width: 1;\n  fill: rgba(0, 0, 0, 0);\n}\n#svg path:hover,\n#select path:hover {\n  stroke: #999;\n}\n#svg text,\n#select text {\n  font-size: 10px;\n  fill: #999;\n}\n#svg rect,\n#select rect {\n  fill: blue;\n  stroke: blue;\n  stroke-width: 1;\n  fill-opacity: 0.1;\n  stroke-opacity: 0.5;\n}\n#svg polygon,\n#select polygon {\n  fill: #ccc;\n  stroke: #ccc;\n  stroke-width: 30;\n  stroke-linejoin: round;\n  opacity: 0.5;\n}\n#select {\n  z-index: 900;\n  pointer-events: none;\n}\n#github {\n  pointer-events: all;\n  position: fixed;\n  bottom: 10px;\n  right: 10px;\n}\n#content {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 100;\n  pointer-events: none;\n}\n#content .menu {\n  position: absolute;\n  width: 80px;\n  border: 1px solid #999;\n  border-radius: 6px;\n}\n#content .menu li {\n  pointer-events: all;\n  cursor: pointer;\n  overflow: hidden;\n  height: 25px;\n  line-height: 25px;\n  list-style: none;\n  text-indent: 10px;\n  color: #666;\n  background-color: rgba(250, 115, 92, 0.8);\n  border-bottom: 1px solid #999;\n}\n#content .menu li:hover {\n  background-color: #ccc;\n}\n#content .menu li:last-child {\n  border: none;\n}\n#search {\n  pointer-events: all;\n  width: 150px;\n  height: 25px;\n  line-height: 25px;\n  color: #666;\n  padding: 0 10px;\n  border: 1px solid #999;\n  border-radius: 3px;\n  box-shadow: 0 0 3px #999;\n}\n.battery.entry {\n  background: linear-gradient(#fff 5%, #9ace42 50%, #9ace42 100%);\n}\n.battery.entry > div {\n  background-color: rgba(97, 79, 105, 0.4);\n}\n.battery {\n  width: 80px;\n  height: 28px;\n  border: 1px solid #999;\n  background: linear-gradient(#fff 5%, #cee87d 50%, #cee87d 100%);\n  border-radius: 6px;\n  box-shadow: 0 0 5px #9ace42;\n  position: absolute;\n  cursor: pointer;\n  pointer-events: auto;\n}\n.battery > div {\n  position: absolute;\n  min-width: 50px;\n  top: -25px;\n  left: 50%;\n  padding: 0 3px;\n  height: 20px;\n  line-height: 16px;\n  color: #666;\n  border: 1px solid #999;\n  border-radius: 4px;\n  text-align: center;\n  transform: translateX(-50%);\n  white-space: nowrap;\n}\n.battery > p {\n  color: #666;\n  padding: 0 10px;\n  line-height: 22px;\n  text-align: center;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n.battery span {\n  position: absolute;\n  top: 50%;\n  width: 12px;\n  height: 12px;\n  border: 1px solid #999;\n  background-color: #eefcec;\n  border-radius: 50%;\n  margin-top: -6px;\n}\n.battery span:hover {\n  width: 14px;\n  height: 14px;\n  margin-top: -7px;\n}\n.battery .input {\n  left: -6px;\n}\n.battery .input:hover {\n  left: -7px;\n}\n.battery .output {\n  right: -6px;\n}\n.battery .output:hover {\n  right: -7px;\n}\n.module {\n  position: absolute;\n  top: 0;\n  left: 5px;\n  bottom: 0;\n}\n.module .battery.only_output {\n  width: 75px;\n  height: 25px;\n  position: relative;\n  top: 0;\n  left: -2px;\n  margin: 10px auto;\n  box-shadow: 0 0 5px #999;\n  background: linear-gradient(#eee 15%, #ccc);\n}\n.module .battery.only_output p {\n  line-height: 25px;\n  padding: 0 5px;\n  cursor: default;\n}\n.selected {\n  box-shadow: 0 0 15px #888;\n}\n.search {\n  box-shadow: 0 0 10px #993300;\n}\n.color0 > div {\n  background-color: rgba(250, 115, 92, 0.4);\n}\n.color1 > div {\n  background-color: rgba(86, 205, 250, 0.4);\n}\n.color2 > div {\n  background-color: rgba(114, 124, 201, 0.4);\n}\n.color3 > div {\n  background-color: rgba(253, 182, 103, 0.4);\n}\n.color4 > div {\n  background-color: rgba(153, 51, 153, 0.4);\n}\n.color5 > div {\n  background-color: rgba(225, 224, 120, 0.4);\n}\n.color6 > div {\n  background-color: rgba(255, 224, 120, 0.4);\n}\n", ""]);
 
 // exports
 
@@ -12839,7 +12839,7 @@ function isBuf(obj) {
 
 var eio = __webpack_require__(36);
 var Socket = __webpack_require__(22);
-var Emitter = __webpack_require__(2);
+var Emitter = __webpack_require__(3);
 var parser = __webpack_require__(8);
 var on = __webpack_require__(23);
 var bind = __webpack_require__(24);
@@ -13476,9 +13476,9 @@ function polling (opts) {
  */
 
 var Transport = __webpack_require__(10);
-var parseqs = __webpack_require__(5);
-var parser = __webpack_require__(3);
-var inherit = __webpack_require__(6);
+var parseqs = __webpack_require__(6);
+var parser = __webpack_require__(4);
+var inherit = __webpack_require__(7);
 var yeast = __webpack_require__(20);
 var debug = __webpack_require__(1)('engine.io-client:polling');
 
@@ -13818,12 +13818,12 @@ module.exports = function(arr, obj){
  */
 
 var parser = __webpack_require__(8);
-var Emitter = __webpack_require__(2);
+var Emitter = __webpack_require__(3);
 var toArray = __webpack_require__(52);
 var on = __webpack_require__(23);
 var bind = __webpack_require__(24);
 var debug = __webpack_require__(1)('socket.io-client:socket');
-var parseqs = __webpack_require__(5);
+var parseqs = __webpack_require__(6);
 
 /**
  * Module exports.
@@ -14305,7 +14305,7 @@ exports.curveTo = curveTo;
 exports.randomPos = randomPos;
 exports.offsetCenter = offsetCenter;
 
-var _relations = __webpack_require__(4);
+var _relations = __webpack_require__(2);
 
 //计算bezier曲线点的位置
 function curveTo(x1, y1, x4, y4) {
@@ -14340,7 +14340,6 @@ function randomPos(dir, width, height) {
             xIndex = index;
         }
     });
-    console.log(width, height);
     if (xIndex >= xCount) {
         xIndex = xIndex % xCount;
         yIndex += 1;
@@ -14436,7 +14435,7 @@ exports.pathText = pathText;
 
 var _index = __webpack_require__(27);
 
-var _relations = __webpack_require__(4);
+var _relations = __webpack_require__(2);
 
 var _feature = __webpack_require__(25);
 
@@ -14552,7 +14551,7 @@ function pathText(id, texts) {
     var text = d3.select('#svg svg').append('text').attr('id', id).attr('dy', '-5px').style('display', 'none');
     text.append('textPath').attr('startOffset', '35%').attr('xlink:href', id).text(texts);
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 27 */
@@ -14568,7 +14567,7 @@ exports.battery = battery;
 exports.onlyOutputBattery = onlyOutputBattery;
 exports.inputContentMenu = inputContentMenu;
 
-var _relations = __webpack_require__(4);
+var _relations = __webpack_require__(2);
 
 function battery(info) {
     var path = !info.dir ? '/entry' : info.path.split('/').slice(0, -1).join('/');
@@ -14618,6 +14617,8 @@ __webpack_require__(57);
 
 __webpack_require__(58);
 
+__webpack_require__(59);
+
 window.oncontextmenu = function () {
   return false;
 };
@@ -14637,7 +14638,7 @@ var _feature = __webpack_require__(25);
 
 var _render = __webpack_require__(26);
 
-var _relations = __webpack_require__(4);
+var _relations = __webpack_require__(2);
 
 var _index = __webpack_require__(27);
 
@@ -14823,7 +14824,7 @@ function fromAndTo() {
     });
     return { fromPath: fromPath, toPath: toPath };
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 30 */
@@ -15734,7 +15735,7 @@ module.exports = __webpack_require__(38);
  * @api public
  *
  */
-module.exports.parser = __webpack_require__(3);
+module.exports.parser = __webpack_require__(4);
 
 
 /***/ }),
@@ -15746,13 +15747,13 @@ module.exports.parser = __webpack_require__(3);
  */
 
 var transports = __webpack_require__(18);
-var Emitter = __webpack_require__(2);
+var Emitter = __webpack_require__(3);
 var debug = __webpack_require__(1)('engine.io-client:socket');
 var index = __webpack_require__(21);
-var parser = __webpack_require__(3);
+var parser = __webpack_require__(4);
 var parseuri = __webpack_require__(13);
 var parsejson = __webpack_require__(51);
-var parseqs = __webpack_require__(5);
+var parseqs = __webpack_require__(6);
 
 /**
  * Module exports.
@@ -15887,7 +15888,7 @@ Socket.protocol = parser.protocol; // this is an int
 Socket.Socket = Socket;
 Socket.Transport = __webpack_require__(10);
 Socket.transports = __webpack_require__(18);
-Socket.parser = __webpack_require__(3);
+Socket.parser = __webpack_require__(4);
 
 /**
  * Creates transport of the given type.
@@ -16521,8 +16522,8 @@ try {
 
 var XMLHttpRequest = __webpack_require__(9);
 var Polling = __webpack_require__(19);
-var Emitter = __webpack_require__(2);
-var inherit = __webpack_require__(6);
+var Emitter = __webpack_require__(3);
+var inherit = __webpack_require__(7);
 var debug = __webpack_require__(1)('engine.io-client:polling-xhr');
 
 /**
@@ -17500,7 +17501,7 @@ module.exports = (function() {
  */
 
 var Polling = __webpack_require__(19);
-var inherit = __webpack_require__(6);
+var inherit = __webpack_require__(7);
 
 /**
  * Module exports.
@@ -17737,9 +17738,9 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
  */
 
 var Transport = __webpack_require__(10);
-var parser = __webpack_require__(3);
-var parseqs = __webpack_require__(5);
-var inherit = __webpack_require__(6);
+var parser = __webpack_require__(4);
+var parseqs = __webpack_require__(6);
+var inherit = __webpack_require__(7);
 var yeast = __webpack_require__(20);
 var debug = __webpack_require__(1)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
@@ -18182,7 +18183,7 @@ Backoff.prototype.setJitter = function(jitter){
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
-var _relations = __webpack_require__(4);
+var _relations = __webpack_require__(2);
 
 // 框选
 $(document).on('mousedown', function (e) {
@@ -18235,10 +18236,69 @@ function selectedBat(startX, startY, endX, endY) {
         }
     }
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+var _relations = __webpack_require__(2);
+
+var relations;
+$(document).on('dblclick', function (e) {
+    relations = (0, _relations.getRelationData)().relations;
+    $('#search').remove();
+    var input = $('<input type="text" id="search"/>');
+    input.appendTo($('#content'));
+    $('#search').css({ position: 'absolute', top: e.clientY, left: e.clientX });
+    $('#search').on('focus', function () {
+        $('#select').hide();
+    });
+    $('#search').on('blur', function () {
+        $('#select').show();
+        $('#search').remove();
+        $('.search').removeClass('search');
+    });
+    $('#search').focus();
+    $('#search').on('keyup', function (e) {
+        if (e.keyCode === 13) {
+            $('#select').show();
+            $('#search').remove();
+            $('.search').removeClass('search');
+            return;
+        }
+        $('.search').removeClass('search');
+        var text = e.target.value;
+        var ids = search(text);
+        ids.forEach(function (id) {
+            $('#' + id).addClass('search');
+        });
+    });
+});
+
+function search(text) {
+    text = text.replace(/^\s*/g, '').replace(/\s*$/, '');
+    if (!text) {
+        return [];
+    }
+    var resultIds = [];
+    for (var key in relations) {
+        if (relations.hasOwnProperty(key)) {
+            var elem = relations[key];
+            if (key.indexOf(text) !== -1) {
+                resultIds.push(elem.id);
+            }
+        }
+    }
+    return resultIds;
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+
+/***/ }),
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18257,14 +18317,14 @@ for (var i = 0; i < count; i++) {
 }
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18272,7 +18332,7 @@ for (var i = 0; i < count; i++) {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _relations = __webpack_require__(4);
+var _relations = __webpack_require__(2);
 
 var _socket = __webpack_require__(12);
 
@@ -18290,7 +18350,7 @@ _socket2.default.once('init', function (data) {
         var posArr = [];
         //渲染module
         (0, _render.createModuleBat)(data);
-        //渲染Bat和relations
+        //渲染Bat和relations, 并记录坐标信息
         (0, _render.createBats)((0, _relations.getRelationData)().relations, posArr);
         (0, _render.createRelations)(data);
         //将所有的bat的坐标信息上报服务器
@@ -18299,7 +18359,7 @@ _socket2.default.once('init', function (data) {
 });
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -18313,7 +18373,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(60)(content, options);
+var update = __webpack_require__(61)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(true) {
@@ -18330,7 +18390,7 @@ if(true) {
 }
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports) {
 
 /*
@@ -18412,7 +18472,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -18458,7 +18518,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(61);
+var	fixUrls = __webpack_require__(62);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -18771,7 +18831,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 

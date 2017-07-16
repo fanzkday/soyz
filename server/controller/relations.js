@@ -86,7 +86,7 @@ function searchModulePath(path) {
 
     if (typeof path === 'string') {
         const data = fs.readFileSync(path, 'utf8');
-        var allResult = data.replace(/(\r|\n)/g, '').match(reg) || [];
+        var allResult = data.match(reg) || [];
         var matchResult = allResult.map(item => {
             return item.match(/(\".*\")|(\'.*\')/)[0].replace(/"|'/g, '');
         })

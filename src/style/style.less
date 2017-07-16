@@ -129,14 +129,23 @@ body {
         }
     }
 }
-
+#search{
+    pointer-events: all;
+    width: 150px;
+    height: 25px;
+    line-height: 25px;
+    color: #666;
+    padding: 0 10px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    box-shadow: 0 0 3px #999;
+}
 .battery.entry {
     background: linear-gradient(#fff 5%, @color2 50%, @color2 100%);
     >div{
         background-color: rgba(97, 79, 105, 0.4);
     }
 }
-
 .battery {
     width: 80px;
     height: 28px;
@@ -222,8 +231,11 @@ body {
     }
 }
 
-div.selected {
+.selected {
     box-shadow: 0 0 15px #888;
+}
+.search {
+    box-shadow: 0 0 10px #993300;
 }
 //配置若干种颜色
 .color0{

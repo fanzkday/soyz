@@ -11,7 +11,7 @@ socket.once('init', data => {
         const posArr = [];
         //渲染module
         createModuleBat(data);
-        //渲染Bat和relations
+        //渲染Bat和relations, 并记录坐标信息
         createBats(getRelationData().relations, posArr);
         createRelations(data);
         //将所有的bat的坐标信息上报服务器

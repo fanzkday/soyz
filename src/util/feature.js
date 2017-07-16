@@ -34,7 +34,6 @@ export function randomPos(dir, width, height) {
             xIndex = index;
         }
     })
-    console.log(width, height);
     if (xIndex >= xCount) {
         xIndex = xIndex % xCount;
         yIndex += 1;
